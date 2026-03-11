@@ -1,0 +1,1088 @@
+{
+  "graph": {
+    "nodes": {
+      "@ao-ponto-food-service/frontend-web-e2e": {
+        "name": "@ao-ponto-food-service/frontend-web-e2e",
+        "type": "app",
+        "data": {
+          "root": "apps/frontend-web-e2e",
+          "targets": {
+            "typecheck": {
+              "dependsOn": [
+                "^typecheck"
+              ],
+              "options": {
+                "cwd": "apps/frontend-web-e2e",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tsconfig.base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/**/*.ts",
+                "{projectRoot}/**/*.js",
+                "{projectRoot}/playwright.config.ts",
+                "{projectRoot}/src/**/*.spec.ts",
+                "{projectRoot}/src/**/*.spec.js",
+                "{projectRoot}/src/**/*.test.ts",
+                "{projectRoot}/src/**/*.test.js",
+                "{projectRoot}/src/**/*.d.ts",
+                "!{projectRoot}/out-tsc",
+                "!{projectRoot}/test-output",
+                "!{projectRoot}/eslint.config.js",
+                "!{projectRoot}/eslint.config.mjs",
+                "!{projectRoot}/eslint.config.cjs",
+                "^production"
+              ],
+              "outputs": [
+                "{projectRoot}/out-tsc/playwright/**/*.d.ts",
+                "{projectRoot}/out-tsc/playwright/**/*.d.ts.map",
+                "{projectRoot}/out-tsc/playwright/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "npx tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/frontend-web-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/apps/frontend-web-e2e/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{options.outputFile}"
+              ],
+              "metadata": {
+                "technologies": [
+                  "eslint"
+                ],
+                "description": "Runs ESLint on project",
+                "help": {
+                  "command": "npx eslint --help",
+                  "example": {
+                    "options": {
+                      "max-warnings": 0
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "e2e": {
+              "options": {
+                "cwd": "apps/frontend-web-e2e",
+                "command": "playwright test"
+              },
+              "metadata": {
+                "technologies": [
+                  "playwright"
+                ],
+                "description": "Runs Playwright Tests",
+                "help": {
+                  "command": "npx playwright test --help",
+                  "example": {
+                    "options": {
+                      "workers": 1
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                {
+                  "projects": [
+                    "@ao-ponto-food-service/frontend-web"
+                  ],
+                  "target": "dev"
+                }
+              ],
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "@playwright/test"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/playwright/output",
+                "{projectRoot}/test-output/playwright/report",
+                "{projectRoot}/test-output/playwright/blob-report"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "e2e-ci--src/example.spec.ts": {
+              "options": {
+                "cwd": "apps/frontend-web-e2e",
+                "env": {
+                  "PLAYWRIGHT_HTML_OUTPUT_DIR": "test-output/playwright/report/src-example-spec-ts",
+                  "PLAYWRIGHT_HTML_REPORT": "test-output/playwright/report/src-example-spec-ts",
+                  "PLAYWRIGHT_BLOB_OUTPUT_FILE": "test-output/playwright/blob-report/src-example-spec-ts.zip"
+                },
+                "command": "playwright test src/example.spec.ts --output=test-output/playwright/output/src-example-spec-ts"
+              },
+              "metadata": {
+                "technologies": [
+                  "playwright"
+                ],
+                "description": "Runs Playwright Tests in src/example.spec.ts in CI",
+                "help": {
+                  "command": "npx playwright test --help",
+                  "example": {
+                    "options": {
+                      "workers": 1
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                {
+                  "projects": [
+                    "@ao-ponto-food-service/frontend-web"
+                  ],
+                  "target": "dev"
+                }
+              ],
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "@playwright/test"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/playwright/output/src-example-spec-ts",
+                "{projectRoot}/test-output/playwright/report/src-example-spec-ts",
+                "{projectRoot}/test-output/playwright/blob-report/src-example-spec-ts.zip"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "e2e-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "@playwright/test"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/playwright/output",
+                "{projectRoot}/test-output/playwright/report",
+                "{projectRoot}/test-output/playwright/blob-report"
+              ],
+              "dependsOn": [
+                {
+                  "target": "e2e-ci--src/example.spec.ts",
+                  "projects": "self",
+                  "params": "forward",
+                  "options": "forward"
+                }
+              ],
+              "metadata": {
+                "technologies": [
+                  "playwright"
+                ],
+                "description": "Runs Playwright Tests in CI",
+                "nonAtomizedTarget": "e2e",
+                "help": {
+                  "command": "npx playwright test --help",
+                  "example": {
+                    "options": {
+                      "workers": 1
+                    }
+                  }
+                }
+              },
+              "configurations": {},
+              "options": {},
+              "parallelism": true
+            },
+            "e2e-ci--merge-reports": {
+              "executor": "@nx/playwright:merge-reports",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "@playwright/test"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/playwright/report"
+              ],
+              "options": {
+                "config": "playwright.config.ts",
+                "expectedSuites": 1
+              },
+              "metadata": {
+                "technologies": [
+                  "playwright"
+                ],
+                "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "metadata": {
+            "targetGroups": {
+              "E2E (CI)": [
+                "e2e-ci--src/example.spec.ts",
+                "e2e-ci",
+                "e2e-ci--merge-reports"
+              ]
+            },
+            "js": {
+              "packageName": "@ao-ponto-food-service/frontend-web-e2e",
+              "packageVersion": "0.0.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "name": "@ao-ponto-food-service/frontend-web-e2e",
+          "tags": [
+            "npm:private"
+          ],
+          "implicitDependencies": [
+            "@ao-ponto-food-service/frontend-web"
+          ]
+        }
+      },
+      "@ao-ponto-food-service/frontend-web": {
+        "name": "@ao-ponto-food-service/frontend-web",
+        "type": "lib",
+        "data": {
+          "root": "apps/frontend-web",
+          "targets": {
+            "typecheck": {
+              "dependsOn": [
+                "^typecheck"
+              ],
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/dist/**/*.d.ts.map",
+                "{projectRoot}/dist/tsconfig.app.tsbuildinfo",
+                "{projectRoot}/out-tsc/vitest/**/*.d.ts",
+                "{projectRoot}/out-tsc/vitest/**/*.d.ts.map",
+                "{projectRoot}/out-tsc/vitest/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript",
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "npx tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "@react-router/dev"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/apps/frontend-web/build/client"
+              ],
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "react-router build"
+              },
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "dev": {
+              "continuous": true,
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "react-router dev"
+              },
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects @ao-ponto-food-service/frontend-web --includeDependentProjects -- npx nx build-deps @ao-ponto-food-service/frontend-web"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/apps/frontend-web/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{options.outputFile}"
+              ],
+              "metadata": {
+                "technologies": [
+                  "eslint"
+                ],
+                "description": "Runs ESLint on project",
+                "help": {
+                  "command": "npx eslint --help",
+                  "example": {
+                    "options": {
+                      "max-warnings": 0
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/vitest/coverage"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite",
+                  "vitest"
+                ],
+                "description": "Run Vitest tests",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "bail": 1,
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "vitest"
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ]
+            },
+            "test-ci--tests/routes/_index.spec.tsx": {
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/vitest/coverage"
+              ],
+              "options": {
+                "cwd": "apps/frontend-web",
+                "command": "vitest run tests/routes/_index.spec.tsx"
+              },
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest Tests in tests/routes/_index.spec.tsx",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "test-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vitest"
+                  ]
+                },
+                {
+                  "env": "CI"
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/vitest/coverage"
+              ],
+              "dependsOn": [
+                "test-ci--tests/routes/_index.spec.tsx"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vitest"
+                ],
+                "description": "Run Vitest Tests in CI",
+                "nonAtomizedTarget": "test",
+                "help": {
+                  "command": "npx vitest --help",
+                  "example": {
+                    "options": {
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "configurations": {},
+              "options": {},
+              "parallelism": true
+            }
+          },
+          "projectType": "library",
+          "metadata": {
+            "targetGroups": {
+              "TEST (CI)": [
+                "test-ci",
+                "test-ci--tests/routes/_index.spec.tsx"
+              ]
+            },
+            "js": {
+              "packageName": "@ao-ponto-food-service/frontend-web",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "name": "@ao-ponto-food-service/frontend-web",
+          "tags": [
+            "npm:private"
+          ],
+          "implicitDependencies": []
+        }
+      },
+      "@ao-ponto-food-service/backend-e2e": {
+        "name": "@ao-ponto-food-service/backend-e2e",
+        "type": "app",
+        "data": {
+          "root": "apps/backend-e2e",
+          "targets": {
+            "typecheck": {
+              "dependsOn": [
+                "^typecheck"
+              ],
+              "options": {
+                "cwd": "apps/backend-e2e",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tsconfig.base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/jest.config.cts",
+                "{projectRoot}/src/**/*.ts",
+                "^production"
+              ],
+              "outputs": [
+                "{projectRoot}/out-tsc/@ao-ponto-food-service/backend-e2e/**/*.d.ts",
+                "{projectRoot}/out-tsc/@ao-ponto-food-service/backend-e2e/**/*.d.ts.map",
+                "{projectRoot}/out-tsc/@ao-ponto-food-service/backend-e2e/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "npx tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/backend-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/apps/backend-e2e/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{options.outputFile}"
+              ],
+              "metadata": {
+                "technologies": [
+                  "eslint"
+                ],
+                "description": "Runs ESLint on project",
+                "help": {
+                  "command": "npx eslint --help",
+                  "example": {
+                    "options": {
+                      "max-warnings": 0
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "e2e": {
+              "executor": "@nx/jest:jest",
+              "outputs": [
+                "{projectRoot}/test-output/jest/coverage"
+              ],
+              "options": {
+                "jestConfig": "apps/backend-e2e/jest.config.cts",
+                "passWithNoTests": true
+              },
+              "dependsOn": [
+                "@ao-ponto-food-service/backend:build",
+                "@ao-ponto-food-service/backend:serve"
+              ],
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "@ao-ponto-food-service/backend-e2e",
+          "tags": [
+            "npm:private"
+          ],
+          "implicitDependencies": [
+            "@ao-ponto-food-service/backend"
+          ],
+          "metadata": {
+            "targetGroups": {},
+            "js": {
+              "packageName": "@ao-ponto-food-service/backend-e2e",
+              "packageVersion": "0.0.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          }
+        }
+      },
+      "@ao-ponto-food-service/backend": {
+        "name": "@ao-ponto-food-service/backend",
+        "type": "app",
+        "data": {
+          "root": "apps/backend",
+          "targets": {
+            "typecheck": {
+              "dependsOn": [
+                "^typecheck"
+              ],
+              "options": {
+                "cwd": "apps/backend",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{workspaceRoot}/tsconfig.base.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/tsconfig.app.json",
+                "{projectRoot}/tsconfig.spec.json",
+                "{projectRoot}/src/**/*.ts",
+                "{projectRoot}/jest.config.ts",
+                "{projectRoot}/jest.config.cts",
+                "{projectRoot}/src/**/*.test.ts",
+                "{projectRoot}/src/**/*.spec.ts",
+                "{projectRoot}/src/**/*.d.ts",
+                "{projectRoot}/test/**/*.ts",
+                "!{projectRoot}/out-tsc",
+                "!{projectRoot}/dist",
+                "!{projectRoot}/eslint.config.js",
+                "!{projectRoot}/eslint.config.cjs",
+                "!{projectRoot}/eslint.config.mjs",
+                "^production"
+              ],
+              "outputs": [
+                "{projectRoot}/dist/**/*.d.ts",
+                "{projectRoot}/dist/**/*.d.ts.map",
+                "{projectRoot}/dist/tsconfig.app.tsbuildinfo",
+                "{projectRoot}/out-tsc/jest/**/*.d.ts",
+                "{projectRoot}/out-tsc/jest/**/*.d.ts.map",
+                "{projectRoot}/out-tsc/jest/tsconfig.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "npx tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/backend",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/eslint.config.mjs",
+                "{workspaceRoot}/apps/backend/eslint.config.mjs",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{options.outputFile}"
+              ],
+              "metadata": {
+                "technologies": [
+                  "eslint"
+                ],
+                "description": "Runs ESLint on project",
+                "help": {
+                  "command": "npx eslint --help",
+                  "example": {
+                    "options": {
+                      "max-warnings": 0
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "webpack-cli"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/apps/backend/dist"
+              ],
+              "metadata": {
+                "technologies": [
+                  "webpack"
+                ],
+                "description": "Runs Webpack build",
+                "help": {
+                  "command": "npx webpack-cli build --help",
+                  "example": {
+                    "options": {
+                      "json": "stats.json"
+                    },
+                    "args": [
+                      "--profile"
+                    ]
+                  }
+                }
+              },
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "cwd": "apps/backend",
+                "args": [
+                  "--node-env=production"
+                ],
+                "command": "webpack-cli build"
+              },
+              "configurations": {
+                "development": {
+                  "args": [
+                    "--node-env=development"
+                  ]
+                }
+              },
+              "parallelism": true
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/js:node",
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "buildTarget": "build",
+                "runBuildTargetDependencies": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "@ao-ponto-food-service/backend:build:development"
+                },
+                "production": {
+                  "buildTarget": "@ao-ponto-food-service/backend:build:production"
+                }
+              },
+              "parallelism": true
+            },
+            "preview": {
+              "continuous": true,
+              "options": {
+                "cwd": "apps/backend",
+                "args": [
+                  "--node-env=production"
+                ],
+                "command": "webpack-cli serve"
+              },
+              "metadata": {
+                "technologies": [
+                  "webpack"
+                ],
+                "description": "Starts Webpack dev server in production mode",
+                "help": {
+                  "command": "npx webpack-cli serve --help",
+                  "example": {
+                    "options": {
+                      "args": [
+                        "--client-progress",
+                        "--history-api-fallback "
+                      ]
+                    }
+                  }
+                }
+              },
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "dependsOn": [
+                "build"
+              ],
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "build",
+                "spa": true
+              },
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects @ao-ponto-food-service/backend --includeDependentProjects -- npx nx build-deps @ao-ponto-food-service/backend"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests",
+                "help": {
+                  "command": "npx jest --help",
+                  "example": {
+                    "options": {
+                      "coverage": true
+                    }
+                  }
+                }
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{projectRoot}/test-output/jest/coverage"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "cwd": "apps/backend",
+                "env": {
+                  "TS_NODE_COMPILER_OPTIONS": "{\"moduleResolution\":\"node10\",\"module\":\"commonjs\",\"customConditions\":null}"
+                },
+                "command": "jest",
+                "jestConfig": "apps/backend/jest.config.cts",
+                "passWithNoTests": true
+              },
+              "configurations": {},
+              "parallelism": true,
+              "dependsOn": [
+                "^build"
+              ]
+            },
+            "prune-lockfile": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "executor": "@nx/js:prune-lockfile",
+              "outputs": [
+                "{workspaceRoot}/apps/backend/dist/package.json",
+                "{workspaceRoot}/apps/backend/dist/package-lock.json"
+              ],
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "copy-workspace-modules": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "outputs": [
+                "{workspaceRoot}/apps/backend/dist/workspace_modules"
+              ],
+              "executor": "@nx/js:copy-workspace-modules",
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "prune": {
+              "dependsOn": [
+                "prune-lockfile",
+                "copy-workspace-modules"
+              ],
+              "executor": "nx:noop",
+              "configurations": {},
+              "options": {},
+              "parallelism": true
+            }
+          },
+          "projectType": "application",
+          "metadata": {
+            "targetGroups": {},
+            "js": {
+              "packageName": "@ao-ponto-food-service/backend",
+              "packageVersion": "0.0.1",
+              "isInPackageManagerWorkspaces": true
+            }
+          },
+          "name": "@ao-ponto-food-service/backend",
+          "tags": [
+            "npm:private"
+          ],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "@ao-ponto-food-service/frontend-web-e2e": [
+        {
+          "source": "@ao-ponto-food-service/frontend-web-e2e",
+          "target": "@ao-ponto-food-service/frontend-web",
+          "type": "implicit"
+        }
+      ],
+      "@ao-ponto-food-service/frontend-web": [],
+      "@ao-ponto-food-service/backend-e2e": [
+        {
+          "source": "@ao-ponto-food-service/backend-e2e",
+          "target": "@ao-ponto-food-service/backend",
+          "type": "implicit"
+        }
+      ],
+      "@ao-ponto-food-service/backend": []
+    }
+  }
+}
