@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  CASHIER
+  KITCHEN
+}
+
+model Contact {
+  id        String    @id @default(uuid())
+  name      String
+  document  String?   @unique @map("cnpj_ou_cpf")
+  email     String?   @unique
+  phone     String?
+  mobile    String?
+  birthDate DateTime? @map("birth_date")
+
+  // Endereço
+  address      String?
+  number       String?
+  complement   String?
+  neighborhood String?
+  city         String?
+  state        String?
+  zipcode      String?
+
+  // Financeiro
+  creditLimit    Decimal @default(0) @map("credit_limit") @db.Decimal(16, 4)
+  currentBalance Decimal @default(0) @map("current_balance") @db.Decimal(16, 4)
+
+  // Controle
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // Relacionamentos
+  user          User?
+  deliveryFee   DeliveryFee?  @relation(fields: [deliveryFeeId], references: [id])
+  deliveryFeeId String?       @map("delivery_fee_id")
+  origin        ClientOrigin? @relation(fields: [originId], references: [id])
+  originId      String?       @map("origin_id")
+
+  @@map("contacts")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  login    String  @unique
+  password String
+  role     Role    @default(CASHIER)
+  active   Boolean @default(true)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  contact   Contact @relation(fields: [contactId], references: [id])
+  contactId String  @unique @map("contact_id")
+
+  @@map("users")
+}
+
+model DeliveryFee {
+  id               String  @id @default(uuid())
+  description      String
+  value            Decimal @db.Decimal(16, 4)
+  estimatedMinutes Int?    @map("estimated_minutes")
+  discontinued     Boolean @default(false)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  contacts Contact[]
+
+  @@map("delivery_fees")
+}
+
+model ClientOrigin {
+  id          String @id @default(uuid())
+  description String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  contacts Contact[]
+
+  @@map("client_origins")
+}
