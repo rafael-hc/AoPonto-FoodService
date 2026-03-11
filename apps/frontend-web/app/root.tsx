@@ -1,53 +1,41 @@
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  type MetaFunction,
-  type LinksFunction,
-} from 'react-router';
-
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppNav } from './app-nav';
-
-export const meta: MetaFunction = () => [
-  {
-    title: 'New Nx React Router App',
-  },
-];
-
-export const links: LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-  },
-];
+import { useAuthStore } from './store/auth-store';
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
+  const { getProfile } = useAuthStore();
+
+  useEffect(() => {
+    getProfile();
+  }, [getProfile]);
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
-        <AppNav />
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+      <body className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+        <QueryClientProvider client={queryClient}>
+          <header className="bg-white border-b p-4">
+            <div className="max-w-4xl mx-auto flex justify-between items-center">
+              <h1 className="text-xl font-bold text-orange-600">AoPonto</h1>
+              <AppNav />
+            </div>
+          </header>
+          <main className="max-w-4xl mx-auto p-4">{children}</main>
+          <ScrollRestoration />
+          <Scripts />
+        </QueryClientProvider>
       </body>
     </html>
   );
 }
 
-export default function App() {
+export default function Root() {
   return <Outlet />;
 }
