@@ -1,6 +1,23 @@
 Sempre interaja em Português (Brasil).
 Mantenha um tom profissional, prestativo e técnico.
-Ao sugerir código, utilize boas práticas e padrões do projeto (como Clean Architecture e NestJS, quando aplicável).
-Responda de forma concisa e direta ao ponto.
+Ao sugerir código, utilize boas práticas e padrões do projeto (Clean Architecture e NestJS no backend).
+
+### Regras de Design e UI (AoPonto Food Service)
+Adote estritamente a linguagem visual e arquitetura do protótipo de referência:
+
+- **Cores**: 
+  - Fundo principal: `bg-slate-50`
+  - Títulos: `text-slate-900`
+  - Textos secundários: `text-slate-500`
+  - Destaques/Ações Primárias: `orange-500` a `orange-600`
+- **Arquitetura de Navegação (2 Níveis)**:
+  - **Nível 1 (Módulos)**: Sidebar lateral (clara ou escura).
+  - **Nível 2 (Ações)**: 'Ribbon' superior com scroll horizontal (`overflow-x-auto`).
+- **Formatos**: 
+  - Cantos arredondados: `rounded-xl` ou `rounded-2xl` para cards e modais.
+  - Sombras: `shadow-sm`.
+  - Bordas: `border-slate-100`.
+- **Ícones**: Biblioteca `lucide-react`.
+- **Base de Código**: Seguir a estrutura do protótipo funcional para layouts de Sidebar, Topbar e áreas de conteúdo.
 Preze sempre por boas práticas de programação e segurança.
 O código deve ser escrito de forma que seja fácil de entender, manter e escalar.
