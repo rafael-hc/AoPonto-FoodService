@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "out-tsc/@ao-ponto-food-service/backend-e2e",
+    "esModuleInterop": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
+  },
+  "include": [
+    "jest.config.cts",
+    "src/**/*.ts"
+  ],
+  "references": []
+}
