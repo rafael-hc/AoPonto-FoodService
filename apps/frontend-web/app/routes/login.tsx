@@ -1,34 +1,34 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useAuthStore } from '../store/auth-store';
-import { useAuthenticateControllerHandle } from '../api/generated/sessions/sessions';
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { useAuthStore } from '../store/auth-store'
+import { useAuthenticateControllerHandle } from '../api/generated/sessions/sessions'
 
 export default function Login() {
-  const [login, setLogin] = useState('admin');
-  const [password, setPassword] = useState('senha123');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const { getProfile } = useAuthStore();
+  const [login, setLogin] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+  const { getProfile } = useAuthStore()
 
   const loginMutation = useAuthenticateControllerHandle({
     mutation: {
       onSuccess: async () => {
-        await getProfile();
-        navigate('/');
+        await getProfile()
+        navigate('/')
       },
       onError: (err: any) => {
         setError(
           err.response?.data?.message ||
-            'Erro ao entrar. Verifique suas credenciais.',
-        );
-      },
-    },
-  });
+            'Erro ao entrar. Verifique suas credenciais.'
+        )
+      }
+    }
+  })
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError('');
-    loginMutation.mutate({ data: { login, password } });
+    e.preventDefault()
+    setError('')
+    loginMutation.mutate({ data: { login, password } })
   }
 
   return (
@@ -78,5 +78,5 @@ export default function Login() {
         </button>
       </form>
     </div>
-  );
+  )
 }

@@ -1,24 +1,18 @@
-import { create } from 'zustand';
-import { axiosInstance } from '../lib/api';
-
-interface User {
-  id: string;
-  login: string;
-  role: string;
-  contact: {
-    id: string;
-    name: string;
-    email: string;
-  };
-}
+import { create } from 'zustand'
+import {
+  authenticateControllerHandle,
+  logoutControllerHandle
+} from '../api/generated/sessions/sessions'
+import { getProfileControllerHandle } from '../api/generated/users/users'
+import type { GetProfileControllerHandle200User as User } from '../api/generated/model'
 
 interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  signIn: (login: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
-  getProfile: () => Promise<void>;
+  user: User | null
+  isAuthenticated: boolean
+  isLoading: boolean
+  signIn: (login: string, password: string) => Promise<void>
+  signOut: () => Promise<void>
+  getProfile: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -27,32 +21,32 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
 
   signIn: async (login, password) => {
-    await axiosInstance.post('/sessions', { login, password });
+    await authenticateControllerHandle({ login, password })
 
     // Após o login, buscamos o perfil para preencher o estado
-    const response = await axiosInstance.get('/me');
-    set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+    const response = await getProfileControllerHandle()
+    set({ user: response.user, isAuthenticated: true, isLoading: false })
   },
 
   signOut: async () => {
     try {
-      await axiosInstance.post('/sessions/logout');
+      await logoutControllerHandle()
     } catch (error) {
-      console.error('Erro ao fazer logout no servidor', error);
+      console.error('Erro ao fazer logout no servidor', error)
     } finally {
-      set({ user: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, isAuthenticated: false, isLoading: false })
     }
   },
 
   getProfile: async () => {
     try {
-      set({ isLoading: true });
-      const response = await axiosInstance.get('/me');
-      set({ user: response.data.user, isAuthenticated: true });
+      set({ isLoading: true })
+      const response = await getProfileControllerHandle()
+      set({ user: response.user, isAuthenticated: true })
     } catch {
-      set({ user: null, isAuthenticated: false });
+      set({ user: null, isAuthenticated: false })
     } finally {
-      set({ isLoading: false });
+      set({ isLoading: false })
     }
-  },
-}));
+  }
+}))

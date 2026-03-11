@@ -1,31 +1,31 @@
-import { useNavigate } from 'react-router';
-import { useAuthStore } from '../store/auth-store';
-import { ProtectedRoute } from '../components/protected-route';
-import { useGetProfileControllerHandle } from '../api/generated/users/users';
-import { useRefreshTokenControllerHandle } from '../api/generated/sessions/sessions';
+import { useNavigate } from 'react-router'
+import { useAuthStore } from '../store/auth-store'
+import { ProtectedRoute } from '../components/protected-route'
+import { useGetProfileControllerHandle } from '../api/generated/users/users'
+import { useRefreshTokenControllerHandle } from '../api/generated/sessions/sessions'
 
-export default function Profile() {
-  const { user: storeUser, getProfile: syncStore } = useAuthStore();
-  const navigate = useNavigate();
+export function Profile() {
+  const { user: storeUser, getProfile: syncStore } = useAuthStore()
+  const navigate = useNavigate()
 
-  const { data, isLoading } = useGetProfileControllerHandle();
+  const { data, isLoading } = useGetProfileControllerHandle()
   const refreshTokenMutation = useRefreshTokenControllerHandle({
     mutation: {
       onSuccess: () => {
-        syncStore();
-        alert('Token atualizado com sucesso via cookie!');
+        syncStore()
+        alert('Token atualizado com sucesso via cookie!')
       },
       onError: () => {
-        alert('Erro ao atualizar token.');
-        navigate('/login');
-      },
-    },
-  });
+        alert('Erro ao atualizar token.')
+        navigate('/login')
+      }
+    }
+  })
 
-  const user = data?.user || storeUser;
+  const user = data?.user || storeUser
 
   async function handleRefresh() {
-    refreshTokenMutation.mutate();
+    refreshTokenMutation.mutate()
   }
 
   if (isLoading)
@@ -33,7 +33,7 @@ export default function Profile() {
       <div className="text-center py-10 text-gray-400">
         Carregando perfil...
       </div>
-    );
+    )
 
   return (
     <ProtectedRoute>
@@ -76,5 +76,5 @@ export default function Profile() {
         </div>
       </div>
     </ProtectedRoute>
-  );
+  )
 }
