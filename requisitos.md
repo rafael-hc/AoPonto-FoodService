@@ -1,0 +1,5 @@
+- nunca um registro de usuário pode ser criado sem um contato;
+- nunca um registro pode ser apagado de fato, apenas inativado com deleteAt;
+- toda vez que um usuário for inativado, o contato deve ser inativado também;
+- toda vez que um usuário for ativado, o contato deve ser ativado também;
+- os registros de createdAt, updatedAt e deletedAt devem ser gerados com horário de Brasília;
