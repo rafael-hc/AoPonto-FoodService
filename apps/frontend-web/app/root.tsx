@@ -22,7 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+      <body className="min-h-screen antialiased bg-slate-50 text-slate-800 font-sans">
         <QueryClientProvider client={queryClient}>
           {isAuthenticated ? (
             <MainLayout />

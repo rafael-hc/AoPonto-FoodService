@@ -1,10 +1,11 @@
 import React from 'react'
+import { ActionTile } from '@aoponto/ui-kit'
 import { NavigationGroup } from './types'
 
 interface SubNavigationProps {
   groups: NavigationGroup[]
   activeAction: string
-  onActionChange: (actionId: string) => void
+  onActionChange: (actionId: string, actionType?: 'route' | 'modal') => void
 }
 
 export const SubNavigation: React.FC<SubNavigationProps> = ({
@@ -14,43 +15,31 @@ export const SubNavigation: React.FC<SubNavigationProps> = ({
 }) => {
   return (
     <div className="bg-white border-b border-t border-slate-100 shadow-sm z-10 shrink-0">
-      <div className="flex overflow-x-auto px-6 py-4 gap-8">
+      <div className="flex overflow-x-auto px-6 py-4 gap-8 no-scrollbar">
         {groups.map((group, idx) => (
           <div key={idx} className="flex flex-col gap-3 relative shrink-0">
-            <div className="flex gap-1.5">
+            <div className="flex gap-4">
               {group.items.map((item, i) => {
                 const actionId = item.id || item.name
                 const isActive = activeAction === actionId
                 return (
-                  <button
+                  <ActionTile.Root
                     key={i}
-                    onClick={() => onActionChange(actionId)}
-                    className={`flex flex-col items-center justify-start gap-1.5 p-2.5 rounded-xl transition-all min-w-[80px] group/btn border ${
-                      isActive
-                        ? 'bg-orange-50 border-orange-200 shadow-sm text-orange-700'
-                        : 'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-600'
-                    }`}
+                    active={isActive}
+                    onClick={() => onActionChange(actionId, item.actionType)}
                   >
-                    <div
-                      className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20' : 'bg-slate-100 text-slate-500 group-hover/btn:bg-white group-hover/btn:shadow-sm'}`}
-                    >
+                    <ActionTile.Icon>
                       <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                    </div>
-                    <div className="text-center flex flex-col items-center gap-1 mt-1">
-                      <span
-                        className={`text-[11px] leading-tight ${isActive ? 'font-bold' : 'font-medium'}`}
-                      >
-                        {item.name}
-                      </span>
+                    </ActionTile.Icon>
+                    <ActionTile.LabelGroup>
+                      <ActionTile.Label>{item.name}</ActionTile.Label>
                       {item.shortcut && (
-                        <span
-                          className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md ${isActive ? 'bg-orange-200/50 text-orange-700' : 'bg-slate-100 text-slate-400'}`}
-                        >
+                        <ActionTile.Shortcut>
                           {item.shortcut}
-                        </span>
+                        </ActionTile.Shortcut>
                       )}
-                    </div>
-                  </button>
+                    </ActionTile.LabelGroup>
+                  </ActionTile.Root>
                 )
               })}
             </div>
@@ -60,7 +49,7 @@ export const SubNavigation: React.FC<SubNavigationProps> = ({
             </div>
             {/* Divisor Visual */}
             {idx < groups.length - 1 && (
-              <div className="absolute right-[-1rem] top-2 bottom-6 w-px bg-slate-100"></div>
+              <div className="absolute -right-4 top-2 bottom-6 w-px bg-slate-100"></div>
             )}
           </div>
         ))}

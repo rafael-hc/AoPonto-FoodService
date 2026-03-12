@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Evita loop infinito se a própria requisição de refresh retornar 401
+    // Evita loop infinito se a própria requisição de refresh retornar erro
     if (originalRequest.url?.includes('/sessions/refresh')) {
       return Promise.reject(error);
     }
@@ -66,7 +66,9 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await axiosInstance.patch('/sessions/refresh');
+        const { refreshTokenControllerHandle } = await import('../api/generated/sessions/sessions');
+        await refreshTokenControllerHandle();
+        
         processQueue(null);
         return axiosInstance(originalRequest);
       } catch (refreshError) {

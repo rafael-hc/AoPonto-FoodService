@@ -3,8 +3,9 @@ import { useAuthStore } from '../store/auth-store'
 import { ProtectedRoute } from '../components/protected-route'
 import { useGetProfileControllerHandle } from '../api/generated/users/users'
 import { useRefreshTokenControllerHandle } from '../api/generated/sessions/sessions'
+import { Avatar } from '@aoponto/ui-kit'
 
-export function Profile() {
+export default function Profile() {
   const { user: storeUser, getProfile: syncStore } = useAuthStore()
   const navigate = useNavigate()
 
@@ -39,9 +40,11 @@ export function Profile() {
     <ProtectedRoute>
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md space-y-6">
         <div className="flex items-center space-x-4">
-          <div className="h-16 w-16 rounded-full bg-orange-100 flex items-center justify-center text-2xl font-bold text-orange-600">
-            {user?.contact?.name?.[0]}
-          </div>
+          <Avatar.Root className="h-16 w-16 text-2xl font-bold text-orange-600 bg-orange-100 border-none shadow-none">
+            <Avatar.Fallback className="bg-transparent">
+              {user?.contact?.name?.[0]?.toUpperCase()}
+            </Avatar.Fallback>
+          </Avatar.Root>
           <div>
             <h2 className="text-2xl font-bold">{user?.contact?.name}</h2>
             <p className="text-gray-500">{user?.role}</p>

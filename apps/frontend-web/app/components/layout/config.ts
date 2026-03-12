@@ -69,7 +69,14 @@ export const modulesConfig: ModuleConfigMap = {
     groups: [
       {
         name: 'Caixa',
-        items: [{ name: 'Abrir / Fechar', icon: Store, id: 'dashboard' }]
+        items: [
+          {
+            name: 'Abrir / Fechar',
+            icon: Store,
+            id: 'dashboard',
+            actionType: 'modal'
+          }
+        ]
       },
       {
         name: 'Pedidos',
@@ -245,7 +252,12 @@ export const modulesConfig: ModuleConfigMap = {
           { name: 'Config. do Sistema', icon: Settings },
           { name: 'Numeração Pedidos', icon: Hash },
           { name: 'Impressora', icon: Printer },
-          { name: 'Colaboradores', icon: UsersRound },
+          {
+            name: 'Colaboradores',
+            icon: UsersRound,
+            id: 'user_registration',
+            actionType: 'modal'
+          },
           { name: 'Alterar Senha', icon: KeyRound },
           { name: 'Backup', icon: DatabaseBackup }
         ]

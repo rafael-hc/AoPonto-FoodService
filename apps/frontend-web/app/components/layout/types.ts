@@ -5,6 +5,7 @@ export interface NavigationItem {
   name: string
   icon: LucideIcon
   shortcut?: string
+  actionType?: 'route' | 'modal'
 }
 
 export interface NavigationGroup {
