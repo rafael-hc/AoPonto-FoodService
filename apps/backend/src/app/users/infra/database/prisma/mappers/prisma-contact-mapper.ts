@@ -6,6 +6,7 @@ export class PrismaContactMapper {
     return new Contact({
       id: raw.id,
       name: raw.name,
+      active: raw.active,
       document: raw.document,
       email: raw.email,
       phone: raw.phone,
@@ -30,6 +31,7 @@ export class PrismaContactMapper {
     return {
       id: contact.id,
       name: contact.name,
+      active: contact.active,
       document: contact.document,
       email: contact.email,
       phone: contact.phone,

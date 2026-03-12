@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto'
+import { DateUtils } from '@/shared/utils/date-utils'
 
 export interface ContactProps {
   id?: string
   name: string
+  active?: boolean
   document?: string | null
   email?: string | null
   phone?: string | null
@@ -34,10 +36,11 @@ export class Contact {
     this.props = {
       ...props,
       id: props.id ?? randomUUID(),
+      active: props.active ?? true,
       creditLimit: props.creditLimit ?? 0,
       currentBalance: props.currentBalance ?? 0,
-      createdAt: props.createdAt ?? new Date(),
-      updatedAt: props.updatedAt ?? new Date()
+      createdAt: props.createdAt ?? DateUtils.getBrasiliaDate(),
+      updatedAt: props.updatedAt ?? DateUtils.getBrasiliaDate()
     }
   }
 
@@ -46,6 +49,9 @@ export class Contact {
   }
   get name() {
     return this.props.name
+  }
+  get active() {
+    return this.props.active
   }
   get document() {
     return this.props.document

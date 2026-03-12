@@ -1,52 +1,98 @@
-import { User, UserRole } from '@/users/domain/entities/user';
-import { UsersRepository } from '@/users/domain/repositories/users-repository';
-import { PrismaService } from '../prisma.service';
-import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
+import { User } from '@/users/domain/entities/user'
+import { UsersRepository } from '@/users/domain/repositories/users-repository'
+import { PrismaService } from '../prisma.service'
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
+import { DateUtils } from '@/shared/utils/date-utils'
 
 export class PrismaUsersRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
 
   async findByLogin(login: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findFirst({
       where: { login },
-    });
+      include: { contact: true }
+    })
 
     if (!user) {
-      return null;
+      return null
     }
 
-    return PrismaUserMapper.toDomain(user);
+    return PrismaUserMapper.toDomain(user)
   }
 
   async findById(id: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findFirst({
       where: { id },
-    });
+      include: { contact: true }
+    })
 
     if (!user) {
-      return null;
+      return null
     }
 
-    return PrismaUserMapper.toDomain(user);
+    return PrismaUserMapper.toDomain(user)
   }
 
-  async findManyByRole(role: UserRole): Promise<User[]> {
+  async findMany(): Promise<User[]> {
     const users = await this.prisma.user.findMany({
       where: {
-        role: {
-          equals: role,
-        },
+        deletedAt: null
       },
-    });
+      include: {
+        contact: true
+      }
+    })
 
-    return users.map(PrismaUserMapper.toDomain);
+    return users.map(PrismaUserMapper.toDomain)
   }
 
   async create(user: User): Promise<void> {
-    const data = PrismaUserMapper.toPrisma(user);
+    const data = PrismaUserMapper.toPrisma(user)
 
     await this.prisma.user.create({
-      data,
-    });
+      data: {
+        id: data.id,
+        login: data.login,
+        password: data.password,
+        role: data.role,
+        active: data.active,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
+        contact: {
+          connect: {
+            id: user.contactId
+          }
+        }
+      }
+    })
+  }
+
+  async save(user: User): Promise<void> {
+    const data = PrismaUserMapper.toPrisma(user)
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        login: data.login,
+        password: data.password,
+        role: data.role,
+        active: data.active,
+        updatedAt: DateUtils.getBrasiliaDate()
+      }
+    })
+  }
+
+  async delete(user: User): Promise<void> {
+    await this.prisma.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        deletedAt: DateUtils.getBrasiliaDate(),
+        active: false
+      }
+    })
   }
 }
