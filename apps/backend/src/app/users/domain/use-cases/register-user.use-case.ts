@@ -1,9 +1,9 @@
-import { User, UserRole } from '../entities/user'
+import type { HashGenerator } from '../cryptography/hash-generator'
 import { Contact } from '../entities/contact'
+import { User, UserRole } from '../entities/user'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
-import { UsersRepository } from '../repositories/users-repository'
-import { ContactsRepository } from '../repositories/contacts-repository'
-import { HashGenerator } from '../cryptography/hash-generator'
+import type { ContactsRepository } from '../repositories/contacts-repository'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface RegisterUserUseCaseRequest {
   name: string

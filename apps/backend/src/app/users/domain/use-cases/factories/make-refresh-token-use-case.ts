@@ -1,15 +1,14 @@
-import { PrismaUsersRepository } from '@/users/infra/database/prisma/repositories/prisma-users-repository';
-import { PrismaService } from '@/users/infra/database/prisma/prisma.service';
-import { JwtEncrypter } from '@/users/infra/cryptography/jwt-encrypter';
-import { RefreshTokenUseCase } from '../refresh-token.use-case';
-import { JwtService } from '@nestjs/jwt';
+import type { JwtService } from '@nestjs/jwt'
+import { JwtEncrypter } from '@/users/infra/cryptography/jwt-encrypter'
+import type { PrismaService } from '@/users/infra/database/prisma/prisma.service'
+import { RefreshTokenUseCase } from '../refresh-token.use-case'
 
 export function makeRefreshTokenUseCase(
-  prisma: PrismaService,
-  jwtService: JwtService,
+  _prisma: PrismaService,
+  jwtService: JwtService
 ) {
-  const encrypter = new JwtEncrypter(jwtService);
-  const useCase = new RefreshTokenUseCase(encrypter);
+  const encrypter = new JwtEncrypter(jwtService)
+  const useCase = new RefreshTokenUseCase(encrypter)
 
-  return useCase;
+  return useCase
 }

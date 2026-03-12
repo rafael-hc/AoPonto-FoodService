@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router'
-import { useAuthStore } from '../store/auth-store'
-import { ProtectedRoute } from '../components/protected-route'
-import { useGetProfileControllerHandle } from '../api/generated/users/users'
-import { useRefreshTokenControllerHandle } from '../api/generated/sessions/sessions'
 import { Avatar } from '@aoponto/ui-kit'
+import { useNavigate } from 'react-router'
+import { useRefreshTokenControllerHandle } from '../api/generated/sessions/sessions'
+import { useGetProfileControllerHandle } from '../api/generated/users/users'
+import { ProtectedRoute } from '../components/protected-route'
+import { useAuthStore } from '../store/auth-store'
 
 export default function Profile() {
   const { user: storeUser, getProfile: syncStore } = useAuthStore()

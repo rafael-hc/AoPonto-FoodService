@@ -1,11 +1,11 @@
-import { Controller, Get, UseGuards, NotFoundException } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { Controller, Get, NotFoundException, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { PrismaService } from '@/users/infra/database/prisma/prisma.service'
 import {
   CurrentUser,
-  type UserPayload,
-} from '../decorators/current-user.decorator';
-import { PrismaService } from '@/users/infra/database/prisma/prisma.service';
+  type UserPayload
+} from '../decorators/current-user.decorator'
+import { JwtAuthGuard } from '../guards/jwt-auth.guard'
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -32,26 +32,26 @@ export class GetProfileController {
               properties: {
                 id: { type: 'string' },
                 name: { type: 'string' },
-                email: { type: 'string' },
-              },
-            },
-          },
-        },
-      },
-    },
+                email: { type: 'string' }
+              }
+            }
+          }
+        }
+      }
+    }
   })
   async handle(@CurrentUser() userPayload: UserPayload) {
     const user = await this.prisma.user.findUnique({
       where: {
-        id: userPayload.sub,
+        id: userPayload.sub
       },
       include: {
-        contact: true,
-      },
-    });
+        contact: true
+      }
+    })
 
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado.');
+      throw new NotFoundException('Usuário não encontrado.')
     }
 
     return {
@@ -62,9 +62,9 @@ export class GetProfileController {
         contact: {
           id: user.contact.id,
           name: user.contact.name,
-          email: user.contact.email,
-        },
-      },
-    };
+          email: user.contact.email
+        }
+      }
+    }
   }
 }

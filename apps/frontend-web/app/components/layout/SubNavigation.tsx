@@ -1,6 +1,6 @@
-import React from 'react'
 import { ActionTile } from '@aoponto/ui-kit'
-import { NavigationGroup } from './types'
+import type React from 'react'
+import type { NavigationGroup } from './types'
 
 interface SubNavigationProps {
   groups: NavigationGroup[]
@@ -17,14 +17,17 @@ export const SubNavigation: React.FC<SubNavigationProps> = ({
     <div className="bg-white border-b border-t border-slate-100 shadow-sm z-10 shrink-0">
       <div className="flex overflow-x-auto px-6 py-4 gap-8 no-scrollbar">
         {groups.map((group, idx) => (
-          <div key={idx} className="flex flex-col gap-3 relative shrink-0">
+          <div
+            key={group.name}
+            className="flex flex-col gap-3 relative shrink-0"
+          >
             <div className="flex gap-4">
-              {group.items.map((item, i) => {
+              {group.items.map((item) => {
                 const actionId = item.id || item.name
                 const isActive = activeAction === actionId
                 return (
                   <ActionTile.Root
-                    key={i}
+                    key={item.id}
                     active={isActive}
                     onClick={() => onActionChange(actionId, item.actionType)}
                   >

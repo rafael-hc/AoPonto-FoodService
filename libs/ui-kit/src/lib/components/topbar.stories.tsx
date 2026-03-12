@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Topbar } from './topbar'
+import { Bell, MenuSquare, Search } from 'lucide-react'
 import { Input } from './input'
-import { Search, Bell, MenuSquare } from 'lucide-react'
+import { Topbar } from './topbar'
 
 const meta: Meta<typeof Topbar.Root> = {
   component: Topbar.Root,

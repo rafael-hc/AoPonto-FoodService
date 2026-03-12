@@ -1,21 +1,27 @@
-const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
-const { join } = require('path');
+const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin')
+const { join } = require('node:path')
 
 module.exports = {
   output: {
     path: join(__dirname, 'dist'),
     clean: true,
     ...(process.env.NODE_ENV !== 'production' && {
-      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-    }),
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]'
+    })
   },
   resolve: {
     alias: {
-      '@': join(__dirname, 'src/app'),
+      '@': join(__dirname, 'src/app')
     },
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js']
   },
-  externals: ['@prisma/client', '@prisma/client/one', '.prisma/client', '@prisma/adapter-pg', 'pg'],
+  externals: [
+    '@prisma/client',
+    '@prisma/client/one',
+    '.prisma/client',
+    '@prisma/adapter-pg',
+    'pg'
+  ],
   plugins: [
     new NxAppWebpackPlugin({
       target: 'node',
@@ -26,7 +32,7 @@ module.exports = {
       optimization: false,
       outputHashing: 'none',
       generatePackageJson: false,
-      sourceMap: true,
-    }),
-  ],
-};
+      sourceMap: true
+    })
+  ]
+}

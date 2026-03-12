@@ -1,13 +1,13 @@
 import {
   Controller,
   Delete,
-  Param,
+  HttpCode,
   NotFoundException,
-  HttpCode
+  Param
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { DeleteUserUseCase } from '@/users/domain/use-cases/delete-user.use-case'
 import { ResourceNotFoundError } from '@/users/domain/errors/resource-not-found-error'
+import { DeleteUserUseCase } from '@/users/domain/use-cases/delete-user.use-case'
 
 @ApiTags('users')
 @Controller('users/:id')

@@ -10,9 +10,9 @@ module.exports = {
       override: {
         mutator: {
           path: './app/lib/api.ts',
-          name: 'api',
-        },
-      },
-    },
-  },
-};
+          name: 'api'
+        }
+      }
+    }
+  }
+}

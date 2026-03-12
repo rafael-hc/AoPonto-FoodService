@@ -80,6 +80,10 @@
           "jestConfig": "apps/backend/jest.config.cts",
           "passWithNoTests": true
         }
+      },
+      "lint": {
+        "command": "biome check apps/backend",
+        "cache": true
       }
     }
   },

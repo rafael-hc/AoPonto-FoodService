@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { GetProfileControllerHandle200User } from './getProfileControllerHandle200User';
+import type { GetProfileControllerHandle200User } from './getProfileControllerHandle200User'
 
 export type GetProfileControllerHandle200 = {
-  user?: GetProfileControllerHandle200User;
-};
+  user?: GetProfileControllerHandle200User
+}

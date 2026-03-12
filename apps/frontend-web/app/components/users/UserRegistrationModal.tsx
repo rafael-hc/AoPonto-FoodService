@@ -1,49 +1,58 @@
+import { Badge, Button, Dialog, Input } from '@aoponto/ui-kit'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  ClipboardList,
+  Lock,
+  Mail,
+  Shield,
+  User as UserIcon,
+  UserPlus
+} from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Dialog, Button, Input, Badge } from '@aoponto/ui-kit'
-import {
-  UserPlus,
-  Shield,
-  Mail,
-  User as UserIcon,
-  Lock,
-  ClipboardList
-} from 'lucide-react'
+import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
 import {
   useRegisterUserControllerHandle,
   useUpdateUserControllerHandle
 } from '../../api/generated/users/users'
-import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
 
-const userRegistrationSchema = z.object({
-  id: z.string().optional(),
-  name: z.string().min(1, { error: 'Nome é obrigatório' }),
-  email: z.email({ error: 'E-mail inválido' }),
-  document: z.string().min(14, { error: 'CPF deve ter 11 dígitos' }),
-  login: z.string().min(3, { error: 'Login deve ter no mínimo 3 caracteres' }),
-  password: z.string().optional(),
-  role: z.enum(RegisterUserDtoRole)
-}).superRefine((data, ctx) => {
-  const isEdit = !!data.id
+const userRegistrationSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().min(1, { error: 'Nome é obrigatório' }),
+    email: z.email({ error: 'E-mail inválido' }),
+    document: z.string().min(14, { error: 'CPF deve ter 11 dígitos' }),
+    login: z
+      .string()
+      .min(3, { error: 'Login deve ter no mínimo 3 caracteres' }),
+    password: z.string().optional(),
+    role: z.enum(RegisterUserDtoRole)
+  })
+  .superRefine((data, ctx) => {
+    const isEdit = !!data.id
 
-  if (!isEdit && (!data.password || data.password.length < 6)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Senha deve ter no mínimo 6 caracteres para novos usuários',
-      path: ['password']
-    })
-  }
+    if (!isEdit && (!data.password || data.password.length < 6)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Senha deve ter no mínimo 6 caracteres para novos usuários',
+        path: ['password']
+      })
+    }
 
-  if (isEdit && data.password && data.password.length > 0 && data.password.length < 6) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'A nova senha deve ter no mínimo 6 caracteres',
-      path: ['password']
-    })
-  }
-})
+    if (
+      isEdit &&
+      data.password &&
+      data.password.length > 0 &&
+      data.password.length < 6
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'A nova senha deve ter no mínimo 6 caracteres',
+        path: ['password']
+      })
+    }
+  })
 
 type UserRegistrationData = z.infer<typeof userRegistrationSchema>
 
@@ -51,7 +60,7 @@ interface UserRegistrationModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   user?: any // Opcional: Usuário para edição
-  onSuccess?: () => void | Promise<any>
+  onSuccess?: () => undefined | Promise<any>
 }
 
 export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
@@ -230,71 +239,97 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
             className="space-y-6 py-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="full-name">
                   <UserIcon size={12} /> Nome Completo
-                </label>
-                <Input
-                  placeholder="Ex: João Silva"
-                  {...register('name')}
-                  error={errors.name?.message}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                </Input.Label>
+                <Input.Root error={!!errors.name}>
+                  <Input.Control
+                    id="full-name"
+                    placeholder="Ex: João Silva"
+                    {...register('name')}
+                  />
+                </Input.Root>
+                {errors.name && (
+                  <Input.Message>{errors.name.message}</Input.Message>
+                )}
+              </Input.Wrapper>
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="email">
                   <Mail size={12} /> E-mail Profissional
-                </label>
-                <Input
-                  type="email"
-                  placeholder="joao@aoponto.com"
-                  {...register('email')}
-                  error={errors.email?.message}
-                />
-              </div>
+                </Input.Label>
+                <Input.Root error={!!errors.email}>
+                  <Input.Control
+                    id="email"
+                    type="email"
+                    placeholder="joao@aoponto.com"
+                    {...register('email')}
+                  />
+                </Input.Root>
+                {errors.email && (
+                  <Input.Message>{errors.email.message}</Input.Message>
+                )}
+              </Input.Wrapper>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="document">
                   <ClipboardList size={12} /> CPF
-                </label>
-                <Input
-                  placeholder="000.000.000-00"
-                  value={documentValue}
-                  onChange={handleDocumentChange}
-                  error={errors.document?.message}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                </Input.Label>
+                <Input.Root error={!!errors.document}>
+                  <Input.Control
+                    id="document"
+                    placeholder="000.000.000-00"
+                    value={documentValue}
+                    onChange={handleDocumentChange}
+                  />
+                </Input.Root>
+                {errors.document && (
+                  <Input.Message>{errors.document.message}</Input.Message>
+                )}
+              </Input.Wrapper>
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="login">
                   <UserIcon size={12} /> Usuário (Login)
-                </label>
-                <Input
-                  placeholder="Ex: joao.silva"
-                  {...register('login')}
-                  error={errors.login?.message}
-                />
-              </div>
+                </Input.Label>
+                <Input.Root error={!!errors.login}>
+                  <Input.Control
+                    id="login"
+                    placeholder="Ex: joao.silva"
+                    {...register('login')}
+                  />
+                </Input.Root>
+                {errors.login && (
+                  <Input.Message>{errors.login.message}</Input.Message>
+                )}
+              </Input.Wrapper>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="password">
                   <Lock size={12} />{' '}
                   {isEditMode ? 'Nova Senha (Opcional)' : 'Senha Temporária'}
-                </label>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  {...register('password')}
-                  error={errors.password?.message}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                </Input.Label>
+                <Input.Root error={!!errors.password}>
+                  <Input.Control
+                    id="password"
+                    type="password"
+                    placeholder="••••••••"
+                    {...register('password')}
+                  />
+                </Input.Root>
+                {errors.password && (
+                  <Input.Message>{errors.password.message}</Input.Message>
+                )}
+              </Input.Wrapper>
+              <Input.Wrapper className="space-y-2">
+                <Input.Label htmlFor="role">
                   <Shield size={12} /> Cargo / Função
-                </label>
+                </Input.Label>
                 <select
+                  id="role"
                   className="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all cursor-pointer shadow-sm"
                   {...register('role')}
                 >
@@ -309,11 +344,9 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                   </option>
                 </select>
                 {errors.role?.message && (
-                  <p className="text-[10px] font-medium text-red-500 mt-1">
-                    {errors.role.message}
-                  </p>
+                  <Input.Message>{errors.role.message}</Input.Message>
                 )}
-              </div>
+              </Input.Wrapper>
             </div>
 
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">

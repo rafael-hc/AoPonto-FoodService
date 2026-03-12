@@ -7,5 +7,5 @@
  */
 
 export type FetchUsersByRoleControllerHandleParams = {
-role: string;
-};
+  role: string
+}

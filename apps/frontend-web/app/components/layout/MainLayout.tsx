@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import type React from 'react'
+import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router'
+import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
 import { modulesConfig } from './config'
 import { Sidebar } from './Sidebar'
-import { Topbar } from './Topbar'
 import { SubNavigation } from './SubNavigation'
-import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
+import { Topbar } from './Topbar'
 
 export const MainLayout: React.FC = () => {
   const [activeModule, setActiveModule] = useState('principal')

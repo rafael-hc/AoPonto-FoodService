@@ -1,4 +1,4 @@
-import { User } from '../entities/user'
+import type { User } from '../entities/user'
 
 export abstract class UsersRepository {
   abstract findByLogin(login: string): Promise<User | null>

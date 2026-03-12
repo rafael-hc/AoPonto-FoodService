@@ -1,8 +1,8 @@
-import React from 'react'
-import { ChefHat, LogOut } from 'lucide-react'
-import { modulesConfig } from './config'
-import { useAuthStore } from '../../store/auth-store'
 import { Avatar, Sidebar as SidebarKit } from '@aoponto/ui-kit'
+import { ChefHat, LogOut } from 'lucide-react'
+import type React from 'react'
+import { useAuthStore } from '../../store/auth-store'
+import { modulesConfig } from './config'
 
 interface SidebarProps {
   activeModule: string

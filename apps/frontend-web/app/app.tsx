@@ -1,8 +1,8 @@
-import { useAuthStore } from './store/auth-store';
-import { ProtectedRoute } from './components/protected-route';
+import { ProtectedRoute } from './components/protected-route'
+import { useAuthStore } from './store/auth-store'
 
 export default function App() {
-  const { user } = useAuthStore();
+  const { user } = useAuthStore()
 
   return (
     <ProtectedRoute>
@@ -70,5 +70,5 @@ export default function App() {
         </div>
       </div>
     </ProtectedRoute>
-  );
+  )
 }

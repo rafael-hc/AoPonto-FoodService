@@ -1,16 +1,16 @@
-import { createRoutesStub } from 'react-router';
-import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../app/app';
+import { render, screen, waitFor } from '@testing-library/react'
+import { createRoutesStub } from 'react-router'
+import App from '../../app/app'
 
 test('renders loader data', async () => {
   const ReactRouterStub = createRoutesStub([
     {
       path: '/',
-      Component: App,
-    },
-  ]);
+      Component: App
+    }
+  ])
 
-  render(<ReactRouterStub />);
+  render(<ReactRouterStub />)
 
-  await waitFor(() => screen.findByText('Hello there,'));
-});
+  await waitFor(() => screen.findByText('Hello there,'))
+})

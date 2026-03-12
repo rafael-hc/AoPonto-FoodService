@@ -1,47 +1,47 @@
-import { Contact } from '@/users/domain/entities/contact';
-import { ContactsRepository } from '@/users/domain/repositories/contacts-repository';
-import { PrismaService } from '../prisma.service';
-import { PrismaContactMapper } from '../mappers/prisma-contact-mapper';
-import { DateUtils } from '@/shared/utils/date-utils';
+import { DateUtils } from '@/shared/utils/date-utils'
+import type { Contact } from '@/users/domain/entities/contact'
+import type { ContactsRepository } from '@/users/domain/repositories/contacts-repository'
+import { PrismaContactMapper } from '../mappers/prisma-contact-mapper'
+import type { PrismaService } from '../prisma.service'
 
 export class PrismaContactsRepository implements ContactsRepository {
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<Contact | null> {
     const contact = await this.prisma.contact.findFirst({
-      where: { id, deletedAt: null },
-    });
+      where: { id, deletedAt: null }
+    })
 
-    if (!contact) return null;
+    if (!contact) return null
 
-    return PrismaContactMapper.toDomain(contact);
+    return PrismaContactMapper.toDomain(contact)
   }
 
   async findByDocument(document: string): Promise<Contact | null> {
     const contact = await this.prisma.contact.findFirst({
-      where: { document, deletedAt: null },
-    });
+      where: { document, deletedAt: null }
+    })
 
-    if (!contact) return null;
+    if (!contact) return null
 
-    return PrismaContactMapper.toDomain(contact);
+    return PrismaContactMapper.toDomain(contact)
   }
 
   async create(contact: Contact): Promise<void> {
-    const data = PrismaContactMapper.toPrisma(contact);
+    const data = PrismaContactMapper.toPrisma(contact)
 
     await this.prisma.contact.create({
-      data,
-    });
+      data
+    })
   }
 
   async save(contact: Contact): Promise<void> {
-    const data = PrismaContactMapper.toPrisma(contact);
+    const data = PrismaContactMapper.toPrisma(contact)
 
     await this.prisma.contact.update({
       where: { id: contact.id },
-      data,
-    });
+      data
+    })
   }
 
   async delete(contact: Contact): Promise<void> {
@@ -50,7 +50,7 @@ export class PrismaContactsRepository implements ContactsRepository {
       data: {
         deletedAt: DateUtils.getBrasiliaDate(),
         active: false
-      },
-    });
+      }
+    })
   }
 }

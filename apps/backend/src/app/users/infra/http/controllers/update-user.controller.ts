@@ -1,16 +1,16 @@
 import {
   Body,
+  ConflictException,
   Controller,
-  Put,
-  Param,
   NotFoundException,
-  ConflictException
+  Param,
+  Put
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { UpdateUserUseCase } from '@/users/domain/use-cases/update-user.use-case'
-import { UpdateUserDto } from '../dtos/update-user.dto'
 import { ResourceNotFoundError } from '@/users/domain/errors/resource-not-found-error'
 import { UserAlreadyExistsError } from '@/users/domain/errors/user-already-exists-error'
+import { UpdateUserUseCase } from '@/users/domain/use-cases/update-user.use-case'
+import type { UpdateUserDto } from '../dtos/update-user.dto'
 
 @ApiTags('users')
 @Controller('users/:id')

@@ -8,9 +8,13 @@ export class DateUtils {
     // Mas o requisito pede para GERAR com horário de Brasília.
 
     // Uma forma comum de garantir o valor "local" mas em um objeto Date:
-    const brasiliaOffset = -3;
-    const date = new Date(now.getTime() + (brasiliaOffset * 60 * 60 * 1000) + (now.getTimezoneOffset() * 60 * 1000));
+    const brasiliaOffset = -3
+    const date = new Date(
+      now.getTime() +
+        brasiliaOffset * 60 * 60 * 1000 +
+        now.getTimezoneOffset() * 60 * 1000
+    )
 
-    return date;
+    return date
   }
 }

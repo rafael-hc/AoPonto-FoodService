@@ -1,8 +1,8 @@
-import { Body, Controller, Post, ConflictException } from '@nestjs/common'
+import { Body, ConflictException, Controller, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { RegisterUserUseCase } from '@/users/domain/use-cases/register-user.use-case'
-import { RegisterUserDto } from '../dtos/register-user.dto'
 import { UserAlreadyExistsError } from '@/users/domain/errors/user-already-exists-error'
+import { RegisterUserUseCase } from '@/users/domain/use-cases/register-user.use-case'
+import type { RegisterUserDto } from '../dtos/register-user.dto'
 
 @ApiTags('users')
 @Controller('users')

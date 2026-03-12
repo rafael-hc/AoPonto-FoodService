@@ -1,10 +1,10 @@
 import { create } from 'zustand'
+import type { GetProfileControllerHandle200User as User } from '../api/generated/model'
 import {
   authenticateControllerHandle,
   logoutControllerHandle
 } from '../api/generated/sessions/sessions'
 import { getProfileControllerHandle } from '../api/generated/users/users'
-import type { GetProfileControllerHandle200User as User } from '../api/generated/model'
 
 interface AuthState {
   user: User | null

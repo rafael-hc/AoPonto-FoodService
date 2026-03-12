@@ -1,5 +1,5 @@
-import { User } from '../entities/user'
-import { UsersRepository } from '../repositories/users-repository'
+import type { User } from '../entities/user'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface FetchUsersUseCaseResponse {
   users: User[]

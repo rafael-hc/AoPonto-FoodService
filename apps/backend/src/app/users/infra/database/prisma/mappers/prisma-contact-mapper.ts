@@ -1,8 +1,8 @@
-import { Contact as PrismaContact, Prisma } from '@prisma/client';
-import { Contact } from '@/users/domain/entities/contact';
+import { Prisma, type Contact as PrismaContact } from '@prisma/client'
+import { Contact } from '@/users/domain/entities/contact'
 
-export class PrismaContactMapper {
-  static toDomain(raw: PrismaContact): Contact {
+export const PrismaContactMapper = {
+  toDomain(raw: PrismaContact): Contact {
     return new Contact({
       id: raw.id,
       name: raw.name,
@@ -23,11 +23,11 @@ export class PrismaContactMapper {
       currentBalance: Number(raw.currentBalance),
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-      deletedAt: raw.deletedAt,
-    });
-  }
+      deletedAt: raw.deletedAt
+    })
+  },
 
-  static toPrisma(contact: Contact): Prisma.ContactCreateInput {
+  toPrisma(contact: Contact): Prisma.ContactCreateInput {
     return {
       id: contact.id,
       name: contact.name,
@@ -48,7 +48,7 @@ export class PrismaContactMapper {
       currentBalance: new Prisma.Decimal(contact.currentBalance ?? 0),
       createdAt: contact.createdAt,
       updatedAt: contact.updatedAt,
-      deletedAt: contact.deletedAt,
-    };
+      deletedAt: contact.deletedAt
+    }
   }
 }

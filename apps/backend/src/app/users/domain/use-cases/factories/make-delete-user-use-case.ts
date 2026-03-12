@@ -1,6 +1,6 @@
-import { PrismaUsersRepository } from '@/users/infra/database/prisma/repositories/prisma-users-repository'
+import type { PrismaService } from '@/users/infra/database/prisma/prisma.service'
 import { PrismaContactsRepository } from '@/users/infra/database/prisma/repositories/prisma-contacts-repository'
-import { PrismaService } from '@/users/infra/database/prisma/prisma.service'
+import { PrismaUsersRepository } from '@/users/infra/database/prisma/repositories/prisma-users-repository'
 import { DeleteUserUseCase } from '../delete-user.use-case'
 
 export function makeDeleteUserUseCase(prisma: PrismaService) {

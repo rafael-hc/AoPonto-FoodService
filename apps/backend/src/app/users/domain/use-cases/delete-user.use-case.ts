@@ -1,6 +1,6 @@
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { UsersRepository } from '../repositories/users-repository'
-import { ContactsRepository } from '../repositories/contacts-repository'
+import type { ContactsRepository } from '../repositories/contacts-repository'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface DeleteUserUseCaseRequest {
   id: string
@@ -24,7 +24,7 @@ export class DeleteUserUseCase {
     const contact = await this.contactsRepository.findById(user.contactId)
 
     if (contact) {
-      contact['props'].active = false
+      contact.props.active = false
       await this.contactsRepository.delete(contact)
     }
   }

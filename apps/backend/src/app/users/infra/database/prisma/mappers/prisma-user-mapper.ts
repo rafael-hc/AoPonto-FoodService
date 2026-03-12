@@ -1,10 +1,14 @@
-import { User as PrismaUser } from '@prisma/client'
-import { User, UserRole } from '@/users/domain/entities/user'
+import type { User as PrismaUser } from '@prisma/client'
+import { User, type UserRole } from '@/users/domain/entities/user'
 
-export class PrismaUserMapper {
-  static toDomain(
+export const PrismaUserMapper = {
+  toDomain(
     raw: PrismaUser & {
-      contact?: { name: string; email?: string | null; document?: string | null }
+      contact?: {
+        name: string
+        email?: string | null
+        document?: string | null
+      }
     }
   ): User {
     return new User({
@@ -21,9 +25,9 @@ export class PrismaUserMapper {
       updatedAt: raw.updatedAt,
       deletedAt: raw.deletedAt
     })
-  }
+  },
 
-  static toPrisma(user: User) {
+  toPrisma(user: User) {
     return {
       id: user.id,
       login: user.login,

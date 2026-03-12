@@ -7,7 +7,7 @@
  */
 
 export type GetProfileControllerHandle200UserContact = {
-  id?: string;
-  name?: string;
-  email?: string;
-};
+  id?: string
+  name?: string
+  email?: string
+}

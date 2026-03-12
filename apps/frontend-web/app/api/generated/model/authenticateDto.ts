@@ -11,10 +11,10 @@ export interface AuthenticateDto {
    * Login do usuário
    * @minLength 1
    */
-  login: string;
+  login: string
   /**
    * Senha de acesso
    * @minLength 6
    */
-  password: string;
+  password: string
 }

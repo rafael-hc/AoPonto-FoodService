@@ -8,9 +8,6 @@
     "module": "nodenext",
     "moduleResolution": "nodenext"
   },
-  "include": [
-    "jest.config.cts",
-    "src/**/*.ts"
-  ],
+  "include": ["jest.config.cts", "src/**/*.ts"],
   "references": []
 }

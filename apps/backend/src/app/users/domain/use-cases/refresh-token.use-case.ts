@@ -1,36 +1,36 @@
-import { Encrypter } from '../cryptography/encrypter';
+import type { Encrypter } from '../cryptography/encrypter'
 
 interface RefreshTokenUseCaseRequest {
-  userId: string;
+  userId: string
 }
 
 interface RefreshTokenUseCaseResponse {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string
+  refreshToken: string
 }
 
 export class RefreshTokenUseCase {
   constructor(private encrypter: Encrypter) {}
 
   async execute({
-    userId,
+    userId
   }: RefreshTokenUseCaseRequest): Promise<RefreshTokenUseCaseResponse> {
     const accessToken = await this.encrypter.encrypt({
-      sub: userId,
-    });
+      sub: userId
+    })
 
     const refreshToken = await this.encrypter.encrypt(
       {
-        sub: userId,
+        sub: userId
       },
       {
-        expiresIn: '7d',
-      },
-    );
+        expiresIn: '7d'
+      }
+    )
 
     return {
       accessToken,
-      refreshToken,
-    };
+      refreshToken
+    }
   }
 }

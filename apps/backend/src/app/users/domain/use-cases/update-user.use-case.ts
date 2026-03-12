@@ -1,10 +1,10 @@
-import { User, UserRole } from '../entities/user'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { UsersRepository } from '../repositories/users-repository'
-import { ContactsRepository } from '../repositories/contacts-repository'
-import { HashGenerator } from '../cryptography/hash-generator'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import { DateUtils } from '@/shared/utils/date-utils'
+import type { HashGenerator } from '../cryptography/hash-generator'
+import type { User, UserRole } from '../entities/user'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import type { ContactsRepository } from '../repositories/contacts-repository'
+import type { UsersRepository } from '../repositories/users-repository'
 
 interface UpdateUserUseCaseRequest {
   id: string
@@ -50,40 +50,40 @@ export class UpdateUserUseCase {
       if (userWithSameLogin) {
         throw new UserAlreadyExistsError()
       }
-      user['props'].login = login
+      user.props.login = login
     }
 
     if (password) {
       const hashedPassword = await this.hashGenerator.hash(password)
-      user['props'].password = hashedPassword
+      user.props.password = hashedPassword
     }
 
     if (role) {
-      user['props'].role = role
+      user.props.role = role
     }
 
     if (active !== undefined) {
-      user['props'].active = active
+      user.props.active = active
     }
 
     // Update contact details
     const contact = await this.contactsRepository.findById(user.contactId)
 
     if (contact) {
-      if (name) contact['props'].name = name
-      if (email) contact['props'].email = email
-      if (document) contact['props'].document = document
+      if (name) contact.props.name = name
+      if (email) contact.props.email = email
+      if (document) contact.props.document = document
 
       // SYNC: toda vez que um usuário for (in)ativado, o contato deve ser (in)ativado também
       if (active !== undefined) {
-        contact['props'].active = active
+        contact.props.active = active
       }
 
-      contact['props'].updatedAt = DateUtils.getBrasiliaDate()
+      contact.props.updatedAt = DateUtils.getBrasiliaDate()
       await this.contactsRepository.save(contact)
     }
 
-    user['props'].updatedAt = DateUtils.getBrasiliaDate()
+    user.props.updatedAt = DateUtils.getBrasiliaDate()
     await this.usersRepository.save(user)
 
     return { user }

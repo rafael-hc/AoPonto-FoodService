@@ -1,5 +1,5 @@
-import { Contact } from '@/users/domain/entities/contact'
-import { ContactsRepository } from '@/users/domain/repositories/contacts-repository'
+import type { Contact } from '@/users/domain/entities/contact'
+import type { ContactsRepository } from '@/users/domain/repositories/contacts-repository'
 
 export class InMemoryContactsRepository implements ContactsRepository {
   public items: Contact[] = []

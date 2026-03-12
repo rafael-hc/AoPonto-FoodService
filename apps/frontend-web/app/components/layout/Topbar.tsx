@@ -1,6 +1,6 @@
-import React from 'react'
-import { Search, Bell, LucideIcon } from 'lucide-react'
 import { Input, Topbar as TopbarKit } from '@aoponto/ui-kit'
+import { Bell, type LucideIcon, Search } from 'lucide-react'
+import type React from 'react'
 
 interface TopbarProps {
   title: string
@@ -16,19 +16,24 @@ export const Topbar: React.FC<TopbarProps> = ({ title, Icon }) => {
       </TopbarKit.Title>
 
       <TopbarKit.Actions>
-        <div className="relative w-80 hidden lg:block">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10"
-            size={16}
-          />
-          <Input
-            type="text"
-            placeholder="Pesquisar no sistema..."
-            className="pl-9 bg-slate-100 border-transparent focus:bg-white text-sm"
-          />
+        <div className="w-80 hidden lg:block">
+          <Input.Root className="bg-slate-100 border-transparent focus-within:bg-white transition-colors">
+            <Input.Icon>
+              <Search size={16} />
+            </Input.Icon>
+            <Input.Control
+              type="text"
+              placeholder="Pesquisar no sistema..."
+              aria-label="Pesquisar no sistema"
+              className="text-sm"
+            />
+          </Input.Root>
         </div>
         <div className="w-px h-6 bg-slate-200"></div>
-        <button className="relative p-2 text-slate-400 hover:text-orange-500 transition-colors rounded-lg hover:bg-orange-50">
+        <button
+          type="button"
+          className="relative p-2 text-slate-400 hover:text-orange-500 transition-colors rounded-lg hover:bg-orange-50"
+        >
           <Bell size={20} />
           <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-white"></span>
         </button>

@@ -1,15 +1,15 @@
+import type { HashGenerator } from '@/users/domain/cryptography/hash-generator'
 import { UserAlreadyExistsError } from '@/users/domain/errors/user-already-exists-error'
-import { RegisterUserUseCase } from './register-user.use-case'
-import { HashGenerator } from '@/users/domain/cryptography/hash-generator'
-import { InMemoryUsersRepository } from '@/users/test/repositories/in-memory-users-repository'
 import { InMemoryContactsRepository } from '@/users/test/repositories/in-memory-contacts-repository'
+import { InMemoryUsersRepository } from '@/users/test/repositories/in-memory-users-repository'
+import { RegisterUserUseCase } from './register-user.use-case'
 
 class FakeHasher implements HashGenerator {
   async hash(plain: string): Promise<string> {
-    return plain + '-hashed'
+    return `${plain}-hashed`
   }
   async compare(plain: string, hash: string): Promise<boolean> {
-    return plain + '-hashed' === hash
+    return `${plain}-hashed` === hash
   }
 }
 

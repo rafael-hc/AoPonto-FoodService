@@ -1,8 +1,8 @@
-import { User } from '@/users/domain/entities/user'
-import { UsersRepository } from '@/users/domain/repositories/users-repository'
-import { PrismaService } from '../prisma.service'
-import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
 import { DateUtils } from '@/shared/utils/date-utils'
+import type { User } from '@/users/domain/entities/user'
+import type { UsersRepository } from '@/users/domain/repositories/users-repository'
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
+import type { PrismaService } from '../prisma.service'
 
 export class PrismaUsersRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}

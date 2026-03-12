@@ -1,6 +1,6 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
-import { useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import { MainLayout } from './components/layout/MainLayout'
 import { useAuthStore } from './store/auth-store'
 
@@ -15,7 +15,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [getProfile])
 
   return (
-    <html lang="pt-br">
+    <html lang="pt-BR">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,5 +1,5 @@
-import React from 'react'
-import { RecentOrder } from './types'
+import type React from 'react'
+import type { RecentOrder } from './types'
 
 interface StatusBadgeProps {
   status: RecentOrder['status']

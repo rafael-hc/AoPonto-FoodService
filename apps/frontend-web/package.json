@@ -31,6 +31,10 @@
           "command": "orval --config orval.config.cjs",
           "cwd": "apps/frontend-web"
         }
+      },
+      "lint": {
+        "command": "biome check apps/frontend-web",
+        "cache": true
       }
     }
   }

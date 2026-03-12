@@ -5,11 +5,11 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { GetProfileControllerHandle200UserContact } from './getProfileControllerHandle200UserContact';
+import type { GetProfileControllerHandle200UserContact } from './getProfileControllerHandle200UserContact'
 
 export type GetProfileControllerHandle200User = {
-  id?: string;
-  login?: string;
-  role?: string;
-  contact?: GetProfileControllerHandle200UserContact;
-};
+  id?: string
+  login?: string
+  role?: string
+  contact?: GetProfileControllerHandle200UserContact
+}

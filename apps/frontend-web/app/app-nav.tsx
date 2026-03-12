@@ -1,15 +1,15 @@
-import { NavLink, useNavigate } from 'react-router';
-import { useAuthStore } from './store/auth-store';
+import { NavLink, useNavigate } from 'react-router'
+import { useAuthStore } from './store/auth-store'
 
 export function AppNav() {
-  const { isAuthenticated, signOut } = useAuthStore();
-  const navigate = useNavigate();
-  const activeStyle = 'text-orange-600 font-semibold';
-  const baseStyle = 'px-3 py-2 transition-colors hover:text-orange-500';
+  const { isAuthenticated, signOut } = useAuthStore()
+  const navigate = useNavigate()
+  const activeStyle = 'text-orange-600 font-semibold'
+  const baseStyle = 'px-3 py-2 transition-colors hover:text-orange-500'
 
   function handleLogout() {
-    signOut();
-    navigate('/login');
+    signOut()
+    navigate('/login')
   }
 
   return (
@@ -45,5 +45,5 @@ export function AppNav() {
         </NavLink>
       )}
     </nav>
-  );
+  )
 }

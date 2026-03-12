@@ -8,9 +8,7 @@
           "root": "apps/frontend-web-e2e",
           "targets": {
             "typecheck": {
-              "dependsOn": [
-                "^typecheck"
-              ],
+              "dependsOn": ["^typecheck"],
               "options": {
                 "cwd": "apps/frontend-web-e2e",
                 "command": "tsc --build --emitDeclarationOnly"
@@ -40,20 +38,14 @@
                 "{projectRoot}/out-tsc/playwright/**/*.d.ts.map",
                 "{projectRoot}/out-tsc/playwright/tsconfig.tsbuildinfo"
               ],
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "metadata": {
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "description": "Runs type-checking for the project.",
                 "help": {
                   "command": "npx tsc --build --help",
                   "example": {
-                    "args": [
-                      "--force"
-                    ]
+                    "args": ["--force"]
                   }
                 }
               },
@@ -74,18 +66,12 @@
                 "{workspaceRoot}/apps/frontend-web-e2e/eslint.config.mjs",
                 "{workspaceRoot}/tools/eslint-rules/**/*",
                 {
-                  "externalDependencies": [
-                    "eslint"
-                  ]
+                  "externalDependencies": ["eslint"]
                 }
               ],
-              "outputs": [
-                "{options.outputFile}"
-              ],
+              "outputs": ["{options.outputFile}"],
               "metadata": {
-                "technologies": [
-                  "eslint"
-                ],
+                "technologies": ["eslint"],
                 "description": "Runs ESLint on project",
                 "help": {
                   "command": "npx eslint --help",
@@ -106,9 +92,7 @@
                 "command": "playwright test"
               },
               "metadata": {
-                "technologies": [
-                  "playwright"
-                ],
+                "technologies": ["playwright"],
                 "description": "Runs Playwright Tests",
                 "help": {
                   "command": "npx playwright test --help",
@@ -121,9 +105,7 @@
               },
               "dependsOn": [
                 {
-                  "projects": [
-                    "@ao-ponto-food-service/frontend-web"
-                  ],
+                  "projects": ["@ao-ponto-food-service/frontend-web"],
                   "target": "dev"
                 }
               ],
@@ -132,9 +114,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "@playwright/test"
-                  ]
+                  "externalDependencies": ["@playwright/test"]
                 }
               ],
               "outputs": [
@@ -157,9 +137,7 @@
                 "command": "playwright test src/example.spec.ts --output=test-output/playwright/output/src-example-spec-ts"
               },
               "metadata": {
-                "technologies": [
-                  "playwright"
-                ],
+                "technologies": ["playwright"],
                 "description": "Runs Playwright Tests in src/example.spec.ts in CI",
                 "help": {
                   "command": "npx playwright test --help",
@@ -172,9 +150,7 @@
               },
               "dependsOn": [
                 {
-                  "projects": [
-                    "@ao-ponto-food-service/frontend-web"
-                  ],
+                  "projects": ["@ao-ponto-food-service/frontend-web"],
                   "target": "dev"
                 }
               ],
@@ -183,9 +159,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "@playwright/test"
-                  ]
+                  "externalDependencies": ["@playwright/test"]
                 }
               ],
               "outputs": [
@@ -204,9 +178,7 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "@playwright/test"
-                  ]
+                  "externalDependencies": ["@playwright/test"]
                 }
               ],
               "outputs": [
@@ -223,9 +195,7 @@
                 }
               ],
               "metadata": {
-                "technologies": [
-                  "playwright"
-                ],
+                "technologies": ["playwright"],
                 "description": "Runs Playwright Tests in CI",
                 "nonAtomizedTarget": "e2e",
                 "help": {
@@ -248,22 +218,16 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "@playwright/test"
-                  ]
+                  "externalDependencies": ["@playwright/test"]
                 }
               ],
-              "outputs": [
-                "{projectRoot}/test-output/playwright/report"
-              ],
+              "outputs": ["{projectRoot}/test-output/playwright/report"],
               "options": {
                 "config": "playwright.config.ts",
                 "expectedSuites": 1
               },
               "metadata": {
-                "technologies": [
-                  "playwright"
-                ],
+                "technologies": ["playwright"],
                 "description": "Merges Playwright blob reports from atomized tasks to produce unified reports for the configured reporters."
               },
               "configurations": {},
@@ -285,12 +249,8 @@
             }
           },
           "name": "@ao-ponto-food-service/frontend-web-e2e",
-          "tags": [
-            "npm:private"
-          ],
-          "implicitDependencies": [
-            "@ao-ponto-food-service/frontend-web"
-          ]
+          "tags": ["npm:private"],
+          "implicitDependencies": ["@ao-ponto-food-service/frontend-web"]
         }
       },
       "@ao-ponto-food-service/frontend-web": {
@@ -300,17 +260,13 @@
           "root": "apps/frontend-web",
           "targets": {
             "typecheck": {
-              "dependsOn": [
-                "^typecheck"
-              ],
+              "dependsOn": ["^typecheck"],
               "cache": true,
               "inputs": [
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "typescript"
-                  ]
+                  "externalDependencies": ["typescript"]
                 }
               ],
               "outputs": [
@@ -321,21 +277,14 @@
                 "{projectRoot}/out-tsc/vitest/**/*.d.ts.map",
                 "{projectRoot}/out-tsc/vitest/tsconfig.tsbuildinfo"
               ],
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "metadata": {
-                "technologies": [
-                  "typescript",
-                  "typescript"
-                ],
+                "technologies": ["typescript", "typescript"],
                 "description": "Runs type-checking for the project.",
                 "help": {
                   "command": "npx tsc --build --help",
                   "example": {
-                    "args": [
-                      "--force"
-                    ]
+                    "args": ["--force"]
                   }
                 }
               },
@@ -349,28 +298,20 @@
             },
             "build": {
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "@react-router/dev"
-                  ]
+                  "externalDependencies": ["@react-router/dev"]
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/apps/frontend-web/build/client"
-              ],
+              "outputs": ["{workspaceRoot}/apps/frontend-web/build/client"],
               "options": {
                 "cwd": "apps/frontend-web",
                 "command": "react-router build"
               },
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "executor": "nx:run-commands",
               "configurations": {},
               "parallelism": true
@@ -381,17 +322,13 @@
                 "cwd": "apps/frontend-web",
                 "command": "react-router dev"
               },
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "executor": "nx:run-commands",
               "configurations": {},
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -399,9 +336,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects @ao-ponto-food-service/frontend-web --includeDependentProjects -- npx nx build-deps @ao-ponto-food-service/frontend-web"
@@ -422,18 +357,12 @@
                 "{workspaceRoot}/apps/frontend-web/eslint.config.mjs",
                 "{workspaceRoot}/tools/eslint-rules/**/*",
                 {
-                  "externalDependencies": [
-                    "eslint"
-                  ]
+                  "externalDependencies": ["eslint"]
                 }
               ],
-              "outputs": [
-                "{options.outputFile}"
-              ],
+              "outputs": ["{options.outputFile}"],
               "metadata": {
-                "technologies": [
-                  "eslint"
-                ],
+                "technologies": ["eslint"],
                 "description": "Runs ESLint on project",
                 "help": {
                   "command": "npx eslint --help",
@@ -454,22 +383,15 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
                 }
               ],
-              "outputs": [
-                "{projectRoot}/test-output/vitest/coverage"
-              ],
+              "outputs": ["{projectRoot}/test-output/vitest/coverage"],
               "metadata": {
-                "technologies": [
-                  "vite",
-                  "vitest"
-                ],
+                "technologies": ["vite", "vitest"],
                 "description": "Run Vitest tests",
                 "help": {
                   "command": "npx vitest --help",
@@ -488,9 +410,7 @@
               },
               "configurations": {},
               "parallelism": true,
-              "dependsOn": [
-                "^build"
-              ]
+              "dependsOn": ["^build"]
             },
             "test-ci--tests/routes/_index.spec.tsx": {
               "cache": true,
@@ -498,25 +418,19 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
                 }
               ],
-              "outputs": [
-                "{projectRoot}/test-output/vitest/coverage"
-              ],
+              "outputs": ["{projectRoot}/test-output/vitest/coverage"],
               "options": {
                 "cwd": "apps/frontend-web",
                 "command": "vitest run tests/routes/_index.spec.tsx"
               },
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest Tests in tests/routes/_index.spec.tsx",
                 "help": {
                   "command": "npx vitest --help",
@@ -538,24 +452,16 @@
                 "default",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "vitest"
-                  ]
+                  "externalDependencies": ["vitest"]
                 },
                 {
                   "env": "CI"
                 }
               ],
-              "outputs": [
-                "{projectRoot}/test-output/vitest/coverage"
-              ],
-              "dependsOn": [
-                "test-ci--tests/routes/_index.spec.tsx"
-              ],
+              "outputs": ["{projectRoot}/test-output/vitest/coverage"],
+              "dependsOn": ["test-ci--tests/routes/_index.spec.tsx"],
               "metadata": {
-                "technologies": [
-                  "vitest"
-                ],
+                "technologies": ["vitest"],
                 "description": "Run Vitest Tests in CI",
                 "nonAtomizedTarget": "test",
                 "help": {
@@ -575,10 +481,7 @@
           "projectType": "library",
           "metadata": {
             "targetGroups": {
-              "TEST (CI)": [
-                "test-ci",
-                "test-ci--tests/routes/_index.spec.tsx"
-              ]
+              "TEST (CI)": ["test-ci", "test-ci--tests/routes/_index.spec.tsx"]
             },
             "js": {
               "packageName": "@ao-ponto-food-service/frontend-web",
@@ -586,9 +489,7 @@
             }
           },
           "name": "@ao-ponto-food-service/frontend-web",
-          "tags": [
-            "npm:private"
-          ],
+          "tags": ["npm:private"],
           "implicitDependencies": []
         }
       },
@@ -599,9 +500,7 @@
           "root": "apps/backend-e2e",
           "targets": {
             "typecheck": {
-              "dependsOn": [
-                "^typecheck"
-              ],
+              "dependsOn": ["^typecheck"],
               "options": {
                 "cwd": "apps/backend-e2e",
                 "command": "tsc --build --emitDeclarationOnly"
@@ -620,20 +519,14 @@
                 "{projectRoot}/out-tsc/@ao-ponto-food-service/backend-e2e/**/*.d.ts.map",
                 "{projectRoot}/out-tsc/@ao-ponto-food-service/backend-e2e/tsconfig.tsbuildinfo"
               ],
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "metadata": {
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "description": "Runs type-checking for the project.",
                 "help": {
                   "command": "npx tsc --build --help",
                   "example": {
-                    "args": [
-                      "--force"
-                    ]
+                    "args": ["--force"]
                   }
                 }
               },
@@ -654,18 +547,12 @@
                 "{workspaceRoot}/apps/backend-e2e/eslint.config.mjs",
                 "{workspaceRoot}/tools/eslint-rules/**/*",
                 {
-                  "externalDependencies": [
-                    "eslint"
-                  ]
+                  "externalDependencies": ["eslint"]
                 }
               ],
-              "outputs": [
-                "{options.outputFile}"
-              ],
+              "outputs": ["{options.outputFile}"],
               "metadata": {
-                "technologies": [
-                  "eslint"
-                ],
+                "technologies": ["eslint"],
                 "description": "Runs ESLint on project",
                 "help": {
                   "command": "npx eslint --help",
@@ -682,9 +569,7 @@
             },
             "e2e": {
               "executor": "@nx/jest:jest",
-              "outputs": [
-                "{projectRoot}/test-output/jest/coverage"
-              ],
+              "outputs": ["{projectRoot}/test-output/jest/coverage"],
               "options": {
                 "jestConfig": "apps/backend-e2e/jest.config.cts",
                 "passWithNoTests": true
@@ -698,12 +583,8 @@
             }
           },
           "name": "@ao-ponto-food-service/backend-e2e",
-          "tags": [
-            "npm:private"
-          ],
-          "implicitDependencies": [
-            "@ao-ponto-food-service/backend"
-          ],
+          "tags": ["npm:private"],
+          "implicitDependencies": ["@ao-ponto-food-service/backend"],
           "metadata": {
             "targetGroups": {},
             "js": {
@@ -721,9 +602,7 @@
           "root": "apps/backend",
           "targets": {
             "typecheck": {
-              "dependsOn": [
-                "^typecheck"
-              ],
+              "dependsOn": ["^typecheck"],
               "options": {
                 "cwd": "apps/backend",
                 "command": "tsc --build --emitDeclarationOnly"
@@ -757,20 +636,14 @@
                 "{projectRoot}/out-tsc/jest/**/*.d.ts.map",
                 "{projectRoot}/out-tsc/jest/tsconfig.tsbuildinfo"
               ],
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "metadata": {
-                "technologies": [
-                  "typescript"
-                ],
+                "technologies": ["typescript"],
                 "description": "Runs type-checking for the project.",
                 "help": {
                   "command": "npx tsc --build --help",
                   "example": {
-                    "args": [
-                      "--force"
-                    ]
+                    "args": ["--force"]
                   }
                 }
               },
@@ -791,18 +664,12 @@
                 "{workspaceRoot}/apps/backend/eslint.config.mjs",
                 "{workspaceRoot}/tools/eslint-rules/**/*",
                 {
-                  "externalDependencies": [
-                    "eslint"
-                  ]
+                  "externalDependencies": ["eslint"]
                 }
               ],
-              "outputs": [
-                "{options.outputFile}"
-              ],
+              "outputs": ["{options.outputFile}"],
               "metadata": {
-                "technologies": [
-                  "eslint"
-                ],
+                "technologies": ["eslint"],
                 "description": "Runs ESLint on project",
                 "help": {
                   "command": "npx eslint --help",
@@ -819,25 +686,17 @@
             },
             "build": {
               "cache": true,
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "inputs": [
                 "production",
                 "^production",
                 {
-                  "externalDependencies": [
-                    "webpack-cli"
-                  ]
+                  "externalDependencies": ["webpack-cli"]
                 }
               ],
-              "outputs": [
-                "{workspaceRoot}/apps/backend/dist"
-              ],
+              "outputs": ["{workspaceRoot}/apps/backend/dist"],
               "metadata": {
-                "technologies": [
-                  "webpack"
-                ],
+                "technologies": ["webpack"],
                 "description": "Runs Webpack build",
                 "help": {
                   "command": "npx webpack-cli build --help",
@@ -845,28 +704,20 @@
                     "options": {
                       "json": "stats.json"
                     },
-                    "args": [
-                      "--profile"
-                    ]
+                    "args": ["--profile"]
                   }
                 }
               },
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "executor": "nx:run-commands",
               "options": {
                 "cwd": "apps/backend",
-                "args": [
-                  "--node-env=production"
-                ],
+                "args": ["--node-env=production"],
                 "command": "webpack-cli build"
               },
               "configurations": {
                 "development": {
-                  "args": [
-                    "--node-env=development"
-                  ]
+                  "args": ["--node-env=development"]
                 }
               },
               "parallelism": true
@@ -875,9 +726,7 @@
               "continuous": true,
               "executor": "@nx/js:node",
               "defaultConfiguration": "development",
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "options": {
                 "buildTarget": "build",
                 "runBuildTargetDependencies": false
@@ -896,55 +745,40 @@
               "continuous": true,
               "options": {
                 "cwd": "apps/backend",
-                "args": [
-                  "--node-env=production"
-                ],
+                "args": ["--node-env=production"],
                 "command": "webpack-cli serve"
               },
               "metadata": {
-                "technologies": [
-                  "webpack"
-                ],
+                "technologies": ["webpack"],
                 "description": "Starts Webpack dev server in production mode",
                 "help": {
                   "command": "npx webpack-cli serve --help",
                   "example": {
                     "options": {
-                      "args": [
-                        "--client-progress",
-                        "--history-api-fallback "
-                      ]
+                      "args": ["--client-progress", "--history-api-fallback "]
                     }
                   }
                 }
               },
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "executor": "nx:run-commands",
               "configurations": {},
               "parallelism": true
             },
             "serve-static": {
               "continuous": true,
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "executor": "@nx/web:file-server",
               "options": {
                 "buildTarget": "build",
                 "spa": true
               },
-              "syncGenerators": [
-                "@nx/js:typescript-sync"
-              ],
+              "syncGenerators": ["@nx/js:typescript-sync"],
               "configurations": {},
               "parallelism": true
             },
             "build-deps": {
-              "dependsOn": [
-                "^build"
-              ],
+              "dependsOn": ["^build"],
               "configurations": {},
               "options": {},
               "parallelism": true,
@@ -952,9 +786,7 @@
             },
             "watch-deps": {
               "continuous": true,
-              "dependsOn": [
-                "build-deps"
-              ],
+              "dependsOn": ["build-deps"],
               "executor": "nx:run-commands",
               "options": {
                 "command": "npx nx watch --projects @ao-ponto-food-service/backend --includeDependentProjects -- npx nx build-deps @ao-ponto-food-service/backend"
@@ -964,9 +796,7 @@
             },
             "test": {
               "metadata": {
-                "technologies": [
-                  "jest"
-                ],
+                "technologies": ["jest"],
                 "description": "Run Jest Tests",
                 "help": {
                   "command": "npx jest --help",
@@ -983,14 +813,10 @@
                 "^production",
                 "{workspaceRoot}/jest.preset.js",
                 {
-                  "externalDependencies": [
-                    "jest"
-                  ]
+                  "externalDependencies": ["jest"]
                 }
               ],
-              "outputs": [
-                "{projectRoot}/test-output/jest/coverage"
-              ],
+              "outputs": ["{projectRoot}/test-output/jest/coverage"],
               "executor": "nx:run-commands",
               "options": {
                 "cwd": "apps/backend",
@@ -1003,14 +829,10 @@
               },
               "configurations": {},
               "parallelism": true,
-              "dependsOn": [
-                "^build"
-              ]
+              "dependsOn": ["^build"]
             },
             "prune-lockfile": {
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "cache": true,
               "executor": "@nx/js:prune-lockfile",
               "outputs": [
@@ -1024,9 +846,7 @@
               "parallelism": true
             },
             "copy-workspace-modules": {
-              "dependsOn": [
-                "build"
-              ],
+              "dependsOn": ["build"],
               "cache": true,
               "outputs": [
                 "{workspaceRoot}/apps/backend/dist/workspace_modules"
@@ -1039,10 +859,7 @@
               "parallelism": true
             },
             "prune": {
-              "dependsOn": [
-                "prune-lockfile",
-                "copy-workspace-modules"
-              ],
+              "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
               "executor": "nx:noop",
               "configurations": {},
               "options": {},
@@ -1059,9 +876,7 @@
             }
           },
           "name": "@ao-ponto-food-service/backend",
-          "tags": [
-            "npm:private"
-          ],
+          "tags": ["npm:private"],
           "implicitDependencies": []
         }
       }

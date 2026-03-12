@@ -4,8 +4,6 @@
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.mjs",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/src/test-setup.[jt]s",
@@ -41,12 +39,6 @@
         "watchDepsTargetName": "watch-deps",
         "buildDepsTargetName": "build-deps",
         "typecheckTargetName": "typecheck"
-      }
-    },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
       }
     },
     {
@@ -98,7 +90,7 @@
     {
       "plugin": "@nx/storybook/plugin",
       "options": {
-        "serveStorybookTargetName": "storybook",
+        "storybookTargetName": "storybook",
         "buildStorybookTargetName": "build-storybook",
         "testStorybookTargetName": "test-storybook",
         "staticStorybookTargetName": "static-storybook",
@@ -108,6 +100,10 @@
     }
   ],
   "targetDefaults": {
+    "lint": {
+      "cache": true,
+      "inputs": ["default", "^default"]
+    },
     "test": {
       "dependsOn": ["^build"]
     }
@@ -117,7 +113,7 @@
       "application": {
         "babel": true,
         "style": "tailwind",
-        "linter": "eslint",
+        "linter": "none",
         "bundler": "vite"
       },
       "component": {
@@ -125,7 +121,7 @@
       },
       "library": {
         "style": "tailwind",
-        "linter": "eslint",
+        "linter": "none",
         "unitTestRunner": "vitest"
       }
     }

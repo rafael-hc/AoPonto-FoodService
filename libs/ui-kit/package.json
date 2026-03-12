@@ -13,5 +13,13 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "nx": {
+    "targets": {
+      "lint": {
+        "command": "biome check libs/ui-kit",
+        "cache": true
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Sidebar } from './sidebar'
+import { ChefHat, LogOut, Settings, ShoppingCart, Users } from 'lucide-react'
 import { Avatar } from './avatar'
-import { ChefHat, ShoppingCart, Users, Settings, LogOut } from 'lucide-react'
+import { Sidebar } from './sidebar'
 
 const meta: Meta<typeof Sidebar.Root> = {
   component: Sidebar.Root,

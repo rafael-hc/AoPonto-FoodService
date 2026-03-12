@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common'
-import { FetchUsersUseCase } from '@/users/domain/use-cases/fetch-users.use-case'
 import { ApiTags } from '@nestjs/swagger'
+import { FetchUsersUseCase } from '@/users/domain/use-cases/fetch-users.use-case'
 
 @ApiTags('users')
 @Controller('users')

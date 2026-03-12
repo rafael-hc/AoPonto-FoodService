@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Settings, ShoppingCart, Users } from 'lucide-react'
 import { ActionTile } from './action-tile'
-import { ShoppingCart, Settings, Users } from 'lucide-react'
 
 const meta: Meta<typeof ActionTile.Root> = {
   component: ActionTile.Root,

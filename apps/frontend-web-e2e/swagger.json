@@ -1,1 +1,153 @@
-{"openapi":"3.0.0","paths":{"/api/users":{"post":{"operationId":"RegisterUserController_handle","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterUserDto"}}}},"responses":{"201":{"description":""}},"tags":["users"]},"get":{"operationId":"FetchUsersByRoleController_handle","parameters":[{"name":"role","required":true,"in":"query","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["users"]}},"/api/sessions":{"post":{"operationId":"AuthenticateController_handle","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthenticateDto"}}}},"responses":{"200":{"description":""}},"tags":["sessions"]}},"/api/sessions/refresh":{"patch":{"operationId":"RefreshTokenController_handle","parameters":[],"responses":{"200":{"description":""}},"tags":["sessions"]}},"/api/me":{"get":{"operationId":"GetProfileController_handle","parameters":[],"responses":{"200":{"description":"Perfil do usuário logado","content":{"application/json":{"schema":{"type":"object","properties":{"user":{"type":"object","properties":{"id":{"type":"string"},"login":{"type":"string"},"role":{"type":"string"},"contact":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"email":{"type":"string"}}}}}}}}}}},"security":[{"bearer":[]}],"tags":["users"]}},"/api/sessions/logout":{"post":{"operationId":"LogoutController_handle","parameters":[],"responses":{"200":{"description":""}},"tags":["sessions"]}}},"info":{"title":"AoPonto FoodService API","description":"Documentação da API do sistema AoPonto","version":"1.0","contact":{}},"tags":[{"name":"users","description":""},{"name":"sessions","description":""}],"servers":[],"components":{"securitySchemes":{"bearer":{"scheme":"bearer","bearerFormat":"JWT","type":"http"}},"schemas":{"RegisterUserDto":{"type":"object","properties":{"name":{"type":"string","minLength":1},"email":{"type":"string","format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"login":{"type":"string","minLength":3},"password":{"type":"string","minLength":6},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]}},"required":["name","email","login","password"]},"AuthenticateDto":{"type":"object","properties":{"login":{"type":"string","minLength":1,"description":"Login do usuário"},"password":{"type":"string","minLength":6,"description":"Senha de acesso"}},"required":["login","password"]}}}}
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/users": {
+      "post": {
+        "operationId": "RegisterUserController_handle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterUserDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["users"]
+      },
+      "get": {
+        "operationId": "FetchUsersByRoleController_handle",
+        "parameters": [
+          {
+            "name": "role",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["users"]
+      }
+    },
+    "/api/sessions": {
+      "post": {
+        "operationId": "AuthenticateController_handle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AuthenticateDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } },
+        "tags": ["sessions"]
+      }
+    },
+    "/api/sessions/refresh": {
+      "patch": {
+        "operationId": "RefreshTokenController_handle",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["sessions"]
+      }
+    },
+    "/api/me": {
+      "get": {
+        "operationId": "GetProfileController_handle",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Perfil do usuário logado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "login": { "type": "string" },
+                        "role": { "type": "string" },
+                        "contact": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "email": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "tags": ["users"]
+      }
+    },
+    "/api/sessions/logout": {
+      "post": {
+        "operationId": "LogoutController_handle",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["sessions"]
+      }
+    }
+  },
+  "info": {
+    "title": "AoPonto FoodService API",
+    "description": "Documentação da API do sistema AoPonto",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    { "name": "users", "description": "" },
+    { "name": "sessions", "description": "" }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+    },
+    "schemas": {
+      "RegisterUserDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "login": { "type": "string", "minLength": 3 },
+          "password": { "type": "string", "minLength": 6 },
+          "role": { "type": "string", "enum": ["ADMIN", "CASHIER", "KITCHEN"] }
+        },
+        "required": ["name", "email", "login", "password"]
+      },
+      "AuthenticateDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Login do usuário"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "description": "Senha de acesso"
+          }
+        },
+        "required": ["login", "password"]
+      }
+    }
+  }
+}

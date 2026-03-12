@@ -1,8 +1,8 @@
+import { Button, Input } from '@aoponto/ui-kit'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useAuthStore } from '../store/auth-store'
 import { useAuthenticateControllerHandle } from '../api/generated/sessions/sessions'
-import { Input, Button } from '@aoponto/ui-kit'
+import { useAuthStore } from '../store/auth-store'
 
 export default function Login() {
   const [login, setLogin] = useState('')
@@ -17,7 +17,9 @@ export default function Login() {
         await getProfile()
         navigate('/')
       },
-      onError: (err: any) => {
+      onError: (
+        err: Error & { response?: { data?: { message?: string } } }
+      ) => {
         setError(
           err.response?.data?.message ||
             'Erro ao entrar. Verifique suas credenciais.'
@@ -43,32 +45,42 @@ export default function Login() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
+        <Input.Wrapper className="space-y-1.5">
+          <Input.Label
+            htmlFor="login"
+            className="text-sm font-medium text-gray-700 mb-0 capitalize select-none cursor-pointer"
+          >
             Login
-          </label>
-          <Input
-            type="text"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            className="mt-1"
-            required
-            placeholder="Nome de usuário"
-          />
-        </div>
+          </Input.Label>
+          <Input.Root>
+            <Input.Control
+              id="login"
+              type="text"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+              required
+              placeholder="Nome de usuário"
+            />
+          </Input.Root>
+        </Input.Wrapper>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
+        <Input.Wrapper className="space-y-1.5">
+          <Input.Label
+            htmlFor="password"
+            className="text-sm font-medium text-gray-700 mb-0 capitalize select-none cursor-pointer"
+          >
             Senha
-          </label>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1"
-            required
-          />
-        </div>
+          </Input.Label>
+          <Input.Root>
+            <Input.Control
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Input.Root>
+        </Input.Wrapper>
 
         <Button
           type="submit"
