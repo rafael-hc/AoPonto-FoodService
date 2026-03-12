@@ -1,0 +1,269 @@
+{
+  "version": 2,
+  "skills": {
+    "accessibility": {
+      "name": "accessibility",
+      "source": "local",
+      "contentHash": "706129400c8c91a9264582940b36007116faffcaf27bb0780bdab87337b4f881",
+      "installedAt": "2026-03-10T02:36:17.814Z",
+      "updatedAt": "2026-03-10T02:36:19.338Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "best-practices": {
+      "name": "best-practices",
+      "source": "local",
+      "contentHash": "2abba650ba22a819e67f8c2fb09d0f5f33a24d66d945ee2ef824751bc97151ce",
+      "installedAt": "2026-03-10T02:36:17.820Z",
+      "updatedAt": "2026-03-10T02:36:19.346Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "component-common-domain-detection": {
+      "name": "component-common-domain-detection",
+      "source": "local",
+      "contentHash": "58c72d63eaf387cf11ae36b223ff80478ba861f53265e42a3c4fbcb3bc739208",
+      "installedAt": "2026-03-10T02:36:17.823Z",
+      "updatedAt": "2026-03-10T02:36:19.743Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "component-flattening-analysis": {
+      "name": "component-flattening-analysis",
+      "source": "local",
+      "contentHash": "085696b944897a2d8c96efb6e0a3faab00f910a62a49a45c3293c32458962411",
+      "installedAt": "2026-03-10T02:36:17.825Z",
+      "updatedAt": "2026-03-10T02:36:19.773Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "component-identification-sizing": {
+      "name": "component-identification-sizing",
+      "source": "local",
+      "contentHash": "8ec5eb90e86cc84a346f15f50c86960d8f4ba6876f6fe27d687a1ba43a2448a0",
+      "installedAt": "2026-03-10T02:36:17.829Z",
+      "updatedAt": "2026-03-10T02:36:19.842Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "coupling-analysis": {
+      "name": "coupling-analysis",
+      "source": "local",
+      "contentHash": "a33a142a73ac2e6b8db300acb3d13dba5077e225cbfad7599b0ac431290ab5c7",
+      "installedAt": "2026-03-10T02:36:17.834Z",
+      "updatedAt": "2026-03-10T02:36:19.854Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "decomposition-planning-roadmap": {
+      "name": "decomposition-planning-roadmap",
+      "source": "local",
+      "contentHash": "8de88d993b2556a6b38c26fd79c863f06bf7746faf87c0c9fd1b9a198a49e1ac",
+      "installedAt": "2026-03-10T02:36:17.836Z",
+      "updatedAt": "2026-03-10T02:36:19.858Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "domain-analysis": {
+      "name": "domain-analysis",
+      "source": "local",
+      "contentHash": "5914beeaf1aa1fe57cd95cf0afb60ee1cccc58eedaddd123a43cad32d6a70077",
+      "installedAt": "2026-03-10T02:36:17.852Z",
+      "updatedAt": "2026-03-10T02:36:19.881Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "domain-identification-grouping": {
+      "name": "domain-identification-grouping",
+      "source": "local",
+      "contentHash": "ac3c94d9910a75aa6a61f7866507d16a3c646ff17e86b79667d1a19c6fa6c659",
+      "installedAt": "2026-03-10T02:36:17.854Z",
+      "updatedAt": "2026-03-10T02:36:19.894Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "frontend-blueprint": {
+      "name": "frontend-blueprint",
+      "source": "local",
+      "contentHash": "c79c5acbf69e88e1b0c848e64afb671f33091e32b6dcb1b2e6f9c78213a10ec3",
+      "installedAt": "2026-03-10T02:36:17.858Z",
+      "updatedAt": "2026-03-10T02:36:19.903Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "legacy-migration-planner": {
+      "name": "legacy-migration-planner",
+      "source": "local",
+      "contentHash": "e73e55256768767436943c8948da0d6a0667282c7195a47119841b5e76263d02",
+      "installedAt": "2026-03-10T02:36:17.884Z",
+      "updatedAt": "2026-03-10T02:36:19.911Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "nestjs-modular-monolith": {
+      "name": "nestjs-modular-monolith",
+      "source": "local",
+      "contentHash": "0bf9fee4b6a151866c38204557b13452feefb315b7d982a36c79125bcc3d076a",
+      "installedAt": "2026-03-10T02:36:17.890Z",
+      "updatedAt": "2026-03-10T02:36:19.936Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "nx-ci-monitor": {
+      "name": "nx-ci-monitor",
+      "source": "local",
+      "contentHash": "ddb5bf9bd2a5ca0eac8fa01632a19569baed922201b2cc501975edd77697f75c",
+      "installedAt": "2026-03-10T02:36:17.892Z",
+      "updatedAt": "2026-03-10T02:36:19.967Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "nx-generate": {
+      "name": "nx-generate",
+      "source": "local",
+      "contentHash": "b975e1a0caa6cc9922ba941e0746a2f141c708e41c8bbddb395d40e3efecf2a0",
+      "installedAt": "2026-03-10T02:36:17.896Z",
+      "updatedAt": "2026-03-10T02:36:19.975Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "nx-run-tasks": {
+      "name": "nx-run-tasks",
+      "source": "local",
+      "contentHash": "3c4d49d795b02e6a4a82606891a7da4773c3bc1ef883c1b980ac17596883397f",
+      "installedAt": "2026-03-10T02:36:17.899Z",
+      "updatedAt": "2026-03-10T02:36:19.984Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "nx-workspace": {
+      "name": "nx-workspace",
+      "source": "local",
+      "contentHash": "410aad2cc5a3cdaf3ffc04b0a4ad893f6cf2f5babdd836e6eda68f409d3c7bf6",
+      "installedAt": "2026-03-10T02:36:17.903Z",
+      "updatedAt": "2026-03-10T02:36:20.013Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "react-best-practices": {
+      "name": "react-best-practices",
+      "source": "local",
+      "contentHash": "e96f99e13dc2acc75efc1793aee08fe244802a97a4e190af38bd5a871a5c9636",
+      "installedAt": "2026-03-10T02:36:17.921Z",
+      "updatedAt": "2026-03-10T02:36:20.101Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "react-composition-patterns": {
+      "name": "react-composition-patterns",
+      "source": "local",
+      "contentHash": "171c6a35a0a74a6b37facf2a6e3883a02f53e3f2d429e6aa5834412c65d38dc7",
+      "installedAt": "2026-03-10T02:36:17.925Z",
+      "updatedAt": "2026-03-10T02:36:20.148Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "security-best-practices": {
+      "name": "security-best-practices",
+      "source": "local",
+      "contentHash": "6fec09f7e43bb297ad6097e13469e85aa5b5d671a839b4f7e7871ef8eaa76c4e",
+      "installedAt": "2026-03-10T02:36:17.932Z",
+      "updatedAt": "2026-03-10T02:36:20.171Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "seo": {
+      "name": "seo",
+      "source": "local",
+      "contentHash": "fc9897a3923b5e23e00545ac67f4c8c2b6903113bd5f046cda259c98a0f3cd40",
+      "installedAt": "2026-03-10T02:36:17.934Z",
+      "updatedAt": "2026-03-10T02:36:20.242Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "skill-architect": {
+      "name": "skill-architect",
+      "source": "local",
+      "contentHash": "349b256153447631c3ed356996c3a62fec52493d07ba75e37b12c458f9fbf6bb",
+      "installedAt": "2026-03-10T02:36:17.938Z",
+      "updatedAt": "2026-03-10T02:36:20.269Z",
+      "agents": [
+        "antigravity"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "web-quality-audit": {
+      "name": "web-quality-audit",
+      "source": "local",
+      "contentHash": "8af5bd3453984bdcef903709b6ef0606b12ae1badb6dd5b5b382b930d2594d7c",
+      "installedAt": "2026-03-10T02:36:17.940Z",
+      "updatedAt": "2026-03-10T02:36:19.325Z",
+      "agents": [
+        "gemini"
+      ],
+      "method": "copy",
+      "global": false
+    }
+  }
+}

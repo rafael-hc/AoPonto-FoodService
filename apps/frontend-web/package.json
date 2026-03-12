@@ -22,5 +22,16 @@
     "@types/react-dom": "^19.0.0",
     "axios": "^1.13.6",
     "orval": "^8.5.3"
+  },
+  "nx": {
+    "targets": {
+      "orval": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "orval --config orval.config.cjs",
+          "cwd": "apps/frontend-web"
+        }
+      }
+    }
   }
 }

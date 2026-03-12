@@ -1,6 +1,6 @@
 module.exports = {
   'food-service': {
-    input: 'http://localhost:3000/api/docs-json', // O NestJS expõe o JSON do Swagger
+    input: 'http://localhost:3000/api/docs-json', // O NestJS expõe o JSON do Swagger no endpoint🛸⚡
     output: {
       mode: 'tags-split',
       target: 'app/api/generated/api.ts',
