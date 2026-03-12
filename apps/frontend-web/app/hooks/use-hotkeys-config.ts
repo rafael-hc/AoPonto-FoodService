@@ -27,21 +27,29 @@ export function useHotkeysConfig({
     )
   )
 
-  // Registramos cada atalho
-  // Nota: Embora Hooks em loops sejam desencorajados, a modulesConfig é estática
-  // e o número de itens com shortcut não mudará entre as renderizações.
-  itemsWithShortcut.forEach((item) => {
-    useHotkeys(
-      item.shortcut.toLowerCase(),
-      (e) => {
-        e.preventDefault()
-        onModuleChange(item.moduleId)
-        onActionChange(item.actionId)
-      },
-      {
-        enableOnFormTags: false, // Não dispara se estiver em inputs/textareas
-        preventDefault: true
+  // 1. Extraímos todos os shortcuts únicos
+  const shortcuts = itemsWithShortcut.map((i) => i.shortcut.toLowerCase())
+
+  // 2. Registramos todos atalhos em uma única chamada de Hook 🛸⚡
+  useHotkeys(
+    shortcuts,
+    (e, handler) => {
+      e.preventDefault()
+
+      // Encontramos o item correspondente à tecla pressionada
+      const pressedKey = handler.keys?.join('+').toLowerCase() || ''
+      const matchedItem = itemsWithShortcut.find(
+        (item) => item.shortcut.toLowerCase() === pressedKey
+      )
+
+      if (matchedItem) {
+        onModuleChange(matchedItem.moduleId)
+        onActionChange(matchedItem.actionId)
       }
-    )
-  })
+    },
+    {
+      enableOnFormTags: false,
+      preventDefault: true
+    }
+  )
 }

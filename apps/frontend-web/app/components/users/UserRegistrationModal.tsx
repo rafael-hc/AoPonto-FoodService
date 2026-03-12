@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { Dialog, Button, Input, Badge } from '@aoponto/ui-kit'
 import {
   UserPlus,
@@ -11,6 +14,17 @@ import {
 import { useRegisterUserControllerHandle } from '../../api/generated/users/users'
 import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
 
+const userRegistrationSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  email: z.string().email('E-mail inválido'),
+  document: z.string().min(14, 'CPF deve ter 11 dígitos'),
+  login: z.string().min(3, 'Login deve ter no mínimo 3 caracteres'),
+  password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres'),
+  role: z.nativeEnum(RegisterUserDtoRole)
+})
+
+type UserRegistrationData = z.infer<typeof userRegistrationSchema>
+
 interface UserRegistrationModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -20,27 +34,30 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
   open,
   onOpenChange
 }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    document: '',
-    login: '',
-    password: '',
-    role: RegisterUserDtoRole.CASHIER
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors }
+  } = useForm<UserRegistrationData>({
+    resolver: zodResolver(userRegistrationSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      document: '',
+      login: '',
+      password: '',
+      role: RegisterUserDtoRole.CASHIER
+    }
   })
 
   const { mutate: registerUser, isPending } = useRegisterUserControllerHandle({
     mutation: {
       onSuccess: () => {
         onOpenChange(false)
-        setFormData({
-          name: '',
-          email: '',
-          document: '',
-          login: '',
-          password: '',
-          role: RegisterUserDtoRole.CASHIER
-        })
+        reset()
       },
       onError: (err) => {
         console.error('Erro ao cadastrar usuário:', err)
@@ -60,22 +77,20 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
       .replace(/(-\d{2})\d+?$/, '$1')
   }
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: field === 'document' ? maskCPF(value) : value
-    }))
+  const documentValue = watch('document')
+
+  const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const masked = maskCPF(e.target.value)
+    setValue('document', masked, { shouldValidate: true })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
+  const onFormSubmit = (data: UserRegistrationData) => {
     // Limpar máscara do CPF antes de enviar
-    const cleanDocument = formData.document.replace(/\D/g, '')
+    const cleanDocument = data.document.replace(/\D/g, '')
 
     registerUser({
       data: {
-        ...formData,
+        ...data,
         document: cleanDocument
       }
     })
@@ -112,7 +127,10 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
             </Dialog.Description>
           </Dialog.Header>
 
-          <form onSubmit={handleSubmit} className="space-y-6 py-4">
+          <form
+            onSubmit={handleSubmit(onFormSubmit)}
+            className="space-y-6 py-4"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
@@ -120,9 +138,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 </label>
                 <Input
                   placeholder="Ex: João Silva"
-                  value={formData.name}
-                  onChange={(e) => handleChange('name', e.target.value)}
-                  required
+                  {...register('name')}
+                  error={errors.name?.message}
                 />
               </div>
               <div className="space-y-2">
@@ -132,9 +149,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 <Input
                   type="email"
                   placeholder="joao@aoponto.com"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  required
+                  {...register('email')}
+                  error={errors.email?.message}
                 />
               </div>
             </div>
@@ -146,9 +162,9 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 </label>
                 <Input
                   placeholder="000.000.000-00"
-                  value={formData.document}
-                  onChange={(e) => handleChange('document', e.target.value)}
-                  required
+                  value={documentValue}
+                  onChange={handleDocumentChange}
+                  error={errors.document?.message}
                 />
               </div>
               <div className="space-y-2">
@@ -157,9 +173,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 </label>
                 <Input
                   placeholder="Ex: joao.silva"
-                  value={formData.login}
-                  onChange={(e) => handleChange('login', e.target.value)}
-                  required
+                  {...register('login')}
+                  error={errors.login?.message}
                 />
               </div>
             </div>
@@ -172,9 +187,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  required
+                  {...register('password')}
+                  error={errors.password?.message}
                 />
               </div>
               <div className="space-y-2">
@@ -183,8 +197,7 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 </label>
                 <select
                   className="w-full h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all cursor-pointer shadow-sm"
-                  value={formData.role}
-                  onChange={(e) => handleChange('role', e.target.value)}
+                  {...register('role')}
                 >
                   <option value={RegisterUserDtoRole.CASHIER}>
                     Caixa / Atendente
@@ -196,6 +209,11 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                     Administrador / Gerente
                   </option>
                 </select>
+                {errors.role?.message && (
+                  <p className="text-[10px] font-medium text-red-500 mt-1">
+                    {errors.role.message}
+                  </p>
+                )}
               </div>
             </div>
 
