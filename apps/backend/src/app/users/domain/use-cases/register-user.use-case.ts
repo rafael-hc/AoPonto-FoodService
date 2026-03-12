@@ -8,6 +8,7 @@ import { HashGenerator } from '../cryptography/hash-generator'
 interface RegisterUserUseCaseRequest {
   name: string
   email: string
+  document: string
   login: string
   password: string
   role?: UserRole
@@ -28,6 +29,7 @@ export class RegisterUserUseCase {
   async execute({
     name,
     email,
+    document,
     login,
     password,
     role = UserRole.CASHIER
@@ -40,7 +42,8 @@ export class RegisterUserUseCase {
 
     const contact = new Contact({
       name,
-      email
+      email,
+      document
     })
 
     await this.contactsRepository.create(contact)
