@@ -15,12 +15,14 @@ import { useRegisterUserControllerHandle } from '../../api/generated/users/users
 import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
 
 const userRegistrationSchema = z.object({
-  name: z.string().min(1, 'Nome é obrigatório'),
-  email: z.string().email('E-mail inválido'),
-  document: z.string().min(14, 'CPF deve ter 11 dígitos'),
-  login: z.string().min(3, 'Login deve ter no mínimo 3 caracteres'),
-  password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres'),
-  role: z.nativeEnum(RegisterUserDtoRole)
+  name: z.string().min(1, { error: 'Nome é obrigatório' }),
+  email: z.email({ error: 'E-mail inválido' }),
+  document: z.string().min(14, { error: 'CPF deve ter 11 dígitos' }),
+  login: z.string().min(3, { error: 'Login deve ter no mínimo 3 caracteres' }),
+  password: z
+    .string()
+    .min(6, { error: 'Senha deve ter no mínimo 6 caracteres' }),
+  role: z.enum(RegisterUserDtoRole)
 })
 
 type UserRegistrationData = z.infer<typeof userRegistrationSchema>
