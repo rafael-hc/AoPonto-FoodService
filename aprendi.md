@@ -10,7 +10,8 @@ Este documento consolida as boas práticas e padrões arquiteturais estabelecido
 
 ### 2. 🖱️ Comportamento e UX (Regras Estritas)
 - **Static Backdrop em Modais**: Modais de ação (ex: cadastros) **não devem fechar ao clicar fora** (no overlay). O fechamento deve ocorrer apenas por interação com botões específicos ("Cancelar", "Voltar", "X").
-- **Máscaras de Input**: Dados sensíveis ao formato (CPF, CNPJ, CEP) devem ter máscaras em tempo real no frontend, mas serem enviados "limpos" (apenas dígitos) para a API.
+- **Validação de Formulários (Zod)**: Todos os formulários do frontend devem utilizar `react-hook-form` integrado com `zod` (`zodResolver`) para validação robusta de dados antes do envio.🛸⚡
+- **Máscaras de Input**: Dados sensíveis ao formato (CPF, CNPJ, CEP) devem ter máscaras em tempo real no frontend, mas serem enviados "limpos" (apenas dígitos) para a API.🛸⚡
 
 ### 3. 🛡️ Backend e Domínio (Clean Architecture)
 - **Desacoplamento Técnico**: A lógica de negócio reside nas entidades e casos de uso de domínio. O banco de dados e frameworks são detalhes de infraestrutura.
