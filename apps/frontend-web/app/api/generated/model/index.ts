@@ -6,10 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './authenticateDto';
-export * from './fetchUsersByRoleControllerHandleParams';
-export * from './getProfileControllerHandle200';
-export * from './getProfileControllerHandle200User';
-export * from './getProfileControllerHandle200UserContact';
-export * from './registerUserDto';
-export * from './registerUserDtoRole';
+export * from './authenticateDto'
+export * from './fetchUsersByRoleControllerHandleParams'
+export * from './getProfileControllerHandle200'
+export * from './getProfileControllerHandle200User'
+export * from './getProfileControllerHandle200UserContact'
+export * from './registerUserDto'
+export * from './registerUserDtoRole'
+export * from './updateUserDto'
+export * from './updateUserResponse'

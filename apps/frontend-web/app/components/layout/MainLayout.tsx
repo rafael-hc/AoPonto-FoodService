@@ -1,28 +1,33 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import { modulesConfig } from './config'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
 import { SubNavigation } from './SubNavigation'
 import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
-import { UserRegistrationModal } from '../users/UserRegistrationModal'
 
 export const MainLayout: React.FC = () => {
   const [activeModule, setActiveModule] = useState('principal')
   const [activeAction, setActiveAction] = useState('dashboard')
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   const handleModuleChange = (moduleId: string) => {
     setActiveModule(moduleId)
   }
 
-  const handleActionClick = (actionId: string, actionType?: 'route' | 'modal') => {
+  const handleActionClick = (
+    actionId: string,
+    actionType?: 'route' | 'modal'
+  ) => {
     if (actionType === 'modal') {
-      if (actionId === 'user_registration') {
-        setIsUserModalOpen(true)
-      }
+      // Manter lógica para modais globais se houver (ex: Abrir/Fechar Caixa)
       return
     }
+
+    if (actionType === 'route') {
+      navigate(`/${actionId}`)
+    }
+
     setActiveAction(actionId)
   }
 
@@ -53,11 +58,6 @@ export const MainLayout: React.FC = () => {
           <Outlet />
         </div>
       </main>
-
-      <UserRegistrationModal
-        open={isUserModalOpen}
-        onOpenChange={setIsUserModalOpen}
-      />
     </div>
   )
 }

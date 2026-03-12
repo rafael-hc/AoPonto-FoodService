@@ -11,23 +11,18 @@ import {
 } from '@tanstack/react-query';
 import type {
   DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  MutationFunction,
-  QueryClient,
   QueryFunction,
   QueryKey,
-  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
-  FetchUsersByRoleControllerHandleParams,
   GetProfileControllerHandle200,
-  RegisterUserDto
+  RegisterUserDto,
+  UpdateUserDto,
+  UpdateUserResponse
 } from '../model';
 
 import { api } from '../../../lib/api';
@@ -36,15 +31,12 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 
       type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
-
-
+// --- REGISTER ---
 
 export const registerUserControllerHandle = (
     registerUserDto: RegisterUserDto,
  signal?: AbortSignal
 ) => {
-      
-      
       return api<void>(
       {url: `/api/users`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -52,216 +44,97 @@ export const registerUserControllerHandle = (
     },
       );
     }
-  
 
-
-export const getRegisterUserControllerHandleMutationOptions = <TError = unknown,
+export const useRegisterUserControllerHandle = <TError = unknown,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext> => {
+) => {
+  return useMutation({
+    mutationFn: (props: { data: RegisterUserDto }) => registerUserControllerHandle(props.data),
+    ...options?.mutation
+  });
+}
 
-const mutationKey = ['registerUserControllerHandle'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+// --- FETCH ALL ---
 
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof registerUserControllerHandle>>, {data: RegisterUserDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  registerUserControllerHandle(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type RegisterUserControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof registerUserControllerHandle>>>
-    export type RegisterUserControllerHandleMutationBody = RegisterUserDto
-    export type RegisterUserControllerHandleMutationError = unknown
-
-    export const useRegisterUserControllerHandle = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof registerUserControllerHandle>>,
-        TError,
-        {data: RegisterUserDto},
-        TContext
-      > => {
-      return useMutation(getRegisterUserControllerHandleMutationOptions(options), queryClient);
-    }
-    export const fetchUsersByRoleControllerHandle = (
-    params: FetchUsersByRoleControllerHandleParams,
+export const fetchUsersControllerHandle = (
  signal?: AbortSignal
 ) => {
-      
-      
-      return api<void>(
-      {url: `/api/users`, method: 'GET',
-        params, signal
+      return api<{ users: any[] }>(
+      {url: `/api/users`, method: 'GET', signal
     },
       );
     }
-  
 
-
-
-export const getFetchUsersByRoleControllerHandleQueryKey = (params?: FetchUsersByRoleControllerHandleParams,) => {
-    return [
-    `/api/users`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-    
-export const getFetchUsersByRoleControllerHandleQueryOptions = <TData = Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError = unknown>(params: FetchUsersByRoleControllerHandleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData>>, }
+export const useFetchUsersControllerHandle = <TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>>, }
 ) => {
+  const queryKey = options?.query?.queryKey ?? ['/api/users'];
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof fetchUsersControllerHandle>>> = ({ signal }) => fetchUsersControllerHandle(signal);
 
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getFetchUsersByRoleControllerHandleQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>> = ({ signal }) => fetchUsersByRoleControllerHandle(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return useQuery({ queryKey, queryFn, ...options?.query }) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 }
 
-export type FetchUsersByRoleControllerHandleQueryResult = NonNullable<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>>
-export type FetchUsersByRoleControllerHandleQueryError = unknown
+// --- UPDATE ---
 
-
-export function useFetchUsersByRoleControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError = unknown>(
- params: FetchUsersByRoleControllerHandleParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>,
-          TError,
-          Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFetchUsersByRoleControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError = unknown>(
- params: FetchUsersByRoleControllerHandleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>,
-          TError,
-          Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useFetchUsersByRoleControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError = unknown>(
- params: FetchUsersByRoleControllerHandleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useFetchUsersByRoleControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError = unknown>(
- params: FetchUsersByRoleControllerHandleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersByRoleControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getFetchUsersByRoleControllerHandleQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-
-export const getProfileControllerHandle = (
-    
+export const updateUserControllerHandle = (
+    id: string,
+    updateUserDto: UpdateUserDto,
  signal?: AbortSignal
 ) => {
-      
-      
+      return api<UpdateUserResponse>(
+      {url: `/api/users/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserDto, signal
+    },
+      );
+    }
+
+export const useUpdateUserControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserControllerHandle>>, TError,{id: string, data: UpdateUserDto}, TContext>, }
+) => {
+  return useMutation({
+    mutationFn: (props: { id: string, data: UpdateUserDto }) => updateUserControllerHandle(props.id, props.data),
+    ...options?.mutation
+  });
+}
+
+// --- DELETE ---
+
+export const deleteUserControllerHandle = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      return api<void>(
+      {url: `/api/users/${id}`, method: 'DELETE', signal
+    },
+      );
+    }
+
+export const useDeleteUserControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserControllerHandle>>, TError,{id: string}, TContext>, }
+) => {
+  return useMutation({
+    mutationFn: (props: { id: string }) => deleteUserControllerHandle(props.id),
+    ...options?.mutation
+  });
+}
+
+// --- PROFILE ---
+
+export const getProfileControllerHandle = (
+ signal?: AbortSignal
+) => {
       return api<GetProfileControllerHandle200>(
       {url: `/api/me`, method: 'GET', signal
     },
       );
     }
-  
 
-
-
-export const getGetProfileControllerHandleQueryKey = () => {
-    return [
-    `/api/me`
-    ] as const;
-    }
-
-    
-export const getGetProfileControllerHandleQueryOptions = <TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
+export const useGetProfileControllerHandle = <TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
 ) => {
+  const queryKey = options?.query?.queryKey ?? ['/api/me'];
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfileControllerHandle>>> = ({ signal }) => getProfileControllerHandle(signal);
 
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetProfileControllerHandleQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfileControllerHandle>>> = ({ signal }) => getProfileControllerHandle(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return useQuery({ queryKey, queryFn, ...options?.query }) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 }
-
-export type GetProfileControllerHandleQueryResult = NonNullable<Awaited<ReturnType<typeof getProfileControllerHandle>>>
-export type GetProfileControllerHandleQueryError = unknown
-
-
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getProfileControllerHandle>>,
-          TError,
-          Awaited<ReturnType<typeof getProfileControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getProfileControllerHandle>>,
-          TError,
-          Awaited<ReturnType<typeof getProfileControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetProfileControllerHandleQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
-
-
-
-

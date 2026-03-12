@@ -255,8 +255,8 @@ export const modulesConfig: ModuleConfigMap = {
           {
             name: 'Colaboradores',
             icon: UsersRound,
-            id: 'user_registration',
-            actionType: 'modal'
+            id: 'colaboradores',
+            actionType: 'route'
           },
           { name: 'Alterar Senha', icon: KeyRound },
           { name: 'Backup', icon: DatabaseBackup }

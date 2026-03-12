@@ -11,18 +11,38 @@ import {
   Lock,
   ClipboardList
 } from 'lucide-react'
-import { useRegisterUserControllerHandle } from '../../api/generated/users/users'
+import {
+  useRegisterUserControllerHandle,
+  useUpdateUserControllerHandle
+} from '../../api/generated/users/users'
 import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
 
 const userRegistrationSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1, { error: 'Nome é obrigatório' }),
   email: z.email({ error: 'E-mail inválido' }),
   document: z.string().min(14, { error: 'CPF deve ter 11 dígitos' }),
   login: z.string().min(3, { error: 'Login deve ter no mínimo 3 caracteres' }),
-  password: z
-    .string()
-    .min(6, { error: 'Senha deve ter no mínimo 6 caracteres' }),
+  password: z.string().optional(),
   role: z.enum(RegisterUserDtoRole)
+}).superRefine((data, ctx) => {
+  const isEdit = !!data.id
+
+  if (!isEdit && (!data.password || data.password.length < 6)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Senha deve ter no mínimo 6 caracteres para novos usuários',
+      path: ['password']
+    })
+  }
+
+  if (isEdit && data.password && data.password.length > 0 && data.password.length < 6) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'A nova senha deve ter no mínimo 6 caracteres',
+      path: ['password']
+    })
+  }
 })
 
 type UserRegistrationData = z.infer<typeof userRegistrationSchema>
@@ -30,12 +50,18 @@ type UserRegistrationData = z.infer<typeof userRegistrationSchema>
 interface UserRegistrationModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  user?: any // Opcional: Usuário para edição
+  onSuccess?: () => void | Promise<any>
 }
 
 export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
   open,
-  onOpenChange
+  onOpenChange,
+  user,
+  onSuccess
 }) => {
+  const isEditMode = !!user
+
   const {
     register,
     handleSubmit,
@@ -51,24 +77,79 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
       document: '',
       login: '',
       password: '',
-      role: RegisterUserDtoRole.CASHIER
+      role: RegisterUserDtoRole.ADMIN,
+      id: undefined
     }
   })
 
-  const { mutate: registerUser, isPending } = useRegisterUserControllerHandle({
-    mutation: {
-      onSuccess: () => {
-        onOpenChange(false)
-        reset()
-      },
-      onError: (err) => {
-        console.error('Erro ao cadastrar usuário:', err)
-        alert(
-          'Erro ao cadastrar usuário. Verifique os dados e tente novamente.'
-        )
+  // Sincronizar formulário com o usuário selecionado
+  React.useEffect(() => {
+    if (open) {
+      if (user) {
+        // Função simples para formatar CPF (000.000.000-00)
+        const formatCPF = (val: string) => {
+          const digits = val.replace(/\D/g, '')
+          return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+        }
+
+        reset({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          document: user.document ? formatCPF(user.document) : '',
+          login: user.login,
+          password: '',
+          role: user.role as RegisterUserDtoRole
+        })
+      } else {
+        reset({
+          id: undefined,
+          name: '',
+          email: '',
+          document: '',
+          login: '',
+          password: '',
+          role: RegisterUserDtoRole.ADMIN
+        })
       }
     }
-  })
+  }, [open, user, reset])
+
+  const { mutate: registerUser, isPending: isRegistering } =
+    useRegisterUserControllerHandle({
+      mutation: {
+        onSuccess: () => {
+          onOpenChange(false)
+          reset()
+          onSuccess?.()
+        },
+        onError: (err) => {
+          console.error('Erro ao cadastrar usuário:', err)
+          alert(
+            'Erro ao cadastrar usuário. Verifique os dados e tente novamente.'
+          )
+        }
+      }
+    })
+
+  const { mutate: updateUser, isPending: isUpdating } =
+    useUpdateUserControllerHandle({
+      mutation: {
+        onSuccess: () => {
+          onOpenChange(false)
+          reset()
+          onSuccess?.()
+        },
+        onError: (err) => {
+          console.error('Erro ao atualizar usuário:', err)
+          alert(
+            'Erro ao atualizar usuário. Verifique os dados e tente novamente.'
+          )
+        }
+      }
+    })
+
+  const isPending = isRegistering || isUpdating
 
   const maskCPF = (value: string) => {
     return value
@@ -87,15 +168,29 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
   }
 
   const onFormSubmit = (data: UserRegistrationData) => {
-    // Limpar máscara do CPF antes de enviar
     const cleanDocument = data.document.replace(/\D/g, '')
 
-    registerUser({
-      data: {
-        ...data,
-        document: cleanDocument
-      }
-    })
+    if (isEditMode) {
+      updateUser({
+        id: user.id,
+        data: {
+          ...data,
+          document: cleanDocument,
+          password: data.password || undefined // Só envia se preenchido
+        }
+      })
+    } else {
+      registerUser({
+        data: {
+          name: data.name,
+          email: data.email,
+          document: cleanDocument,
+          login: data.login,
+          password: data.password!, // Garantido pelo Zod para novos usuários
+          role: data.role
+        }
+      })
+    }
   }
 
   return (
@@ -117,15 +212,16 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 variant="outline"
                 className="text-[10px] uppercase tracking-wider"
               >
-                Novo Colaborador
+                {isEditMode ? 'Editar Colaborador' : 'Novo Colaborador'}
               </Badge>
             </div>
             <Dialog.Title className="text-2xl">
-              Cadastrar Colaborador
+              {isEditMode ? 'Alterar Dados' : 'Cadastrar Colaborador'}
             </Dialog.Title>
             <Dialog.Description>
-              Crie um novo acesso para a sua equipe. Defina o nível de permissão
-              e dados básicos.
+              {isEditMode
+                ? `Editando as informações de ${user?.name}.`
+                : 'Crie um novo acesso para a sua equipe. Defina o nível de permissão e dados básicos.'}
             </Dialog.Description>
           </Dialog.Header>
 
@@ -184,7 +280,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
-                  <Lock size={12} /> Senha Temporária
+                  <Lock size={12} />{' '}
+                  {isEditMode ? 'Nova Senha (Opcional)' : 'Senha Temporária'}
                 </label>
                 <Input
                   type="password"
@@ -221,8 +318,9 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
 
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
               <p className="text-[11px] text-slate-500 leading-relaxed italic">
-                * O colaborador receberá um e-mail com as instruções de primeiro
-                acesso e definição de senha temporária.
+                {isEditMode
+                  ? '* Ao alterar a senha, o colaborador será deslogado de todas as sessões.'
+                  : '* O colaborador receberá um e-mail com as instruções de primeiro acesso e definição de senha temporária.'}
               </p>
             </div>
 
@@ -236,7 +334,13 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
                 Cancelar
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? 'Cadastrando...' : 'Finalizar Cadastro'}
+                {isPending
+                  ? isEditMode
+                    ? 'Salvando...'
+                    : 'Cadastrando...'
+                  : isEditMode
+                    ? 'Salvar Alterações'
+                    : 'Finalizar Cadastro'}
               </Button>
             </Dialog.Footer>
           </form>
