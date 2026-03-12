@@ -26,7 +26,7 @@ export class AuthenticateUserUseCase {
   }: AuthenticateUserUseCaseRequest): Promise<AuthenticateUserUseCaseResponse> {
     const user = await this.usersRepository.findByLogin(login);
 
-    if (!user) {
+    if (!user || user.deletedAt) {
       throw new WrongCredentialsError();
     }
 

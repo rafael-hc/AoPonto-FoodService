@@ -36,6 +36,7 @@ export class RegisterUserUseCase {
   }: RegisterUserUseCaseRequest): Promise<RegisterUserUseCaseResponse> {
     const userWithSameLogin = await this.usersRepository.findByLogin(login)
 
+    // Verifica se o usuário já existe (incluindo deletados para evitar conflito de login)
     if (userWithSameLogin) {
       throw new UserAlreadyExistsError()
     }
