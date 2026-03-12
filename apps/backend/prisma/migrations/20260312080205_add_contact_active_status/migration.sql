@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "contacts" ADD COLUMN     "active" BOOLEAN NOT NULL DEFAULT true;
