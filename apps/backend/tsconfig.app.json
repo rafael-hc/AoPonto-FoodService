@@ -12,7 +12,7 @@
     "target": "es2021",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/app/*"]
+      "@/*": ["src/modules/*"]
     }
   },
   "include": ["src/**/*.ts"],

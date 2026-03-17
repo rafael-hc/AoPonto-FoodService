@@ -11,7 +11,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@': join(__dirname, 'src/app')
+      '@': join(__dirname, 'src/modules')
     },
     extensions: ['.ts', '.js']
   },

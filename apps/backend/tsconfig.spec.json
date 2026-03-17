@@ -9,7 +9,7 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/app/*"]
+      "@/*": ["src/modules/*"]
     }
   },
   "include": [
