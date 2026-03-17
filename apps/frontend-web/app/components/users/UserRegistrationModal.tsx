@@ -11,10 +11,12 @@ import {
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { FetchUsersResponseDtoUsersItem as User } from '../../api/generated/model/fetchUsersResponseDtoUsersItem'
 import { RegisterUserDtoRole } from '../../api/generated/model/registerUserDtoRole'
+import { UpdateUserDtoRole } from '../../api/generated/model/updateUserDtoRole'
 import {
-  useRegisterUserControllerHandle,
-  useUpdateUserControllerHandle
+  useRegisterUserControllerHandle as useRegisterUser,
+  useUpdateUserControllerHandle as useUpdateUser
 } from '../../api/generated/users/users'
 
 const userRegistrationSchema = z
@@ -27,16 +29,17 @@ const userRegistrationSchema = z
       .string()
       .min(3, { error: 'Login deve ter no mínimo 3 caracteres' }),
     password: z.string().optional(),
-    role: z.enum(RegisterUserDtoRole)
+    role: z.enum(['ADMIN', 'CASHIER', 'KITCHEN'])
   })
   .superRefine((data, ctx) => {
     const isEdit = !!data.id
 
     if (!isEdit && (!data.password || data.password.length < 6)) {
-      ctx.addIssue({
+      ctx.issues.push({
         code: z.ZodIssueCode.custom,
         message: 'Senha deve ter no mínimo 6 caracteres para novos usuários',
-        path: ['password']
+        path: ['password'],
+        input: data
       })
     }
 
@@ -46,10 +49,11 @@ const userRegistrationSchema = z
       data.password.length > 0 &&
       data.password.length < 6
     ) {
-      ctx.addIssue({
+      ctx.issues.push({
         code: z.ZodIssueCode.custom,
         message: 'A nova senha deve ter no mínimo 6 caracteres',
-        path: ['password']
+        path: ['password'],
+        input: data
       })
     }
   })
@@ -59,8 +63,8 @@ type UserRegistrationData = z.infer<typeof userRegistrationSchema>
 interface UserRegistrationModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  user?: any // Opcional: Usuário para edição
-  onSuccess?: () => undefined | Promise<any>
+  user?: User // Usuário para edição
+  onSuccess?: () => void | Promise<void>
 }
 
 export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
@@ -108,7 +112,7 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
           document: user.document ? formatCPF(user.document) : '',
           login: user.login,
           password: '',
-          role: user.role as RegisterUserDtoRole
+          role: user.role as unknown as RegisterUserDtoRole
         })
       } else {
         reset({
@@ -124,39 +128,37 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
     }
   }, [open, user, reset])
 
-  const { mutate: registerUser, isPending: isRegistering } =
-    useRegisterUserControllerHandle({
-      mutation: {
-        onSuccess: () => {
-          onOpenChange(false)
-          reset()
-          onSuccess?.()
-        },
-        onError: (err) => {
-          console.error('Erro ao cadastrar usuário:', err)
-          alert(
-            'Erro ao cadastrar usuário. Verifique os dados e tente novamente.'
-          )
-        }
+  const { mutate: registerUser, isPending: isRegistering } = useRegisterUser({
+    mutation: {
+      onSuccess: () => {
+        onOpenChange(false)
+        reset()
+        onSuccess?.()
+      },
+      onError: (err) => {
+        console.error(`Erro ao cadastrar usuário: ${err}`)
+        alert(
+          'Erro ao cadastrar usuário. Verifique os dados e tente novamente.'
+        )
       }
-    })
+    }
+  })
 
-  const { mutate: updateUser, isPending: isUpdating } =
-    useUpdateUserControllerHandle({
-      mutation: {
-        onSuccess: () => {
-          onOpenChange(false)
-          reset()
-          onSuccess?.()
-        },
-        onError: (err) => {
-          console.error('Erro ao atualizar usuário:', err)
-          alert(
-            'Erro ao atualizar usuário. Verifique os dados e tente novamente.'
-          )
-        }
+  const { mutate: updateUser, isPending: isUpdating } = useUpdateUser({
+    mutation: {
+      onSuccess: () => {
+        onOpenChange(false)
+        reset()
+        onSuccess?.()
+      },
+      onError: (err) => {
+        console.error(`Erro ao editar usuário: ${err}`)
+        alert(
+          'Erro ao atualizar usuário. Verifique os dados e tente novamente.'
+        )
       }
-    })
+    }
+  })
 
   const isPending = isRegistering || isUpdating
 
@@ -185,7 +187,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
         data: {
           ...data,
           document: cleanDocument,
-          password: data.password || undefined // Só envia se preenchido
+          password: data.password || undefined, // Só envia se preenchido
+          role: data.role as UpdateUserDtoRole
         }
       })
     } else {
@@ -195,8 +198,8 @@ export const UserRegistrationModal: React.FC<UserRegistrationModalProps> = ({
           email: data.email,
           document: cleanDocument,
           login: data.login,
-          password: data.password!, // Garantido pelo Zod para novos usuários
-          role: data.role
+          password: data.password ?? '', // Garantido pelo superRefine para novos usuários
+          role: data.role as RegisterUserDtoRole
         }
       })
     }
