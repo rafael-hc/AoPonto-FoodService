@@ -1,6 +1,8 @@
 import { Badge, Button } from '@aoponto/ui-kit'
 import { Pencil, Plus, Search, Shield, Trash2, UsersRound } from 'lucide-react'
 import { useState } from 'react'
+import { FetchUsersResponseDtoUsersItem as User } from '../api/generated/model/fetchUsersResponseDtoUsersItem'
+import { FetchUsersResponseDtoUsersItemRole } from '../api/generated/model/fetchUsersResponseDtoUsersItemRole'
 import {
   useDeleteUserControllerHandle,
   useFetchUsersControllerHandle
@@ -19,14 +21,14 @@ export default function ColaboradoresPage() {
   })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<any>(null)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
   const handleCreate = () => {
     setSelectedUser(null)
     setIsModalOpen(true)
   }
 
-  const handleEdit = (user: any) => {
+  const handleEdit = (user: User) => {
     setSelectedUser(user)
     setIsModalOpen(true)
   }
@@ -45,16 +47,16 @@ export default function ColaboradoresPage() {
       user.login.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const getRoleLabel = (role: string) => {
+  const getRoleLabel = (role: FetchUsersResponseDtoUsersItemRole) => {
     switch (role) {
-      case 'ADMIN':
+      case FetchUsersResponseDtoUsersItemRole.ADMIN:
         return 'Administrador'
-      case 'CASHIER':
+      case FetchUsersResponseDtoUsersItemRole.CASHIER:
         return 'Caixa / Atendente'
-      case 'KITCHEN':
+      case FetchUsersResponseDtoUsersItemRole.KITCHEN:
         return 'Cozinha / Produção'
       default:
-        return role
+        return role as string
     }
   }
 
@@ -212,8 +214,10 @@ export default function ColaboradoresPage() {
       <UserRegistrationModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        user={selectedUser}
-        onSuccess={refetch}
+        user={selectedUser ?? undefined}
+        onSuccess={() => {
+          refetch()
+        }}
       />
     </div>
   )

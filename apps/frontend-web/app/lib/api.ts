@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import { refreshTokenControllerHandle } from '../api/generated/session/session'
 
 export const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000',
@@ -44,7 +45,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config
 
     // Evita loop infinito se a própria requisição de refresh retornar erro
-    if (originalRequest.url?.includes('/sessions/refresh')) {
+    if (originalRequest.url?.includes('/session/refresh')) {
       return Promise.reject(error)
     }
 
@@ -66,9 +67,6 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const { refreshTokenControllerHandle } = await import(
-          '../api/generated/sessions/sessions'
-        )
         await refreshTokenControllerHandle()
 
         processQueue(null)

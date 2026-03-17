@@ -1,7 +1,7 @@
 import { Button, Input } from '@aoponto/ui-kit'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useAuthenticateControllerHandle } from '../api/generated/sessions/sessions'
+import { useAuthenticateControllerHandle } from '../api/generated/session/session'
 import { useAuthStore } from '../store/auth-store'
 
 export default function Login() {
