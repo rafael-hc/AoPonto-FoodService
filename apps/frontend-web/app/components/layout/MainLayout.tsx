@@ -1,16 +1,41 @@
-import type React from 'react'
-import { useState } from 'react'
-import { Outlet, useNavigate } from 'react-router'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router'
 import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
 import { modulesConfig } from './config'
 import { Sidebar } from './Sidebar'
 import { SubNavigation } from './SubNavigation'
 import { Topbar } from './Topbar'
 
-export const MainLayout: React.FC = () => {
+export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
+  children
+}) => {
   const [activeModule, setActiveModule] = useState('principal')
   const [activeAction, setActiveAction] = useState('dashboard')
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Sincronizar activeAction com a URL
+  useEffect(() => {
+    const path = location.pathname.substring(1) // remove leading slash
+    if (path) {
+      setActiveAction(path)
+
+      // Tentar encontrar qual módulo contém essa ação
+      const moduleId = Object.keys(modulesConfig).find((key) => {
+        const mod = modulesConfig[key]
+        return mod.groups.some((group) =>
+          group.items.some((item) => (item.id || item.name) === path)
+        )
+      })
+
+      if (moduleId) {
+        setActiveModule(moduleId)
+      }
+    } else {
+      setActiveAction('dashboard')
+      setActiveModule('principal')
+    }
+  }, [location.pathname])
 
   const handleModuleChange = (moduleId: string) => {
     setActiveModule(moduleId)
@@ -56,7 +81,7 @@ export const MainLayout: React.FC = () => {
         />
 
         <div className="flex-1 overflow-y-auto p-8 relative">
-          <Outlet />
+          {children || <Outlet />}
         </div>
       </main>
     </div>

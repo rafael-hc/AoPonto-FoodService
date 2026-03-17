@@ -25,7 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="min-h-screen antialiased bg-slate-50 text-slate-800 font-sans">
         <QueryClientProvider client={queryClient}>
           {isAuthenticated ? (
-            <MainLayout />
+            <MainLayout>{children}</MainLayout>
           ) : (
             <main className="max-w-4xl mx-auto p-4">{children}</main>
           )}
