@@ -115,8 +115,36 @@ export const modulesConfig: ModuleConfigMap = {
         items: [
           { name: 'Complementos', icon: PlusCircle },
           { name: 'Observações', icon: FileText },
-          { name: 'Categorias', icon: Tags },
-          { name: 'Tipos e Tamanhos', icon: Ruler },
+          {
+            name: 'Categorias',
+            icon: Tags,
+            id: 'labels',
+            actionType: 'route'
+          },
+          {
+            name: 'Tipos de Produto',
+            icon: Ruler,
+            id: 'tipos-produto',
+            actionType: 'route'
+          },
+          {
+            name: 'Etiquetas',
+            icon: Bookmark,
+            id: 'etiquetas',
+            actionType: 'route'
+          },
+          {
+            name: 'Unidades',
+            icon: Scale,
+            id: 'unidades',
+            actionType: 'route'
+          },
+          {
+            name: 'Cozinhas',
+            icon: Printer,
+            id: 'cozinhas',
+            actionType: 'route'
+          },
           { name: 'Perguntas', icon: HelpCircle }
         ]
       },
