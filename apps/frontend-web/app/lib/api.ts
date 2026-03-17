@@ -22,11 +22,16 @@ export const api = <T>(config: AxiosRequestConfig): Promise<T> => {
   return promise
 }
 
+interface FailedRequest {
+  resolve: (token: string | null) => void
+  reject: (error: unknown) => void
+}
+
 // Fila para gerenciar múltiplas requisições paralelas durante o refresh
 let isRefreshing = false
-let failedQueue: any[] = []
+let failedQueue: FailedRequest[] = []
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error)
@@ -52,7 +57,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         // Se já está dando refresh, entra na fila e espera
-        return new Promise((resolve, reject) => {
+        return new Promise<string | null>((resolve, reject) => {
           failedQueue.push({ resolve, reject })
         })
           .then(() => {
