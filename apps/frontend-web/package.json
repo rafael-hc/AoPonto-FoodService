@@ -2,7 +2,9 @@
   "name": "@ao-ponto-food-service/frontend-web",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "orval": "orval --config orval.config.cjs"
+  },
   "sideEffects": false,
   "dependencies": {
     "@react-router/node": "^7.12.0",
