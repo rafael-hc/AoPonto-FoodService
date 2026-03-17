@@ -5,179 +5,293 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
+} from '@tanstack/react-query';
+
 import type {
-  GetProfileControllerHandle200,
+  FetchUsersResponseDto,
   RegisterUserDto,
   UpdateUserDto,
-  UpdateUserResponse
-} from '../model'
+  UserResponseDto
+} from '../model';
 
-type AwaitedInput<T> = PromiseLike<T> | T
+import { api } from '../../../lib/api';
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
+type AwaitedInput<T> = PromiseLike<T> | T;
 
-// --- REGISTER ---
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+
+
 
 export const registerUserControllerHandle = (
-  registerUserDto: RegisterUserDto,
-  signal?: AbortSignal
+    registerUserDto: RegisterUserDto,
+ signal?: AbortSignal
 ) => {
-  return api<void>({
-    url: `/api/users`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: registerUserDto,
-    signal
-  })
+      
+      
+      return api<UserResponseDto>(
+      {url: `/api/users`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerUserDto, signal
+    },
+      );
+    }
+  
+
+
+export const getRegisterUserControllerHandleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext> => {
+
+const mutationKey = ['registerUserControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof registerUserControllerHandle>>, {data: RegisterUserDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  registerUserControllerHandle(data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RegisterUserControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof registerUserControllerHandle>>>
+    export type RegisterUserControllerHandleMutationBody = RegisterUserDto
+    export type RegisterUserControllerHandleMutationError = unknown
+
+    export const useRegisterUserControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUserControllerHandle>>, TError,{data: RegisterUserDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof registerUserControllerHandle>>,
+        TError,
+        {data: RegisterUserDto},
+        TContext
+      > => {
+      return useMutation(getRegisterUserControllerHandleMutationOptions(options), queryClient);
+    }
+    export const fetchUsersControllerHandle = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<FetchUsersResponseDto>(
+      {url: `/api/users`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getFetchUsersControllerHandleQueryKey = () => {
+    return [
+    `/api/users`
+    ] as const;
+    }
+
+    
+export const getFetchUsersControllerHandleQueryOptions = <TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getFetchUsersControllerHandleQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof fetchUsersControllerHandle>>> = ({ signal }) => fetchUsersControllerHandle(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const useRegisterUserControllerHandle = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof registerUserControllerHandle>>,
-    TError,
-    { data: RegisterUserDto },
-    TContext
-  >
-}) => {
-  return useMutation({
-    mutationFn: (props: { data: RegisterUserDto }) =>
-      registerUserControllerHandle(props.data),
-    ...options?.mutation
-  })
+export type FetchUsersControllerHandleQueryResult = NonNullable<Awaited<ReturnType<typeof fetchUsersControllerHandle>>>
+export type FetchUsersControllerHandleQueryError = unknown
+
+
+export function useFetchUsersControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof fetchUsersControllerHandle>>,
+          TError,
+          Awaited<ReturnType<typeof fetchUsersControllerHandle>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFetchUsersControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof fetchUsersControllerHandle>>,
+          TError,
+          Awaited<ReturnType<typeof fetchUsersControllerHandle>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useFetchUsersControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useFetchUsersControllerHandle<TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof fetchUsersControllerHandle>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getFetchUsersControllerHandleQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
-// --- FETCH ALL ---
 
-export const fetchUsersControllerHandle = (signal?: AbortSignal) => {
-  return api<{ users: any[] }>({ url: `/api/users`, method: 'GET', signal })
-}
 
-export const useFetchUsersControllerHandle = <
-  TData = Awaited<ReturnType<typeof fetchUsersControllerHandle>>,
-  TError = unknown
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof fetchUsersControllerHandle>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const queryKey = options?.query?.queryKey ?? ['/api/users']
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof fetchUsersControllerHandle>>
-  > = ({ signal }) => fetchUsersControllerHandle(signal)
-
-  return useQuery({ queryKey, queryFn, ...options?.query }) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-// --- UPDATE ---
 
 export const updateUserControllerHandle = (
-  id: string,
-  updateUserDto: UpdateUserDto,
-  signal?: AbortSignal
+    id: string,
+    updateUserDto: UpdateUserDto,
+ signal?: AbortSignal
 ) => {
-  return api<UpdateUserResponse>({
-    url: `/api/users/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: updateUserDto,
-    signal
-  })
-}
+      
+      
+      return api<UserResponseDto>(
+      {url: `/api/users/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserDto, signal
+    },
+      );
+    }
+  
 
-export const useUpdateUserControllerHandle = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateUserControllerHandle>>,
-    TError,
-    { id: string; data: UpdateUserDto },
-    TContext
-  >
-}) => {
-  return useMutation({
-    mutationFn: (props: { id: string; data: UpdateUserDto }) =>
-      updateUserControllerHandle(props.id, props.data),
-    ...options?.mutation
-  })
-}
 
-// --- DELETE ---
+export const getUpdateUserControllerHandleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserControllerHandle>>, TError,{id: string;data: UpdateUserDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateUserControllerHandle>>, TError,{id: string;data: UpdateUserDto}, TContext> => {
 
-export const deleteUserControllerHandle = (
-  id: string,
-  signal?: AbortSignal
+const mutationKey = ['updateUserControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUserControllerHandle>>, {id: string;data: UpdateUserDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateUserControllerHandle(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateUserControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof updateUserControllerHandle>>>
+    export type UpdateUserControllerHandleMutationBody = UpdateUserDto
+    export type UpdateUserControllerHandleMutationError = unknown
+
+    export const useUpdateUserControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUserControllerHandle>>, TError,{id: string;data: UpdateUserDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateUserControllerHandle>>,
+        TError,
+        {id: string;data: UpdateUserDto},
+        TContext
+      > => {
+      return useMutation(getUpdateUserControllerHandleMutationOptions(options), queryClient);
+    }
+    export const deleteUserControllerHandle = (
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return api<void>({ url: `/api/users/${id}`, method: 'DELETE', signal })
-}
+      
+      
+      return api<void>(
+      {url: `/api/users/${id}`, method: 'DELETE', signal
+    },
+      );
+    }
+  
 
-export const useDeleteUserControllerHandle = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteUserControllerHandle>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}) => {
-  return useMutation({
-    mutationFn: (props: { id: string }) => deleteUserControllerHandle(props.id),
-    ...options?.mutation
-  })
-}
 
-// --- PROFILE ---
+export const getDeleteUserControllerHandleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserControllerHandle>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteUserControllerHandle>>, TError,{id: string}, TContext> => {
 
-export const getProfileControllerHandle = (signal?: AbortSignal) => {
-  return api<GetProfileControllerHandle200>({
-    url: `/api/me`,
-    method: 'GET',
-    signal
-  })
-}
+const mutationKey = ['deleteUserControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-export const useGetProfileControllerHandle = <
-  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
-  TError = unknown
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getProfileControllerHandle>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const queryKey = options?.query?.queryKey ?? ['/api/me']
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getProfileControllerHandle>>
-  > = ({ signal }) => getProfileControllerHandle(signal)
+      
 
-  return useQuery({ queryKey, queryFn, ...options?.query }) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserControllerHandle>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteUserControllerHandle(id,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteUserControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserControllerHandle>>>
+    
+    export type DeleteUserControllerHandleMutationError = unknown
+
+    export const useDeleteUserControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserControllerHandle>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteUserControllerHandle>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeleteUserControllerHandleMutationOptions(options), queryClient);
+    }
+    

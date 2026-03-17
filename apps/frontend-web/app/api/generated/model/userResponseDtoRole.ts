@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RegisterUserDtoRole = typeof RegisterUserDtoRole[keyof typeof RegisterUserDtoRole];
+export type UserResponseDtoRole = typeof UserResponseDtoRole[keyof typeof UserResponseDtoRole];
 
 
-export const RegisterUserDtoRole = {
+export const UserResponseDtoRole = {
   ADMIN: 'ADMIN',
   CASHIER: 'CASHIER',
   KITCHEN: 'KITCHEN',

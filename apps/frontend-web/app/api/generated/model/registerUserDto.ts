@@ -5,18 +5,21 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { RegisterUserDtoRole } from './registerUserDtoRole'
+import type { RegisterUserDtoRole } from './registerUserDtoRole';
 
 export interface RegisterUserDto {
   /** @minLength 1 */
-  name: string
-  /** @pattern ^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$ */
-  email: string
+  name: string;
+  /**
+   * @minLength 1
+   * @pattern ^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$
+   */
+  email: string;
   /** @minLength 1 */
-  document: string
+  document: string;
   /** @minLength 3 */
-  login: string
+  login: string;
   /** @minLength 6 */
-  password: string
-  role?: RegisterUserDtoRole
+  password: string;
+  role?: RegisterUserDtoRole;
 }

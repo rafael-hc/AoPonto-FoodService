@@ -5,7 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
+import type { SingleUnitResponseDtoUnit } from './singleUnitResponseDtoUnit';
 
-export type FetchUsersByRoleControllerHandleParams = {
-  role: string
+export interface SingleUnitResponseDto {
+  unit: SingleUnitResponseDtoUnit;
 }

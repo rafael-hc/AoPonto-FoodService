@@ -5,10 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
+import type { GetProfileResponseDtoUser } from './getProfileResponseDtoUser';
 
-export interface AuthenticateDto {
-  /** @minLength 1 */
-  login: string;
-  /** @minLength 6 */
-  password: string;
+export interface GetProfileResponseDto {
+  user: GetProfileResponseDtoUser;
 }

@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface AuthenticateDto {
+export interface RegisterUnitDto {
   /** @minLength 1 */
-  login: string;
-  /** @minLength 6 */
-  password: string;
+  initials: string;
+  description?: string;
 }

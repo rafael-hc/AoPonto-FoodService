@@ -6,8 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GetProfileControllerHandle200UserContact = {
-  id?: string
-  name?: string
-  email?: string
+export interface RegisterProductTypeDto {
+  /** @minLength 1 */
+  description: string;
 }

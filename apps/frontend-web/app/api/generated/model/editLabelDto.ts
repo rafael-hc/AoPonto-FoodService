@@ -6,9 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface AuthenticateDto {
+export interface EditLabelDto {
   /** @minLength 1 */
-  login: string;
-  /** @minLength 6 */
-  password: string;
+  description?: string;
+  order?: number;
+  type?: string;
+  versionReg?: number;
+  versionSync?: number;
 }
