@@ -93,3 +93,330 @@ model ClientOrigin {
 
   @@map("client_origins")
 }
+
+model Cfop {
+  id          String  @id @default(uuid())
+  code        Int     @unique // CODIGO
+  description String? // DESCRICAO
+  fullCode    String? // CODIGODESCRICAO
+
+  taxConfigurations TaxConfiguration[]
+  products          Product[]
+
+  @@map("cfops")
+}
+
+model Kitchen {
+  id          String  @id @default(uuid())
+  description String  // DESCRICAO
+  ip          String  // IP
+  port        String  // PORTA
+  printer     String  // IMPRESSORA
+  versionReg  Int?    @map("version_reg")
+  versionSync Int?    @map("version_sync")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("kitchens")
+}
+
+model Label {
+  id          String    @id @default(uuid())
+  description String    // DESCRICAO
+  order       Int       @default(0)
+  type        String    @default("P") // TIPO
+  externalId  String    @unique @map("external_id") // CODIGOGUID
+  deleteDate  DateTime? @map("delete_date")
+  versionReg  Int?      @map("version_reg")
+  versionSync Int?      @map("version_sync")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("labels")
+}
+
+model ProductionIndicator {
+  id          String @id @default(uuid())
+  code        Int    @unique // CODIGO
+  name        String // NOME
+  initials    String // SIGLA
+
+  products Product[]
+
+  @@map("production_indicators")
+}
+
+model IcmsModality {
+  id          String  @id @default(uuid())
+  code        Int     @unique // CODIGO
+  description String? // DESCRICAO
+
+  products Product[]
+
+  @@map("icms_modalities")
+}
+
+model ProductOrigin {
+  id          String  @id @default(uuid())
+  code        Int     @unique // CODIGO
+  description String? // DESCRICAO
+  fullCode    String? // CODIGODESCRICAO
+
+  taxConfigurations TaxConfiguration[]
+  products          Product[]
+
+  @@map("product_origins")
+}
+
+model ProductType {
+  id          String @id @default(uuid())
+  description String // DESCRICAO
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("product_types")
+}
+
+model TaxSituation {
+  id          String  @id @default(uuid())
+  code        String  @unique // CODIGO
+  type        String  // TIPO
+  description String? // DESCRICAO
+  fullCode    String? // CODIGODESCRICAO
+
+  taxConfigurations TaxConfiguration[]
+
+  @@map("tax_situations")
+}
+
+model CofinsTaxSituation {
+  id               String  @id @default(uuid())
+  code             String  @unique // CODIGO
+  description      String  // DESCRICAO
+  fullCode         String? // CODIGODESCRICAO
+  aliquotTypeNfce  String? @map("aliquot_type_nfce")
+  aliquotTypeCfe   String? @map("aliquot_type_cfe")
+
+  products Product[]
+
+  @@map("cofins_tax_situations")
+}
+
+model PisTaxSituation {
+  id               String  @id @default(uuid())
+  code             String  @unique // CODIGO
+  description      String  // DESCRICAO
+  fullCode         String? // CODIGODESCRICAO
+  aliquotTypeNfce  String? @map("aliquot_type_nfce")
+  aliquotTypeCfe   String? @map("aliquot_type_cfe")
+
+  products Product[]
+
+  @@map("pis_tax_situations")
+}
+
+model Unit {
+  id          String  @id @default(uuid())
+  initials    String  @unique // SIGLA
+  description String? // DESCRICAO
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products Product[]
+
+  @@map("units")
+}
+
+model TaxConfiguration {
+  id          String @id @default(uuid())
+  code        Int    @unique // CODIGO
+  name        String // NOME
+
+  cfop   Cfop   @relation(fields: [cfopId], references: [id])
+  cfopId String @map("cfop_id")
+
+  origin   ProductOrigin @relation(fields: [originId], references: [id])
+  originId String        @map("origin_id")
+
+  taxSituation   TaxSituation @relation(fields: [taxSituationId], references: [id])
+  taxSituationId String       @map("tax_situation_id")
+
+  icmsRate           Decimal? @map("icms_rate") @db.Decimal(16, 4)
+  icmsRedBaseRate    Decimal? @map("icms_red_base_rate") @db.Decimal(16, 4)
+  fcpRate            Decimal? @map("fcp_rate") @db.Decimal(16, 4)
+  mvaStRate          Decimal? @map("mva_st_rate") @db.Decimal(16, 4)
+  redBaseIcmsStRate  Decimal? @map("red_base_icms_st_rate") @db.Decimal(16, 4)
+  icmsStRate         Decimal? @map("icms_st_rate") @db.Decimal(16, 4)
+  fcpStRate          Decimal? @map("fcp_st_rate") @db.Decimal(16, 4)
+
+  pisTaxSituationCode    String? @map("pis_tax_situation_code")
+  cofinsTaxSituationCode String? @map("cofins_tax_situation_code")
+  pisRate                Decimal? @map("pis_rate") @db.Decimal(16, 4)
+  cofinsRate             Decimal? @map("cofins_rate") @db.Decimal(16, 4)
+
+  // Outros campos omitidos por brevidade ou simplificação inicial, podem ser adicionados conforme necessidade real
+  beneficioFiscal String? @map("beneficio_fiscal")
+
+  product Product?
+
+  @@map("tax_configurations")
+}
+
+model ProductPersonalized {
+  id          String   @id @default(uuid())
+  code        Int      @unique // CODIGO
+  description String   // DESCRICAO
+  externalId  String   @unique @map("custom_guid") // CODIGOGUID
+
+  versionReg  Int?     @map("version_reg") @db.SmallInt
+  versionSync Int?     @map("version_sync") @db.SmallInt
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  sizes       ProductSize[]
+
+  @@map("product_personalized")
+}
+
+model ProductSize {
+  id                       String   @id @default(uuid())
+  code                     Int      @unique // CODIGO
+  productPersonalized      ProductPersonalized @relation(fields: [productPersonalizedId], references: [id])
+  productPersonalizedId    String   @map("product_personalized_id")
+
+  description              String   // DESCRICAO
+  initials                 String   // SIGLA (sigla/abreviação do tamanho)
+  maxParts                 Int      @default(1) @map("max_parts") @db.SmallInt // QTDMAXIMAPARTES
+  externalId               String   @unique @map("custom_guid") // CODIGOGUID
+
+  versionReg               Int?     @map("version_reg") @db.SmallInt
+  versionSync              Int?     @map("version_sync") @db.SmallInt
+
+  createdAt                DateTime @default(now()) @map("created_at")
+  updatedAt                DateTime @updatedAt @map("updated_at")
+  deletedAt                DateTime? @map("deleted_at")
+
+  details                  ProductDetail[]
+
+  @@map("product_sizes")
+}
+
+model ProductDetail {
+  id                 String   @id @default(uuid())
+  code               Int      @unique // CODIGO
+
+  product            Product  @relation(fields: [productId], references: [id])
+  productId          String   @map("product_id")
+
+  productSize        ProductSize? @relation(fields: [productSizeId], references: [id])
+  productSizeId      String?      @map("product_size_id")
+
+  salePrice          Decimal  @map("sale_price") @db.Decimal(16, 4)
+  costPrice          Decimal? @map("cost_price") @db.Decimal(16, 4)
+
+  currentStock       Decimal? @default(0) @map("current_stock") @db.Decimal(16, 4)
+  minStock           Decimal? @default(0) @map("min_stock") @db.Decimal(16, 4)
+  isStockControlled  Boolean  @default(false) @map("is_stock_controlled")
+
+  barcode            String?  @map("barcode") @db.VarChar(14)
+  externalId         String   @unique @map("custom_guid") // CODIGOGUID
+
+  // Controladores de exibição
+  showOnDesktop      Boolean  @default(true) @map("show_on_desktop")
+  showOnMobile       Boolean  @default(true) @map("show_on_mobile")
+  showOnDigitalMenu  Boolean  @default(true) @map("show_on_digital_menu")
+  showOnDinoMenu     Boolean  @default(true) @map("show_on_dino_menu")
+  showOnTotem        Boolean  @default(false) @map("show_on_totem")
+
+  pausedAt           DateTime? @map("paused_at")
+  versionReg         Int?      @map("version_reg") @db.SmallInt
+  versionSync        Int?      @map("version_sync") @db.SmallInt
+
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at")
+
+  @@map("product_details")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  code        Int     @unique // CODIGO
+  name        String  // NOME
+  description String? @db.VarChar(500)
+  price       Decimal @map("sale_price") @db.Decimal(16, 4)
+  costPrice   Decimal? @map("cost_price") @db.Decimal(16, 4)
+  minStock    Int     @default(0) @map("min_stock")
+  currentStock Int     @default(0) @map("current_stock")
+
+  methodOfPreparation String? @map("method_of_preparation") @db.VarChar(5000)
+
+  active       Boolean @default(true)
+  discontinued Boolean @default(false)
+  discontinuedChar String? @map("discontinued_char") @db.Char(1) // Para manter compatibilidade com DDL se necessário
+
+  ncm          String? @db.Char(8)
+  cest         String? @db.Char(7)
+  barcode      String? @map("custom_code") @db.VarChar(15)
+
+  // Relacionamentos Base
+  label   Label  @relation(fields: [labelId], references: [id])
+  labelId String @map("label_id")
+
+  kitchen   Kitchen? @relation(fields: [kitchenId], references: [id])
+  kitchenId String?  @map("kitchen_id")
+
+  unit   Unit  @relation(fields: [unitId], references: [id])
+  unitId String @map("unit_id")
+
+  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  productTypeId String      @map("product_type_id")
+
+  productionIndicator   ProductionIndicator? @relation(fields: [productionIndicatorId], references: [id])
+  productionIndicatorId String?              @map("production_indicator_id")
+
+  // Relacionamentos Fiscais
+  cfop   Cfop?   @relation(fields: [cfopId], references: [id])
+  cfopId String? @map("cfop_id")
+
+  origin   ProductOrigin? @relation(fields: [originId], references: [id])
+  originId String?        @map("origin_id")
+
+  icmsModality   IcmsModality? @relation(fields: [icmsModalityId], references: [id])
+  icmsModalityId String?       @map("icms_modality_id")
+
+  details        ProductDetail[]
+
+  pisTaxSituation   PisTaxSituation? @relation(fields: [pisTaxSituationId], references: [id])
+  pisTaxSituationId String?           @map("pis_tax_situation_id")
+
+  cofinsTaxSituation   CofinsTaxSituation? @relation(fields: [cofinsTaxSituationId], references: [id])
+  cofinsTaxSituationId String?              @map("cofins_tax_situation_id")
+
+  taxConfiguration   TaxConfiguration? @relation(fields: [taxConfigurationId], references: [id])
+  taxConfigurationId String?           @unique @map("tax_configuration_id")
+
+  // Flags de controle
+  isServiceTaxExempt Boolean @default(false) @map("is_service_tax_exempt")
+  isKitchenItem      Boolean @default(true) @map("is_kitchen_item")
+  useMobileComanda   Boolean @default(true) @map("use_mobile_comanda")
+  useDigitalMenu     Boolean @default(true) @map("use_digital_menu")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("products")
+}
