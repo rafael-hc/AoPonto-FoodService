@@ -1,6 +1,8 @@
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
+import { userRoleSchema } from '@/shared/presentation/dtos/common.dto'
 import { UserRole } from '@/parties/domain/entities/user'
+import { ApiProperty } from '@nestjs/swagger'
 
 const registerUserSchema = z.object({
   name: z.string().min(1, { error: 'O nome é obrigatório' }),
@@ -14,7 +16,10 @@ const registerUserSchema = z.object({
   password: z
     .string()
     .min(6, { error: 'A senha deve ter pelo menos 6 caracteres' }),
-  role: z.enum(UserRole).optional()
+  role: userRoleSchema.optional()
 })
 
-export class RegisterUserDto extends createZodDto(registerUserSchema) {}
+export class RegisterUserDto extends createZodDto(registerUserSchema) {
+  @ApiProperty({ enum: UserRole, enumName: 'UserRole', required: false })
+  declare role?: UserRole
+}

@@ -40,9 +40,9 @@ export default function KitchensPage() {
 
   const kitchens = data?.kitchens ?? []
   const filteredKitchens = kitchens.filter(
-    (k) =>
-      k.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      k.ip.includes(searchTerm)
+    (kitchen) =>
+      kitchen.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      kitchen.ip.includes(searchTerm)
   )
 
   return (
@@ -179,7 +179,7 @@ export default function KitchensPage() {
       <KitchenModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        kitchen={selectedKitchen as any}
+        kitchen={selectedKitchen}
         onSuccess={() => {
           refetch()
         }}

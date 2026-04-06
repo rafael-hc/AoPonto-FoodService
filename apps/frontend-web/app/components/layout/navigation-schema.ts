@@ -59,7 +59,7 @@ import {
   Wallet,
   Wifi
 } from 'lucide-react'
-import type { ModuleConfigMap, RecentOrder, StatItem, TopItem } from './types'
+import type { ModuleConfigMap } from './types'
 
 export const modulesConfig: ModuleConfigMap = {
   principal: {
@@ -109,7 +109,17 @@ export const modulesConfig: ModuleConfigMap = {
     title: 'Produtos',
     icon: Package,
     groups: [
-      { name: 'Produtos', items: [{ name: 'Produtos', icon: Package }] },
+      {
+        name: 'Produtos',
+        items: [
+          {
+            name: 'Produtos',
+            icon: Package,
+            id: 'produtos',
+            actionType: 'route'
+          }
+        ]
+      },
       {
         name: 'Organização de Produtos',
         items: [
@@ -125,24 +135,6 @@ export const modulesConfig: ModuleConfigMap = {
             name: 'Tipos de Produto',
             icon: Ruler,
             id: 'tipos-produto',
-            actionType: 'route'
-          },
-          {
-            name: 'Etiquetas',
-            icon: Bookmark,
-            id: 'etiquetas',
-            actionType: 'route'
-          },
-          {
-            name: 'Unidades',
-            icon: Scale,
-            id: 'unidades',
-            actionType: 'route'
-          },
-          {
-            name: 'Cozinhas',
-            icon: Printer,
-            id: 'cozinhas',
             actionType: 'route'
           },
           { name: 'Perguntas', icon: HelpCircle }
@@ -188,6 +180,7 @@ export const modulesConfig: ModuleConfigMap = {
     id: 'financeiro',
     title: 'Financeiro',
     icon: CreditCard,
+    permissions: ['module:financeiro'],
     groups: [
       {
         name: 'Organização de Contas',
@@ -273,13 +266,19 @@ export const modulesConfig: ModuleConfigMap = {
     id: 'configuracoes',
     title: 'Configurações',
     icon: Settings,
+    permissions: ['module:configuracoes'],
     groups: [
       {
         name: 'Configurações',
         items: [
           { name: 'Config. do Sistema', icon: Settings },
           { name: 'Numeração Pedidos', icon: Hash },
-          { name: 'Impressora', icon: Printer },
+          {
+            name: 'Impressora',
+            icon: Printer,
+            id: 'cozinhas',
+            actionType: 'route'
+          },
           {
             name: 'Colaboradores',
             icon: UsersRound,
@@ -316,73 +315,3 @@ export const modulesConfig: ModuleConfigMap = {
   }
 }
 
-export const stats: StatItem[] = [
-  {
-    title: 'Receita Hoje',
-    value: 'R$ 4.250,00',
-    trend: '+12.5%',
-    isPositive: true
-  },
-  {
-    title: 'Pedidos Realizados',
-    value: '142',
-    trend: '+5.2%',
-    isPositive: true
-  },
-  {
-    title: 'Ticket Médio',
-    value: 'R$ 85,90',
-    trend: '-1.4%',
-    isPositive: false
-  },
-  { title: 'Mesas Ocupadas', value: '12 / 20', trend: 'Alta', isPositive: true }
-]
-
-export const recentOrders: RecentOrder[] = [
-  {
-    id: '#1042',
-    customer: 'Mesa 04',
-    items: '2x Burger AoPonto, 1x Fritas',
-    total: 'R$ 115,00',
-    status: 'preparando',
-    time: '12 min'
-  },
-  {
-    id: '#1043',
-    customer: 'Delivery (João P.)',
-    items: '1x Salada Caesar, 1x Suco Laranja',
-    total: 'R$ 45,00',
-    status: 'novo',
-    time: '2 min'
-  },
-  {
-    id: '#1041',
-    customer: 'Mesa 12',
-    items: '1x Risoto de Funghi, 1x Vinho Tinto',
-    total: 'R$ 189,00',
-    status: 'pronto',
-    time: '25 min'
-  },
-  {
-    id: '#1040',
-    customer: 'Takeaway (Maria Silva)',
-    items: '3x Coxinha Premium',
-    total: 'R$ 36,00',
-    status: 'concluido',
-    time: '30 min'
-  },
-  {
-    id: '#1044',
-    customer: 'Mesa 07',
-    items: '1x Picanha na Chapa (Para 2)',
-    total: 'R$ 210,00',
-    status: 'preparando',
-    time: '15 min'
-  }
-]
-
-export const topItems: TopItem[] = [
-  { name: 'Burger AoPonto', sales: 45, revenue: 'R$ 2.205,00' },
-  { name: 'Risoto de Funghi', sales: 28, revenue: 'R$ 1.932,00' },
-  { name: 'Fritas Rústicas', sales: 62, revenue: 'R$ 1.116,00' }
-]

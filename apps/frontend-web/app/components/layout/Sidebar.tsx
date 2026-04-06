@@ -2,16 +2,18 @@ import { Avatar, Sidebar as SidebarKit } from '@aoponto/ui-kit'
 import { ChefHat, LogOut } from 'lucide-react'
 import type React from 'react'
 import { useAuthStore } from '../../store/auth-store'
-import { modulesConfig } from './config'
+import type { ModuleConfigMap } from './types'
 
 interface SidebarProps {
   activeModule: string
   onModuleChange: (moduleId: string) => void
+  allowedModules: ModuleConfigMap
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeModule,
-  onModuleChange
+  onModuleChange,
+  allowedModules
 }) => {
   const { user, signOut } = useAuthStore()
 
@@ -32,7 +34,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <SidebarKit.Content>
         <SidebarKit.GroupLabel>Módulos</SidebarKit.GroupLabel>
 
-        {Object.values(modulesConfig).map((module) => (
+        {Object.values(allowedModules).map((module) => (
           <SidebarKit.Item
             key={module.id}
             active={activeModule === module.id}
@@ -66,6 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
         <button
+          type="button"
           onClick={signOut}
           className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors text-sm font-medium cursor-pointer"
         >

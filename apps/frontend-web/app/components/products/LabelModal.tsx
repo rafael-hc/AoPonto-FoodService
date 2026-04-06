@@ -129,7 +129,7 @@ export default function LabelModal({
     >
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content className="max-w-xl border-none shadow-2xl">
+        <Dialog.Content className="max-w-3xl border-none shadow-2xl">
           <Dialog.Header className="space-y-4 pb-4 border-b border-slate-100">
             <div className="flex items-center justify-between">
               <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl ring-8 ring-orange-500/5">

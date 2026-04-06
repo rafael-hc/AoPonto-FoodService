@@ -23,9 +23,9 @@ export class FetchUsersController {
         login: user.login,
         role: user.role,
         active: user.active,
-        name: contact?.name,
-        email: contact?.email,
-        document: contact?.document,
+        name: contact?.name || '',
+        email: contact?.email || '',
+        document: contact?.document || '',
         contactId: user.contactId
       }))
     }

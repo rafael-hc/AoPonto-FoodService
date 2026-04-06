@@ -65,6 +65,8 @@ model User {
   contact   Contact @relation(fields: [contactId], references: [id])
   contactId String  @unique @map("contact_id")
 
+  permissions UserPermission[]
+
   @@map("users")
 }
 
@@ -353,7 +355,7 @@ model ProductDetail {
 
 model Product {
   id          String  @id @default(uuid())
-  code        Int     @unique // CODIGO
+  code        Int     @unique @default(autoincrement()) // CODIGO
   name        String  // NOME
   description String? @db.VarChar(500)
   price       Decimal @map("sale_price") @db.Decimal(16, 4)
@@ -420,3 +422,37 @@ model Product {
 
   @@map("products")
 }
+
+model Permission {
+  id          String   @id @default(uuid())
+  code        String   @unique // ex: 'module:financeiro', 'dashboard:view'
+  module      String   // ex: 'financeiro', 'configuracoes'
+  description String?
+
+  users       UserPermission[]
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  role         Role       @map("role")
+  permissionId String     @map("permission_id")
+
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([role, permissionId])
+  @@map("role_permissions")
+}
+
+model UserPermission {
+  userId       String     @map("user_id")
+  permissionId String     @map("permission_id")
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, permissionId])
+  @@map("user_permissions")
+}
+

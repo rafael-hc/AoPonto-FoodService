@@ -5,9 +5,11 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { RegisterUserDtoRole } from './registerUserDtoRole';
+import type { UserRole } from './userRole';
 
 export interface RegisterUserDto {
+  /** UserRole */
+  role?: UserRole;
   /** @minLength 1 */
   name: string;
   /**
@@ -21,5 +23,4 @@ export interface RegisterUserDto {
   login: string;
   /** @minLength 6 */
   password: string;
-  role?: RegisterUserDtoRole;
 }

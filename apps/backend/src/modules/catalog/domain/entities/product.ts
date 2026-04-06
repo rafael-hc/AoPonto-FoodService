@@ -4,13 +4,14 @@ import { TaxMetadata } from './value-objects/product-tax-metadata'
 
 export interface ProductProps {
   id?: string
-  code: number
+  code?: number
   name: string
   description?: string | null
   price: number
   costPrice?: number | null
   minStock?: number
   currentStock?: number
+  barcode?: string | null
 
   methodOfPreparation?: string | null
 
@@ -102,7 +103,7 @@ export class Product {
     return this.props.taxMetadata.cest
   }
   get barcode() {
-    return this.props.taxMetadata.barcode
+    return this.props.barcode
   }
 
   get labelId() {

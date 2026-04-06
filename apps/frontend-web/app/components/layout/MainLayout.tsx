@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router'
 import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
-import { modulesConfig } from './config'
+import { useNavigation } from '../../hooks/use-navigation'
 import { Sidebar } from './Sidebar'
 import { SubNavigation } from './SubNavigation'
 import { Topbar } from './Topbar'
@@ -14,6 +14,8 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   const navigate = useNavigate()
   const location = useLocation()
 
+  const { allowedModules } = useNavigation()
+
   // Sincronizar activeAction com a URL
   useEffect(() => {
     const path = location.pathname.substring(1) // remove leading slash
@@ -21,8 +23,8 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
       setActiveAction(path)
 
       // Tentar encontrar qual módulo contém essa ação
-      const moduleId = Object.keys(modulesConfig).find((key) => {
-        const mod = modulesConfig[key]
+      const moduleId = Object.keys(allowedModules).find((key) => {
+        const mod = allowedModules[key]
         return mod.groups.some((group) =>
           group.items.some((item) => (item.id || item.name) === path)
         )
@@ -33,9 +35,22 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
       }
     } else {
       setActiveAction('dashboard')
-      setActiveModule('principal')
+      if (allowedModules['principal']) {
+        setActiveModule('principal')
+      } else {
+        const firstModule = Object.keys(allowedModules)[0]
+        if (firstModule) setActiveModule(firstModule)
+      }
     }
-  }, [location.pathname])
+  }, [location.pathname, allowedModules])
+
+  // Se o activeModule não está mais permitido (ou mudou perfil de auth), seleciona o primeiro listado
+  useEffect(() => {
+    const moduleKeys = Object.keys(allowedModules)
+    if (moduleKeys.length > 0 && !allowedModules[activeModule]) {
+      setActiveModule(moduleKeys[0])
+    }
+  }, [allowedModules, activeModule])
 
   const handleModuleChange = (moduleId: string) => {
     setActiveModule(moduleId)
@@ -60,16 +75,22 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   // Registrar atalhos de teclado globais
   useHotkeysConfig({
     onModuleChange: (moduleId) => handleModuleChange(moduleId),
-    onActionChange: (actionId) => handleActionClick(actionId)
+    onActionChange: (actionId) => handleActionClick(actionId),
+    allowedModules
   })
 
-  const currentModule = modulesConfig[activeModule]
+  const currentModule = allowedModules[activeModule]
+
+  if (!currentModule) {
+    return <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800" />
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800">
       <Sidebar
         activeModule={activeModule}
         onModuleChange={handleModuleChange}
+        allowedModules={allowedModules}
       />
       <main className="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50/50">
         <Topbar title={currentModule.title} Icon={currentModule.icon} />

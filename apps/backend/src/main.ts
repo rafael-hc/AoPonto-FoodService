@@ -44,10 +44,10 @@ async function bootstrap() {
       if (val && typeof val === 'object') {
         if (val.anyOf && Array.isArray(val.anyOf)) {
           const types = val.anyOf
-            .map((item: Record<string, unknown>) => item.type as string)
-            .filter(Boolean)
+              .map((item: Record<string, unknown>) => item.type as string)
+              .filter(Boolean)
           const hasNull = val.anyOf.some(
-            (item: Record<string, unknown>) => item.type === 'null'
+              (item: Record<string, unknown>) => item.type === 'null'
           )
           if (hasNull && types.length > 0) {
             const nonNullType = types.find((t: string) => t !== 'null')

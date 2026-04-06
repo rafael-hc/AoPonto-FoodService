@@ -6,6 +6,7 @@ export interface NavigationItem {
   icon: LucideIcon
   shortcut?: string
   actionType?: 'route' | 'modal'
+  permissions?: string[]
 }
 
 export interface NavigationGroup {
@@ -17,29 +18,9 @@ export interface ModuleConfig {
   id: string
   title: string
   icon: LucideIcon
+  permissions?: string[]
   groups: NavigationGroup[]
 }
 
 export type ModuleConfigMap = Record<string, ModuleConfig>
 
-export interface StatItem {
-  title: string
-  value: string
-  trend: string
-  isPositive: boolean
-}
-
-export interface RecentOrder {
-  id: string
-  customer: string
-  items: string
-  total: string
-  status: 'novo' | 'preparando' | 'pronto' | 'concluido'
-  time: string
-}
-
-export interface TopItem {
-  name: string
-  sales: number
-  revenue: string
-}

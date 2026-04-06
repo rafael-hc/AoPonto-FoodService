@@ -13,6 +13,7 @@ export const PrismaProductMapper = {
       costPrice: raw.costPrice ? Number(raw.costPrice) : null,
       minStock: raw.minStock,
       currentStock: raw.currentStock,
+      barcode: raw.barcode,
       methodOfPreparation: raw.methodOfPreparation,
       active: raw.active,
       discontinued: raw.discontinued,
@@ -45,7 +46,7 @@ export const PrismaProductMapper = {
   toPrisma(product: Product): Prisma.ProductUncheckedCreateInput {
     return {
       id: product.id,
-      code: product.code,
+      ...(product.code && { code: product.code }),
       name: product.name,
       description: product.description,
       price: product.price,

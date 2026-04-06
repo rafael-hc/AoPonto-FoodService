@@ -22,7 +22,7 @@ type KitchenFormData = z.infer<typeof kitchenSchema>
 interface KitchenModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  kitchen?: Kitchen
+  kitchen?: Kitchen | null
   onSuccess?: () => void
 }
 

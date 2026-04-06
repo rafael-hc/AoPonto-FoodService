@@ -6,6 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
+/**
+ * UserRole
+ */
 export type FetchUsersResponseDtoUsersItemRole = typeof FetchUsersResponseDtoUsersItemRole[keyof typeof FetchUsersResponseDtoUsersItemRole];
 
 

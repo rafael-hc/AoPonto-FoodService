@@ -8,11 +8,7 @@ import {
   useProductTypesControllerEdit,
   useProductTypesControllerRegister
 } from '../../api/generated/product-types/product-types'
-
-interface ProductType {
-  id: string
-  description: string
-}
+import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 
 const productTypeSchema = z.object({
   description: z.string().min(1, { error: 'Descrição é obrigatória' })
@@ -23,7 +19,7 @@ type ProductTypeFormData = z.infer<typeof productTypeSchema>
 interface ProductTypeModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  productType?: ProductType
+  productType?: ProductType | null
   onSuccess?: () => void
 }
 
@@ -69,7 +65,7 @@ export const ProductTypeModal: React.FC<ProductTypeModalProps> = ({
           reset()
           onSuccess?.()
         },
-        onError: (err: any) => {
+        onError: (err: unknown) => {
           console.error(`Erro ao cadastrar tipo: ${err}`)
           alert('Erro ao cadastrar tipo de produto.')
         }
@@ -84,7 +80,7 @@ export const ProductTypeModal: React.FC<ProductTypeModalProps> = ({
           reset()
           onSuccess?.()
         },
-        onError: (err: any) => {
+        onError: (err: unknown) => {
           console.error(`Erro ao editar tipo: ${err}`)
           alert('Erro ao editar tipo de produto.')
         }

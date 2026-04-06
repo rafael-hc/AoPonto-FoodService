@@ -36,7 +36,10 @@ export class GetProfileController {
         id: userPayload.sub
       },
       include: {
-        contact: true
+        contact: true,
+        permissions: {
+          include: { permission: true }
+        }
       }
     })
 
@@ -44,11 +47,27 @@ export class GetProfileController {
       throw new NotFoundException('Usuário não encontrado.')
     }
 
+    const rolePermissions = await this.prisma.rolePermission.findMany({
+      where: { role: user.role },
+      include: { permission: true }
+    })
+
+    const permissions = Array.from(new Set([
+      ...user.permissions.map(p => p.permission.code),
+      ...rolePermissions.map(rp => rp.permission.code)
+    ]))
+
     return {
       user: {
         id: user.id,
         login: user.login,
         role: user.role,
+        active: user.active,
+        name: user.contact.name,
+        email: user.contact.email,
+        document: user.contact.document,
+        contactId: user.contact.id,
+        permissions,
         contact: {
           id: user.contact.id,
           name: user.contact.name,

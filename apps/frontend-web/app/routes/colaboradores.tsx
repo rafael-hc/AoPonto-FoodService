@@ -127,14 +127,14 @@ export default function ColaboradoresPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold border border-slate-200 uppercase">
-                          {user.name.charAt(0)}
+                          {user.name?.charAt(0) ?? '?'}
                         </div>
                         <div className="flex flex-col">
                           <span className="font-semibold text-slate-700">
-                            {user.name}
+                            {user.name || 'Sem nome'}
                           </span>
                           <span className="text-xs text-slate-400">
-                            {user.email}
+                            {user.email || 'Sem e-mail'}
                           </span>
                         </div>
                       </div>

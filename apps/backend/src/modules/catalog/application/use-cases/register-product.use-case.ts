@@ -3,17 +3,24 @@ import { TaxMetadata } from '@/catalog/domain/entities/value-objects/product-tax
 import { ProductsRepository } from '@/catalog/domain/repositories/products-repository'
 
 interface RegisterProductUseCaseRequest {
-  code: number
+  code?: number
+  barcode?: string
   name: string
   price: number
   description?: string
+  methodOfPreparation?: string
   costPrice?: number
   minStock?: number
+  active?: boolean
   unitId: string
-  kitchenId?: string
+  kitchenId?: string | null
   labelId: string
   productTypeId: string
+  isKitchenItem?: boolean
+  useMobileComanda?: boolean
+  useDigitalMenu?: boolean
 }
+
 
 interface RegisterProductUseCaseResponse {
   product: Product
@@ -28,10 +35,12 @@ export class RegisterProductUseCase {
     price,
     ...rest
   }: RegisterProductUseCaseRequest): Promise<RegisterProductUseCaseResponse> {
-    const productWithSameCode = await this.productsRepository.findByCode(code)
+    if (code) {
+      const productWithSameCode = await this.productsRepository.findByCode(code)
 
-    if (productWithSameCode) {
-      throw new Error('Product with same code already exists')
+      if (productWithSameCode) {
+        throw new Error('Product with same code already exists')
+      }
     }
 
     const product = Product.create({
@@ -39,7 +48,9 @@ export class RegisterProductUseCase {
       name,
       price,
       ...rest,
-      taxMetadata: TaxMetadata.create({})
+      taxMetadata: TaxMetadata.create({
+        barcode: rest.barcode
+      })
     })
 
     await this.productsRepository.create(product)

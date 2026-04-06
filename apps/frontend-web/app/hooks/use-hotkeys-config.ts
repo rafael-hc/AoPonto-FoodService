@@ -1,29 +1,34 @@
 import { useHotkeys } from 'react-hotkeys-hook'
-import { modulesConfig } from '../components/layout/config'
+import type { ModuleConfigMap } from '../components/layout/types'
 
 interface UseHotkeysConfigProps {
   onModuleChange: (moduleId: string) => void
   onActionChange: (actionId: string) => void
+  allowedModules: ModuleConfigMap
 }
 
 /**
  * Hook para registrar globalmente os atalhos definidos na configuração dos módulos.
- * Percorre a modulesConfig e registra teclas como F3, F4, F5, F11, etc.
+ * Percorre a allowedModules e registra teclas como F3, F4, F5, F11, etc.
  */
 export function useHotkeysConfig({
   onModuleChange,
-  onActionChange
+  onActionChange,
+  allowedModules
 }: UseHotkeysConfigProps) {
   // Mapeamos todos os itens que possuem shortcut
-  const itemsWithShortcut = Object.values(modulesConfig).flatMap((module) =>
+  const itemsWithShortcut = Object.values(allowedModules).flatMap((module) =>
     module.groups.flatMap((group) =>
-      group.items
-        .filter((item) => !!item.shortcut)
-        .map((item) => ({
-          shortcut: item.shortcut!,
-          moduleId: module.id,
-          actionId: item.id || item.name
-        }))
+      group.items.reduce((acc, item) => {
+        if (item.shortcut) {
+          acc.push({
+            shortcut: item.shortcut,
+            moduleId: module.id,
+            actionId: item.id || item.name
+          })
+        }
+        return acc
+      }, [] as { shortcut: string; moduleId: string; actionId: string }[])
     )
   )
 

@@ -11,6 +11,26 @@ module.exports = {
         mutator: {
           path: './app/lib/api.ts',
           name: 'api'
+        },
+        components: {
+          schemas: {
+            // Unificar todos os enums de Role para um único tipo
+            UserResponseDtoRole: {
+              name: 'UserRole'
+            },
+            RegisterUserDtoRole: {
+              name: 'UserRole'
+            },
+            UpdateUserDtoRole: {
+              name: 'UserRole'
+            },
+            GetProfileResponseDtoUserRole: {
+              name: 'UserRole'
+            },
+            UserResponseDtoUsersItemRole: {
+              name: 'UserRole'
+            }
+          }
         }
       }
     }

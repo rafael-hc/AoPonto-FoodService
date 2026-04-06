@@ -7,10 +7,7 @@ import {
 } from '../api/generated/product-types/product-types'
 import { ProductTypeModal } from '../components/products/ProductTypeModal'
 
-interface ProductType {
-  id: string
-  description: string
-}
+import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 
 interface ProductTypeRowProps {
   type: ProductType
@@ -93,9 +90,9 @@ export default function ProductTypesPage() {
     }
   }
 
-  const productTypes = (data as any)?.productTypes ?? []
-  const filteredTypes = productTypes.filter((t: ProductType) =>
-    t.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const productTypes = data?.productTypes ?? []
+  const filteredTypes = productTypes.filter((productType: ProductType) =>
+    productType.description.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
@@ -208,7 +205,7 @@ export default function ProductTypesPage() {
       <ProductTypeModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        productType={selectedType ?? undefined}
+        productType={selectedType}
         onSuccess={() => {
           refetch()
         }}
