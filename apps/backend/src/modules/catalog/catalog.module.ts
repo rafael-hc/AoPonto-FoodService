@@ -68,6 +68,7 @@ import { PrismaLabelsRepository } from './infrastructure/database/prisma/reposit
 import { PrismaProductTypesRepository } from './infrastructure/database/prisma/repositories/prisma-product-types-repository'
 import { PrismaProductsRepository } from './infrastructure/database/prisma/repositories/prisma-products-repository'
 import { PrismaUnitsRepository } from './infrastructure/database/prisma/repositories/prisma-units-repository'
+import { ComplementsController } from './presentation/controllers/complements.controller'
 import { KitchensController } from './presentation/controllers/kitchens.controller'
 import { LabelsController } from './presentation/controllers/labels.controller'
 import { ProductTypesController } from './presentation/controllers/product-types.controller'
@@ -78,6 +79,7 @@ import { UnitsController } from './presentation/controllers/units.controller'
   imports: [],
   controllers: [
     ProductsController,
+    ComplementsController,
     KitchensController,
     LabelsController,
     UnitsController,

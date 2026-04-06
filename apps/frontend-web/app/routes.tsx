@@ -8,5 +8,6 @@ export default [
   route('cozinhas', './routes/kitchens.tsx'),
   route('labels', './routes/labels.tsx'),
   route('tipos-produto', './routes/product-types.tsx'),
-  route('produtos', './routes/produtos.tsx')
+  route('produtos', './routes/produtos.tsx'),
+  route('complementos', './routes/complementos.tsx')
 ] satisfies RouteConfig

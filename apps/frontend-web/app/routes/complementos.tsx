@@ -4,19 +4,19 @@ import {
   Plus,
   Search,
   Trash2,
-  Package,
   LayoutGrid,
-  List
+  List,
+  PlusCircle
 } from 'lucide-react'
 import { useState } from 'react'
 import { useLabelsControllerFetch } from '../api/generated/labels/labels'
 import { FetchLabelsResponseDtoLabelsItem as Label } from '../api/generated/model/fetchLabelsResponseDtoLabelsItem'
 import { FetchProductsResponseDtoProductsItem as Product } from '../api/generated/model/fetchProductsResponseDtoProductsItem'
 import {
-  useProductsControllerCreate,
-  useProductsControllerEdit,
-  useProductsControllerList
-} from '../api/generated/products/products'
+  useComplementsControllerCreate,
+  useComplementsControllerEdit,
+  useComplementsControllerList
+} from '../api/generated/complements/complements'
 import { ProductModal, ProductFormData } from '../components/products/ProductModal'
 
 interface ProductRowProps {
@@ -43,7 +43,7 @@ function ProductRow({
       <td className="px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-orange-50 text-orange-600 rounded-lg group-hover:bg-orange-100 transition-colors">
-            <Package size={16} />
+            <PlusCircle size={16} />
           </div>
           <span className="font-bold text-slate-900 truncate max-w-[200px]">
             {product.name}
@@ -100,7 +100,7 @@ function ProductRow({
             size="sm"
             variant="outline"
             className="h-8 w-8 p-0 text-slate-400 hover:text-orange-600 hover:bg-orange-50 border border-slate-200 hover:border-orange-200 transition-all shadow-sm"
-            title="Editar Produto"
+            title="Editar Complemento"
             onClick={() => onEdit(product)}
           >
             <Pencil size={15} />
@@ -109,7 +109,7 @@ function ProductRow({
             size="sm"
             variant="outline"
             className="h-8 w-8 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 border border-slate-200 hover:border-red-200 transition-all shadow-sm"
-            title="Arquivar Produto"
+            title="Arquivar Complemento"
             onClick={() => onDelete(product.id)}
           >
             <Trash2 size={15} />
@@ -122,16 +122,16 @@ function ProductRow({
 
 const LOADING_SKELETON_COUNT = [1, 2, 3, 4, 5, 6]
 
-export default function ProdutosPage() {
+export default function ComplementosPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
-  const { data, isLoading, refetch } = useProductsControllerList()
+  const { data, isLoading, refetch } = useComplementsControllerList()
   const { data: labelsData } = useLabelsControllerFetch()
 
-  const { mutate: createProduct, isPending: isRegistering } =
-    useProductsControllerCreate({
+  const { mutate: createComplement, isPending: isRegistering } =
+    useComplementsControllerCreate({
       mutation: {
         onSuccess: () => {
           setIsModalOpen(false)
@@ -140,8 +140,8 @@ export default function ProdutosPage() {
       }
     })
 
-  const { mutate: editProduct, isPending: isEditing } =
-    useProductsControllerEdit({
+  const { mutate: editComplement, isPending: isEditing } =
+    useComplementsControllerEdit({
       mutation: {
         onSuccess: () => {
           setIsModalOpen(false)
@@ -151,7 +151,7 @@ export default function ProdutosPage() {
     })
 
   const handleDelete = (id: string) => {
-    if (confirm('Deseja realmente arquivar este produto?')) {
+    if (confirm('Deseja realmente arquivar este complemento?')) {
       alert('Endpoint de deleção em desenvolvimento.')
     }
   }
@@ -168,27 +168,28 @@ export default function ProdutosPage() {
 
   const handleSave = (formData: ProductFormData) => {
     if (selectedProduct) {
-      editProduct({
+      editComplement({
         id: selectedProduct.id,
         data: formData
       })
     } else {
-      createProduct({
+      createComplement({
         data: formData
       })
     }
   }
 
   const handleToggleStatus = (id: string, active: boolean) => {
-    editProduct({
+    editComplement({
       id,
       data: { active }
     })
   }
 
   const labels = labelsData?.labels ?? []
-  const products = data?.products ?? []
-  const filteredProducts = products.filter((product) => {
+  const complementos = data?.products ?? []
+  
+  const filteredComplementos = complementos.filter((product) => {
     const categoryName =
       labels.find((label) => label.id === product.labelId)?.description || ''
     const searchTermLowercase = searchTerm.toLowerCase()
@@ -208,14 +209,14 @@ export default function ProdutosPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              Catálogo de Produtos
+              Complementos 
             </h1>
             <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
-              {isLoading ? '...' : `${products.length} itens`}
+              {isLoading ? '...' : `${complementos.length} itens`}
             </Badge>
           </div>
           <p className="text-slate-500 font-medium">
-            Gerencie itens, preços, estoque e configurações de PDV
+            Gerencie acompanhamentos e adicionais para seus produtos
           </p>
         </div>
 
@@ -239,7 +240,7 @@ export default function ProdutosPage() {
             className="h-[46px] px-6 gap-2 shadow-xl shadow-orange-500/20 active:scale-95 transition-all text-sm font-bold"
           >
             <Plus size={20} />
-            <span className="hidden sm:inline">Novo Produto</span>
+            <span className="hidden sm:inline">Novo Complemento</span>
           </Button>
         </div>
       </div>
@@ -334,8 +335,8 @@ export default function ProdutosPage() {
                       </td>
                     </tr>
                   ))
-                : filteredProducts.length > 0
-                  ? filteredProducts.map((product: Product) => (
+                : filteredComplementos.length > 0
+                  ? filteredComplementos.map((product: Product) => (
                       <ProductRow
                         key={product.id}
                         product={product}
@@ -350,24 +351,23 @@ export default function ProdutosPage() {
           </table>
         </div>
 
-        {!isLoading && filteredProducts.length === 0 && (
+        {!isLoading && filteredComplementos.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
             <div className="w-20 h-20 bg-orange-50 text-orange-200 rounded-4xl flex items-center justify-center mb-6 transform rotate-6 scale-110 shadow-inner">
-              <Package size={40} className="transform -rotate-6" />
+              <PlusCircle size={40} className="transform -rotate-6" />
             </div>
             <h3 className="text-slate-900 font-extrabold text-xl tracking-tight">
-              Nenhum produto encontrado
+              Nenhum complemento encontrado
             </h3>
             <p className="text-slate-500 text-sm mt-2 max-w-sm mx-auto leading-relaxed">
-              Você ainda não cadastrou nenhum produto ou nenhum item corresponde
-              à sua busca atual.
+              Você ainda não cadastrou nenhum complemento para seus produtos.
             </p>
             <Button
               variant="outline"
               onClick={handleCreate}
               className="mt-8 border-slate-200 text-slate-700 hover:bg-slate-50 font-bold"
             >
-              Criar meu primeiro produto
+              Criar meu primeiro complemento
             </Button>
           </div>
         )}

@@ -123,7 +123,12 @@ export const modulesConfig: ModuleConfigMap = {
       {
         name: 'Organização de Produtos',
         items: [
-          { name: 'Complementos', icon: PlusCircle },
+          {
+            name: 'Complementos',
+            icon: PlusCircle,
+            id: 'complementos',
+            actionType: 'route'
+          },
           { name: 'Observações', icon: FileText },
           {
             name: 'Categorias',

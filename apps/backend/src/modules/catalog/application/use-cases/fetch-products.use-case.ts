@@ -5,11 +5,19 @@ interface FetchProductsUseCaseResponse {
   products: Product[]
 }
 
+interface FetchProductsUseCaseRequest {
+  productTypeId?: string
+}
+
 export class FetchProductsUseCase {
   constructor(private productsRepository: ProductsRepository) {}
 
-  async execute(): Promise<FetchProductsUseCaseResponse> {
-    const products = await this.productsRepository.findMany()
+  async execute(
+    request?: FetchProductsUseCaseRequest
+  ): Promise<FetchProductsUseCaseResponse> {
+    const products = await this.productsRepository.findMany({
+      productTypeId: request?.productTypeId
+    })
 
     return { products }
   }

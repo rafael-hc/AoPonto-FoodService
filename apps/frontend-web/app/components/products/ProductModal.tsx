@@ -5,20 +5,15 @@ import LabelModal from './LabelModal'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import {
-  useProductsControllerCreate,
-  useProductsControllerEdit
-} from '../../api/generated/products/products'
-import { useProductTypesControllerFetch } from '../../api/generated/product-types/product-types'
 import { useLabelsControllerFetch } from '../../api/generated/labels/labels'
 import { useKitchensControllerFetch } from '../../api/generated/kitchens/kitchens'
 import { useUnitsControllerFetch } from '../../api/generated/units/units'
 import { FetchProductsResponseDtoProductsItem as Product } from '../../api/generated/model/fetchProductsResponseDtoProductsItem'
 import { FetchLabelsResponseDtoLabelsItem as Label } from '../../api/generated/model/fetchLabelsResponseDtoLabelsItem'
-import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 import { FetchUnitsResponseDtoUnitsItem as Unit } from '../../api/generated/model/fetchUnitsResponseDtoUnitsItem'
 import { FetchKitchensResponseDtoKitchensItem as Kitchen } from '../../api/generated/model/fetchKitchensResponseDtoKitchensItem'
 
+// Removido o productTypeId já que agora é tratado pelo backend em rotas separadas
 const productSchema = z.object({
   name: z.string().min(1, { error: 'O nome é obrigatório' }),
   barcode: z.string().optional(),
@@ -29,7 +24,6 @@ const productSchema = z.object({
   minStock: z.number().int().optional(),
   active: z.boolean(),
   labelId: z.string().uuid({ error: 'Categoria inválida' }),
-  productTypeId: z.string().uuid({ error: 'Tipo inválido' }),
   unitId: z.string().uuid({ error: 'Unidade inválida' }),
   kitchenId: z.string().uuid().optional().nullable(),
   isKitchenItem: z.boolean(),
@@ -37,33 +31,35 @@ const productSchema = z.object({
   useDigitalMenu: z.boolean()
 })
 
-type ProductFormData = z.infer<typeof productSchema>
+export type ProductFormData = z.infer<typeof productSchema>
 
 interface ProductModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   product?: Product | null
   onSuccess?: () => void
+  onSave: (data: ProductFormData) => void // Função de salvamento injetada pela página
+  isPending?: boolean // Estado de carregamento injetado
 }
 
 export const ProductModal: React.FC<ProductModalProps> = ({
   open,
   onOpenChange,
   product,
-  onSuccess
+  onSuccess,
+  onSave,
+  isPending = false
 }) => {
   const isEditMode = !!product
   const [activeTab, setActiveTab] = useState<'more' | 'config'>('more')
   const [isLabelModalOpen, setIsLabelModalOpen] = useState(false)
 
-  // Fetches for selects
+  // Fetches para selects
   const { data: labelsData, refetch: refetchLabels } = useLabelsControllerFetch()
-  const { data: typesData } = useProductTypesControllerFetch()
   const { data: unitsData } = useUnitsControllerFetch()
   const { data: kitchensData } = useKitchensControllerFetch()
 
   const labels: Label[] = labelsData?.labels ?? []
-  const types: ProductType[] = typesData?.productTypes ?? []
   const units: Unit[] = unitsData?.units ?? []
   const kitchens: Kitchen[] = kitchensData?.kitchens ?? []
 
@@ -85,7 +81,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
       minStock: 0,
       active: true,
       labelId: '',
-      productTypeId: '',
       unitId: '',
       kitchenId: null,
       isKitchenItem: false,
@@ -109,7 +104,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           minStock: product.minStock || 0,
           active: product.active,
           labelId: product.labelId,
-          productTypeId: product.productTypeId,
           unitId: product.unitId,
           kitchenId: product.kitchenId,
           barcode: product.barcode || '',
@@ -118,43 +112,26 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           useDigitalMenu: product.useDigitalMenu
         })
       } else {
-        reset()
+        reset({
+          name: '',
+          barcode: '',
+          description: '',
+          methodOfPreparation: '',
+          price: 0,
+          costPrice: 0,
+          minStock: 0,
+          active: true,
+          labelId: '',
+          unitId: '',
+          kitchenId: null,
+          isKitchenItem: false,
+          useMobileComanda: true,
+          useDigitalMenu: true
+        })
       }
       setActiveTab('more')
     }
   }, [open, product, reset])
-
-  const { mutate: createProduct, isPending: isRegistering } =
-    useProductsControllerCreate({
-      mutation: {
-        onSuccess: () => {
-          onOpenChange(false)
-          reset()
-          onSuccess?.()
-        },
-        onError: (err) => {
-          console.error(err)
-          alert('Erro ao cadastrar.')
-        }
-      }
-    })
-
-  const { mutate: editProduct, isPending: isEditing } =
-    useProductsControllerEdit({
-      mutation: {
-        onSuccess: () => {
-          onOpenChange(false)
-          reset()
-          onSuccess?.()
-        },
-        onError: (err) => {
-          console.error(err)
-          alert('Erro ao editar.')
-        }
-      }
-    })
-
-  const isPending = isRegistering || isEditing
 
   const onFormSubmit = (data: ProductFormData) => {
     // Garante que kitchenId é nulo se isKitchenItem for false
@@ -162,17 +139,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
       ...data,
       kitchenId: data.isKitchenItem ? data.kitchenId : null
     }
-
-    if (isEditMode && product) {
-      editProduct({
-        id: product.id,
-        data: finalData
-      })
-    } else {
-      createProduct({
-        data: finalData
-      })
-    }
+    onSave(finalData)
   }
 
   interface SelectPlaceholderProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
@@ -209,7 +176,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     >
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        {/* Usando painel bem largo estilo ERP */}
         <Dialog.Content className="max-w-[1200px] p-0 overflow-hidden bg-slate-50 flex flex-col max-h-[90vh]">
           {/* Header estático Premium */}
           <div className="bg-white border-b border-slate-200 px-8 py-6">
@@ -220,10 +186,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
                 <div>
                   <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                    {isEditMode ? 'Editar Produto' : 'Novo Produto'}
+                    {isEditMode ? 'Editar Item' : 'Novo Registro'}
                   </h2>
                   <p className="text-slate-500 text-sm font-medium">
-                    Preencha os dados do item
+                    Preencha os dados básicos do item
                   </p>
                 </div>
               </div>
@@ -240,12 +206,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
           <div className="overflow-y-auto flex-1 px-8 py-6">
             <form id="product-form" onSubmit={handleSubmit(onFormSubmit)}>
               
-              {/* TOP FIXO SECTION (Nome, Preço, Categoria, Unidade) */}
               <div className="grid grid-cols-12 gap-6 mb-8">
-                {/* O input Name ocupa bastante espaço para ser o foco, tipo na ref. */}
                 <div className="col-span-12 md:col-span-8">
                   <Input.Wrapper className="space-y-2">
-                    <Input.Label htmlFor="name">Nome do Produto</Input.Label>
+                    <Input.Label htmlFor="name">Nome do Item</Input.Label>
                     <Input.Root error={!!errors.name}>
                       <Input.Control
                         id="name"
@@ -280,7 +244,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                         {...register('active')}
                         className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-slate-300"
                       />
-                      <span className="font-semibold text-slate-700">Produto Ativo</span>
+                      <span className="font-semibold text-slate-700">Ativo</span>
                     </label>
                 </div>
 
@@ -360,7 +324,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
               {/* TABS E SECTION INFERIOR */}
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                {/* Tabs Header */}
                 <div className="flex border-b border-slate-200 bg-slate-50/50 px-2 pt-2">
                   <button
                     type="button"
@@ -386,32 +349,31 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   </button>
                 </div>
 
-                {/* Tab Content */}
                 <div className="p-6">
                   {activeTab === 'more' && (
                     <div className="grid grid-cols-2 gap-8">
                        <div className="space-y-6 col-span-2">
                           <Input.Wrapper className="space-y-2">
-                            <Input.Label htmlFor="description">Descrição para o Cardápio (Dica aos Clientes)</Input.Label>
+                            <Input.Label htmlFor="description">Descrição para o Cardápio</Input.Label>
                             <div className={`flex w-full rounded-md border bg-white p-3 transition-all shadow-sm focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-orange-500 ${errors.description ? 'border-red-500' : 'border-slate-300'}`}>
                               <textarea
                                 id="description"
                                 rows={2}
                                 className="flex-1 w-full bg-transparent text-sm placeholder:text-slate-400 focus:outline-none resize-none"
-                                placeholder="Exemplo: Saboroso hambúrguer de picanha na brasa, com uma fina fatia de queijo derretido e nossa famosa maionese caseira..."
+                                placeholder="..."
                                 {...register('description')}
                               />
                             </div>
                           </Input.Wrapper>
 
                           <Input.Wrapper className="space-y-2">
-                            <Input.Label htmlFor="methodOfPreparation">Método de Preparo / Orientações</Input.Label>
+                            <Input.Label htmlFor="methodOfPreparation">Método de Preparo</Input.Label>
                             <div className={`flex w-full rounded-md border bg-white p-3 transition-all shadow-sm focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-orange-500 ${errors.methodOfPreparation ? 'border-red-500' : 'border-slate-300'}`}>
                               <textarea
                                 id="methodOfPreparation"
                                 rows={3}
                                 className="flex-1 w-full bg-transparent text-sm placeholder:text-slate-400 focus:outline-none resize-none"
-                                placeholder="Orientações internas de como preparar este prato."
+                                placeholder="..."
                                 {...register('methodOfPreparation')}
                               />
                             </div>
@@ -422,25 +384,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                   {activeTab === 'config' && (
                     <div className="grid grid-cols-2 gap-x-12 gap-y-8">
-                      {/* Lado Esquerdo */}
                       <div className="space-y-6">
-                        <Input.Wrapper className="space-y-2">
-                          <Input.Label htmlFor="productTypeId">Tipo/Natureza do Produto</Input.Label>
-                          <div className={`flex w-full items-center rounded-md border bg-white px-3 h-10 transition-all shadow-sm focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-orange-500 overflow-hidden ${errors.productTypeId ? 'border-red-500' : 'border-slate-300'}`}>
-                            <select
-                              id="productTypeId"
-                              className="flex-1 h-full w-full bg-transparent text-sm text-slate-700 focus:outline-none disabled:cursor-not-allowed appearance-none"
-                              {...register('productTypeId')}
-                            >
-                              <option value="">Selecione o tipo do produto...</option>
-                              {types.map((productType) => (
-                                <option key={productType.id} value={productType.id}>{productType.description}</option>
-                              ))}
-                            </select>
-                          </div>
-                          {errors.productTypeId && <Input.Message>{errors.productTypeId.message}</Input.Message>}
-                        </Input.Wrapper>
-
                         <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-4">
                           <label className="flex items-start gap-3 cursor-pointer">
                             <input 
@@ -450,14 +394,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                             />
                             <div>
                               <p className="font-semibold text-slate-700">Item para Cozinha</p>
-                              <p className="text-xs text-slate-500">Imprimir este item no cupom de produção (cozinha)</p>
                             </div>
                           </label>
 
                           <div className={`transition-all overflow-hidden ${isKitchenItemActive ? 'max-h-24 opacity-100 mt-3' : 'max-h-0 opacity-0'}`}>
                             <SelectPlaceholder
                               id="kitchenId"
-                              label="Selecione o setor de impressão (Cozinha/Bar)"
+                              label="Setor de impressão"
                               {...register('kitchenId')}
                             >
                               <option value="">Nenhum/Padrão</option>
@@ -467,13 +410,11 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                             </SelectPlaceholder>
                           </div>
                         </div>
-
                       </div>
 
-                      {/* Lado Direito */}
                       <div className="space-y-6">
                         <Input.Wrapper className="space-y-2">
-                          <Input.Label htmlFor="minStock">Estoque Mínimo de Alerta</Input.Label>
+                          <Input.Label htmlFor="minStock">Estoque Mínimo</Input.Label>
                           <Input.Root error={!!errors.minStock}>
                             <Input.Control
                               id="minStock"
@@ -484,9 +425,8 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                         </Input.Wrapper>
 
                         <div className="space-y-3">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase">Disponibilidade do Item (Exibição)</p>
                             <label className="flex items-center justify-between cursor-pointer p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
-                              <span className="font-semibold text-slate-700 text-sm">Comanda Mobile (Garçom)</span>
+                              <span className="font-semibold text-slate-700 text-sm">Comanda Mobile</span>
                               <input 
                                 type="checkbox" 
                                 {...register('useMobileComanda')}
@@ -495,7 +435,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                             </label>
                             
                             <label className="flex items-center justify-between cursor-pointer p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
-                              <span className="font-semibold text-slate-700 text-sm">Cardápio Digital / Dino</span>
+                              <span className="font-semibold text-slate-700 text-sm">Cardápio Digital</span>
                               <input 
                                 type="checkbox" 
                                 {...register('useDigitalMenu')}
@@ -512,7 +452,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             </form>
           </div>
 
-          {/* Footer FIXO inferior */}
           <div className="bg-slate-100 border-t border-slate-200 px-8 py-4 flex items-center justify-between shrink-0">
              <Button
                 type="button"
@@ -524,11 +463,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 Cancelar
               </Button>
               <Button type="submit" form="product-form" disabled={isPending} className="px-8 shadow-lg shadow-orange-500/20 text-md">
-                {isPending
-                  ? 'Processando...'
-                  : isEditMode
-                    ? 'Salvar Alterações (F2)'
-                    : 'Cadastrar (F2)'}
+                {isPending ? 'Processando...' : 'Salvar Alterações'}
               </Button>
           </div>
 

@@ -21,11 +21,11 @@ import {
 import { RegisterProductDto } from '@/catalog/presentation/dtos/register-product.dto'
 import { ProductPresenter } from '@/catalog/presentation/presenters/product.presenter'
 
-const PRODUCT_TYPE_ID = 'd4e4e297-52e9-4183-8ac3-f48cc75fb89e'
+const COMPLEMENTO_TYPE_ID = 'b0df670-38ad-4917-8952-1314a6e0d7cb'
 
-@ApiTags('Products')
-@Controller('/products')
-export class ProductsController {
+@ApiTags('Complements')
+@Controller('/complements')
+export class ComplementsController {
   constructor(
     private registerProduct: RegisterProductUseCase,
     private fetchProducts: FetchProductsUseCase,
@@ -38,7 +38,7 @@ export class ProductsController {
   async create(@Body() body: RegisterProductDto) {
     const { product } = await this.registerProduct.execute({
       ...body,
-      productTypeId: PRODUCT_TYPE_ID
+      productTypeId: COMPLEMENTO_TYPE_ID
     })
 
     return {
@@ -50,7 +50,7 @@ export class ProductsController {
   @ApiOkResponse({ type: FetchProductsResponseDto })
   async list() {
     const { products } = await this.fetchProducts.execute({
-      productTypeId: PRODUCT_TYPE_ID
+      productTypeId: COMPLEMENTO_TYPE_ID
     })
 
     return {
@@ -64,7 +64,7 @@ export class ProductsController {
     const { product } = await this.editProduct.execute({ 
       id, 
       ...body,
-      productTypeId: PRODUCT_TYPE_ID
+      productTypeId: COMPLEMENTO_TYPE_ID
      })
 
     return {

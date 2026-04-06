@@ -15,7 +15,7 @@ interface RegisterProductUseCaseRequest {
   unitId: string
   kitchenId?: string | null
   labelId: string
-  productTypeId: string
+  productTypeId?: string
   isKitchenItem?: boolean
   useMobileComanda?: boolean
   useDigitalMenu?: boolean
@@ -48,6 +48,7 @@ export class RegisterProductUseCase {
       name,
       price,
       ...rest,
+      productTypeId: rest.productTypeId as string,
       taxMetadata: TaxMetadata.create({
         barcode: rest.barcode
       })

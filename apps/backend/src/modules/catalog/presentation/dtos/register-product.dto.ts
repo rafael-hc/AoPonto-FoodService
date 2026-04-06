@@ -15,7 +15,7 @@ const registerProductSchema = z.object({
   unitId: z.uuid({ error: 'ID de unidade é obrigatório' }),
   kitchenId: z.uuid({ error: 'ID de cozinha inválido' }).optional().nullable(),
   labelId: z.uuid({ error: 'ID de etiqueta é obrigatório' }),
-  productTypeId: z.uuid({ error: 'ID de tipo de produto é obrigatório' }),
+  productTypeId: z.uuid({ error: 'ID de tipo de produto inválido' }).optional(),
   isKitchenItem: z.boolean().optional(),
   useMobileComanda: z.boolean().optional(),
   useDigitalMenu: z.boolean().optional()
