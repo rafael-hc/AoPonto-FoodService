@@ -2,12 +2,13 @@ import { Module, OnModuleInit, Logger } from '@nestjs/common'
 import { AuthModule } from './auth/auth.module'
 import { CatalogModule } from './catalog/catalog.module'
 import { PartiesModule } from './parties/parties.module'
+import { SystemSettingsModule } from './system-settings/system-settings.module'
 import { DatabaseModule } from './shared/database/database.module'
 import { PrismaService } from './shared/database/prisma/prisma.service'
 import { Role } from '@prisma/client'
 
 @Module({
-  imports: [DatabaseModule, PartiesModule, CatalogModule, AuthModule],
+  imports: [DatabaseModule, PartiesModule, CatalogModule, AuthModule, SystemSettingsModule],
   controllers: [],
   providers: []
 })

@@ -456,3 +456,16 @@ model UserPermission {
   @@map("user_permissions")
 }
 
+model SystemSetting {
+  id          String   @id @default(uuid())
+  parameter   String   @unique
+  value       String?
+  type        String
+  group       String
+  description String?
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}

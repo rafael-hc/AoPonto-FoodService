@@ -276,7 +276,12 @@ export const modulesConfig: ModuleConfigMap = {
       {
         name: 'Configurações',
         items: [
-          { name: 'Config. do Sistema', icon: Settings },
+          {
+            name: 'Config. do Sistema',
+            icon: Settings,
+            id: 'system-settings',
+            actionType: 'modal'
+          },
           { name: 'Numeração Pedidos', icon: Hash },
           {
             name: 'Impressora',

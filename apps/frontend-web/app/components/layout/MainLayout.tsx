@@ -5,12 +5,14 @@ import { useNavigation } from '../../hooks/use-navigation'
 import { Sidebar } from './Sidebar'
 import { SubNavigation } from './SubNavigation'
 import { Topbar } from './Topbar'
+import { SystemSettingsModal } from '../settings/SystemSettingsModal'
 
 export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   children
 }) => {
   const [activeModule, setActiveModule] = useState('principal')
   const [activeAction, setActiveAction] = useState('dashboard')
+  const [isSystemSettingsOpen, setIsSystemSettingsOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -61,7 +63,9 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
     actionType?: 'route' | 'modal'
   ) => {
     if (actionType === 'modal') {
-      // Manter lógica para modais globais se houver (ex: Abrir/Fechar Caixa)
+      if (actionId === 'system-settings') {
+        setIsSystemSettingsOpen(true)
+      }
       return
     }
 
@@ -104,6 +108,11 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
         <div className="flex-1 overflow-y-auto p-8 relative">
           {children || <Outlet />}
         </div>
+
+        <SystemSettingsModal
+          open={isSystemSettingsOpen}
+          onOpenChange={setIsSystemSettingsOpen}
+        />
       </main>
     </div>
   )
