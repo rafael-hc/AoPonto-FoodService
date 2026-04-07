@@ -5,10 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -22,175 +19,265 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
-
+} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
 import type {
   SaveSettingDto,
   SettingResponseDto,
   SystemSettingsControllerFindByGroupParams
-} from '../model';
+} from '../model'
 
-import { api } from '../../../lib/api';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 /**
  * @summary Busca todas as configurações pertencentes a um grupo específico
  */
 export const systemSettingsControllerFindByGroup = (
-    params: SystemSettingsControllerFindByGroupParams,
- signal?: AbortSignal
+  params: SystemSettingsControllerFindByGroupParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SettingResponseDto[]>(
-      {url: `/api/system-settings`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-  
-
-
-
-export const getSystemSettingsControllerFindByGroupQueryKey = (params?: SystemSettingsControllerFindByGroupParams,) => {
-    return [
-    `/api/system-settings`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-    
-export const getSystemSettingsControllerFindByGroupQueryOptions = <TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError = unknown>(params: SystemSettingsControllerFindByGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getSystemSettingsControllerFindByGroupQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>> = ({ signal }) => systemSettingsControllerFindByGroup(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<SettingResponseDto[]>({
+    url: `/api/system-settings`,
+    method: 'GET',
+    params,
+    signal
+  })
 }
 
-export type SystemSettingsControllerFindByGroupQueryResult = NonNullable<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>>
+export const getSystemSettingsControllerFindByGroupQueryKey = (
+  params?: SystemSettingsControllerFindByGroupParams
+) => {
+  return [`/api/system-settings`, ...(params ? [params] : [])] as const
+}
+
+export const getSystemSettingsControllerFindByGroupQueryOptions = <
+  TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+  TError = unknown
+>(
+  params: SystemSettingsControllerFindByGroupParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getSystemSettingsControllerFindByGroupQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>
+  > = ({ signal }) => systemSettingsControllerFindByGroup(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SystemSettingsControllerFindByGroupQueryResult = NonNullable<
+  Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>
+>
 export type SystemSettingsControllerFindByGroupQueryError = unknown
 
-
-export function useSystemSettingsControllerFindByGroup<TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError = unknown>(
- params: SystemSettingsControllerFindByGroupParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData>> & Pick<
+export function useSystemSettingsControllerFindByGroup<
+  TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+  TError = unknown
+>(
+  params: SystemSettingsControllerFindByGroupParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
           TError,
           Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useSystemSettingsControllerFindByGroup<TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError = unknown>(
- params: SystemSettingsControllerFindByGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useSystemSettingsControllerFindByGroup<
+  TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+  TError = unknown
+>(
+  params: SystemSettingsControllerFindByGroupParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
           TError,
           Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useSystemSettingsControllerFindByGroup<TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError = unknown>(
- params: SystemSettingsControllerFindByGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useSystemSettingsControllerFindByGroup<
+  TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+  TError = unknown
+>(
+  params: SystemSettingsControllerFindByGroupParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Busca todas as configurações pertencentes a um grupo específico
  */
 
-export function useSystemSettingsControllerFindByGroup<TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError = unknown>(
- params: SystemSettingsControllerFindByGroupParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useSystemSettingsControllerFindByGroup<
+  TData = Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+  TError = unknown
+>(
+  params: SystemSettingsControllerFindByGroupParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof systemSettingsControllerFindByGroup>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getSystemSettingsControllerFindByGroupQueryOptions(
+    params,
+    options
+  )
 
-  const queryOptions = getSystemSettingsControllerFindByGroupQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey }
 }
-
-
-
 
 /**
  * @summary Salva ou atualiza uma configuração (Upsert baseada no parametro)
  */
 export const systemSettingsControllerSave = (
-    saveSettingDto: SaveSettingDto,
- signal?: AbortSignal
+  saveSettingDto: SaveSettingDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SettingResponseDto>(
-      {url: `/api/system-settings`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: saveSettingDto, signal
-    },
-      );
-    }
-  
+  return api<SettingResponseDto>({
+    url: `/api/system-settings`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: saveSettingDto,
+    signal
+  })
+}
 
+export const getSystemSettingsControllerSaveMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof systemSettingsControllerSave>>,
+    TError,
+    { data: SaveSettingDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof systemSettingsControllerSave>>,
+  TError,
+  { data: SaveSettingDto },
+  TContext
+> => {
+  const mutationKey = ['systemSettingsControllerSave']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getSystemSettingsControllerSaveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof systemSettingsControllerSave>>, TError,{data: SaveSettingDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof systemSettingsControllerSave>>, TError,{data: SaveSettingDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof systemSettingsControllerSave>>,
+    { data: SaveSettingDto }
+  > = (props) => {
+    const { data } = props ?? {}
 
-const mutationKey = ['systemSettingsControllerSave'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return systemSettingsControllerSave(data)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type SystemSettingsControllerSaveMutationResult = NonNullable<
+  Awaited<ReturnType<typeof systemSettingsControllerSave>>
+>
+export type SystemSettingsControllerSaveMutationBody = SaveSettingDto
+export type SystemSettingsControllerSaveMutationError = unknown
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof systemSettingsControllerSave>>, {data: SaveSettingDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  systemSettingsControllerSave(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type SystemSettingsControllerSaveMutationResult = NonNullable<Awaited<ReturnType<typeof systemSettingsControllerSave>>>
-    export type SystemSettingsControllerSaveMutationBody = SaveSettingDto
-    export type SystemSettingsControllerSaveMutationError = unknown
-
-    /**
+/**
  * @summary Salva ou atualiza uma configuração (Upsert baseada no parametro)
  */
-export const useSystemSettingsControllerSave = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof systemSettingsControllerSave>>, TError,{data: SaveSettingDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof systemSettingsControllerSave>>,
-        TError,
-        {data: SaveSettingDto},
-        TContext
-      > => {
-      return useMutation(getSystemSettingsControllerSaveMutationOptions(options), queryClient);
-    }
-    
+export const useSystemSettingsControllerSave = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof systemSettingsControllerSave>>,
+      TError,
+      { data: SaveSettingDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof systemSettingsControllerSave>>,
+  TError,
+  { data: SaveSettingDto },
+  TContext
+> => {
+  return useMutation(
+    getSystemSettingsControllerSaveMutationOptions(options),
+    queryClient
+  )
+}

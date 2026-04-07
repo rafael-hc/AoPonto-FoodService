@@ -3,7 +3,10 @@ import { z } from 'zod'
 
 // Seguindo as regras do zod-4.md: usar error em vez de message e APIs top-level
 const registerProductSchema = z.object({
-  code: z.number().int({ error: 'O código deve ser um número inteiro' }).optional(),
+  code: z
+    .number()
+    .int({ error: 'O código deve ser um número inteiro' })
+    .optional(),
   barcode: z.string().optional(),
   name: z.string().min(1, { error: 'O nome é obrigatório' }),
   price: z.number().min(0, { error: 'O preço não pode ser negativo' }),
@@ -20,6 +23,5 @@ const registerProductSchema = z.object({
   useMobileComanda: z.boolean().optional(),
   useDigitalMenu: z.boolean().optional()
 })
-
 
 export class RegisterProductDto extends createZodDto(registerProductSchema) {}

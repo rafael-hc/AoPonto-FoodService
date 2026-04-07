@@ -52,10 +52,12 @@ export class GetProfileController {
       include: { permission: true }
     })
 
-    const permissions = Array.from(new Set([
-      ...user.permissions.map(p => p.permission.code),
-      ...rolePermissions.map(rp => rp.permission.code)
-    ]))
+    const permissions = Array.from(
+      new Set([
+        ...user.permissions.map((p) => p.permission.code),
+        ...rolePermissions.map((rp) => rp.permission.code)
+      ])
+    )
 
     return {
       user: {

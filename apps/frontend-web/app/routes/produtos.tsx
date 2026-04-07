@@ -1,12 +1,12 @@
-import { Button, Card, Badge } from '@aoponto/ui-kit'
+import { Badge, Button, Card } from '@aoponto/ui-kit'
 import {
+  LayoutGrid,
+  List,
+  Package,
   Pencil,
   Plus,
   Search,
-  Trash2,
-  Package,
-  LayoutGrid,
-  List
+  Trash2
 } from 'lucide-react'
 import { useState } from 'react'
 import { useLabelsControllerFetch } from '../api/generated/labels/labels'
@@ -17,7 +17,10 @@ import {
   useProductsControllerEdit,
   useProductsControllerList
 } from '../api/generated/products/products'
-import { ProductModal, ProductFormData } from '../components/products/ProductModal'
+import {
+  ProductFormData,
+  ProductModal
+} from '../components/products/ProductModal'
 
 interface ProductRowProps {
   product: Product

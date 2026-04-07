@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/shared/database/prisma/prisma.service'
 import type { ProductDetail } from '@/catalog/domain/entities/product-detail'
 import type { ProductPersonalized } from '@/catalog/domain/entities/product-personalized'
 import type { ProductSize } from '@/catalog/domain/entities/product-size'
@@ -8,6 +7,7 @@ import type {
   ProductPersonalizedRepository,
   ProductSizesRepository
 } from '@/catalog/domain/repositories/customization-repositories'
+import { PrismaService } from '@/shared/database/prisma/prisma.service'
 import { PrismaProductDetailMapper } from '../mappers/prisma-product-detail-mapper'
 import { PrismaProductPersonalizedMapper } from '../mappers/prisma-product-personalized-mapper'
 import { PrismaProductSizeMapper } from '../mappers/prisma-product-size-mapper'

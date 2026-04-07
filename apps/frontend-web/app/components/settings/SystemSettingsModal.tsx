@@ -1,19 +1,25 @@
 import { Dialog } from '@aoponto/ui-kit'
 import {
-  Settings2,
+  Barcode,
+  ChefHat,
   ClipboardList,
-  Printer,
   Image as ImageIcon,
   MapPin,
-  UserPlus,
-  ChefHat,
-  Barcode,
   Monitor,
+  Printer,
+  Settings2,
+  UserPlus,
   X
 } from 'lucide-react'
 import React, { useState } from 'react'
-import { GeneralSettingsView, type GeneralSettingsData } from './GeneralSettingsView'
-import { MyDefinitionsSettingsView, type MyDefinitionsSettingsData } from './MyDefinitionsSettingsView'
+import {
+  type GeneralSettingsData,
+  GeneralSettingsView
+} from './GeneralSettingsView'
+import {
+  type MyDefinitionsSettingsData,
+  MyDefinitionsSettingsView
+} from './MyDefinitionsSettingsView'
 
 interface SettingsTileProps {
   icon: React.ElementType
@@ -54,7 +60,9 @@ export const SystemSettingsModal: React.FC<SystemSettingsModalProps> = ({
   open,
   onOpenChange
 }) => {
-  const [view, setView] = useState<'grid' | 'general' | 'my-definitions'>('grid')
+  const [view, setView] = useState<'grid' | 'general' | 'my-definitions'>(
+    'grid'
+  )
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {

@@ -5,10 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -22,276 +19,392 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
-
+} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
 import type {
   EditProductDto,
   FetchProductsResponseDto,
   RegisterProductDto,
   SingleProductResponseDto
-} from '../model';
+} from '../model'
 
-import { api } from '../../../lib/api';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 export const complementsControllerCreate = (
-    registerProductDto: RegisterProductDto,
- signal?: AbortSignal
+  registerProductDto: RegisterProductDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleProductResponseDto>(
-      {url: `/api/complements`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: registerProductDto, signal
-    },
-      );
-    }
-  
-
-
-export const getComplementsControllerCreateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerCreate>>, TError,{data: RegisterProductDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof complementsControllerCreate>>, TError,{data: RegisterProductDto}, TContext> => {
-
-const mutationKey = ['complementsControllerCreate'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof complementsControllerCreate>>, {data: RegisterProductDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  complementsControllerCreate(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ComplementsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof complementsControllerCreate>>>
-    export type ComplementsControllerCreateMutationBody = RegisterProductDto
-    export type ComplementsControllerCreateMutationError = unknown
-
-    export const useComplementsControllerCreate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerCreate>>, TError,{data: RegisterProductDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof complementsControllerCreate>>,
-        TError,
-        {data: RegisterProductDto},
-        TContext
-      > => {
-      return useMutation(getComplementsControllerCreateMutationOptions(options), queryClient);
-    }
-    export const complementsControllerList = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return api<FetchProductsResponseDto>(
-      {url: `/api/complements`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getComplementsControllerListQueryKey = () => {
-    return [
-    `/api/complements`
-    ] as const;
-    }
-
-    
-export const getComplementsControllerListQueryOptions = <TData = Awaited<ReturnType<typeof complementsControllerList>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getComplementsControllerListQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof complementsControllerList>>> = ({ signal }) => complementsControllerList(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<SingleProductResponseDto>({
+    url: `/api/complements`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: registerProductDto,
+    signal
+  })
 }
 
-export type ComplementsControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof complementsControllerList>>>
+export const getComplementsControllerCreateMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof complementsControllerCreate>>,
+    TError,
+    { data: RegisterProductDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof complementsControllerCreate>>,
+  TError,
+  { data: RegisterProductDto },
+  TContext
+> => {
+  const mutationKey = ['complementsControllerCreate']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof complementsControllerCreate>>,
+    { data: RegisterProductDto }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return complementsControllerCreate(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type ComplementsControllerCreateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof complementsControllerCreate>>
+>
+export type ComplementsControllerCreateMutationBody = RegisterProductDto
+export type ComplementsControllerCreateMutationError = unknown
+
+export const useComplementsControllerCreate = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof complementsControllerCreate>>,
+      TError,
+      { data: RegisterProductDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof complementsControllerCreate>>,
+  TError,
+  { data: RegisterProductDto },
+  TContext
+> => {
+  return useMutation(
+    getComplementsControllerCreateMutationOptions(options),
+    queryClient
+  )
+}
+export const complementsControllerList = (signal?: AbortSignal) => {
+  return api<FetchProductsResponseDto>({
+    url: `/api/complements`,
+    method: 'GET',
+    signal
+  })
+}
+
+export const getComplementsControllerListQueryKey = () => {
+  return [`/api/complements`] as const
+}
+
+export const getComplementsControllerListQueryOptions = <
+  TData = Awaited<ReturnType<typeof complementsControllerList>>,
+  TError = unknown
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof complementsControllerList>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getComplementsControllerListQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof complementsControllerList>>
+  > = ({ signal }) => complementsControllerList(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof complementsControllerList>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ComplementsControllerListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof complementsControllerList>>
+>
 export type ComplementsControllerListQueryError = unknown
 
-
-export function useComplementsControllerList<TData = Awaited<ReturnType<typeof complementsControllerList>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData>> & Pick<
+export function useComplementsControllerList<
+  TData = Awaited<ReturnType<typeof complementsControllerList>>,
+  TError = unknown
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof complementsControllerList>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof complementsControllerList>>,
           TError,
           Awaited<ReturnType<typeof complementsControllerList>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useComplementsControllerList<TData = Awaited<ReturnType<typeof complementsControllerList>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useComplementsControllerList<
+  TData = Awaited<ReturnType<typeof complementsControllerList>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof complementsControllerList>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof complementsControllerList>>,
           TError,
           Awaited<ReturnType<typeof complementsControllerList>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useComplementsControllerList<TData = Awaited<ReturnType<typeof complementsControllerList>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useComplementsControllerList<TData = Awaited<ReturnType<typeof complementsControllerList>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof complementsControllerList>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getComplementsControllerListQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useComplementsControllerList<
+  TData = Awaited<ReturnType<typeof complementsControllerList>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof complementsControllerList>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 
+export function useComplementsControllerList<
+  TData = Awaited<ReturnType<typeof complementsControllerList>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof complementsControllerList>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getComplementsControllerListQueryOptions(options)
 
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
+  return { ...query, queryKey: queryOptions.queryKey }
+}
 
 export const complementsControllerEdit = (
-    id: string,
-    editProductDto: EditProductDto,
- signal?: AbortSignal
+  id: string,
+  editProductDto: EditProductDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleProductResponseDto>(
-      {url: `/api/complements/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: editProductDto, signal
-    },
-      );
-    }
-  
+  return api<SingleProductResponseDto>({
+    url: `/api/complements/${id}`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: editProductDto,
+    signal
+  })
+}
 
+export const getComplementsControllerEditMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof complementsControllerEdit>>,
+    TError,
+    { id: string; data: EditProductDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof complementsControllerEdit>>,
+  TError,
+  { id: string; data: EditProductDto },
+  TContext
+> => {
+  const mutationKey = ['complementsControllerEdit']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getComplementsControllerEditMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerEdit>>, TError,{id: string;data: EditProductDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof complementsControllerEdit>>, TError,{id: string;data: EditProductDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof complementsControllerEdit>>,
+    { id: string; data: EditProductDto }
+  > = (props) => {
+    const { id, data } = props ?? {}
 
-const mutationKey = ['complementsControllerEdit'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return complementsControllerEdit(id, data)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type ComplementsControllerEditMutationResult = NonNullable<
+  Awaited<ReturnType<typeof complementsControllerEdit>>
+>
+export type ComplementsControllerEditMutationBody = EditProductDto
+export type ComplementsControllerEditMutationError = unknown
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof complementsControllerEdit>>, {id: string;data: EditProductDto}> = (props) => {
-          const {id,data} = props ?? {};
-
-          return  complementsControllerEdit(id,data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ComplementsControllerEditMutationResult = NonNullable<Awaited<ReturnType<typeof complementsControllerEdit>>>
-    export type ComplementsControllerEditMutationBody = EditProductDto
-    export type ComplementsControllerEditMutationError = unknown
-
-    export const useComplementsControllerEdit = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerEdit>>, TError,{id: string;data: EditProductDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof complementsControllerEdit>>,
-        TError,
-        {id: string;data: EditProductDto},
-        TContext
-      > => {
-      return useMutation(getComplementsControllerEditMutationOptions(options), queryClient);
-    }
-    export const complementsControllerDeleteOne = (
-    id: string,
- signal?: AbortSignal
+export const useComplementsControllerEdit = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof complementsControllerEdit>>,
+      TError,
+      { id: string; data: EditProductDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof complementsControllerEdit>>,
+  TError,
+  { id: string; data: EditProductDto },
+  TContext
+> => {
+  return useMutation(
+    getComplementsControllerEditMutationOptions(options),
+    queryClient
+  )
+}
+export const complementsControllerDeleteOne = (
+  id: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<void>(
-      {url: `/api/complements/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-  
+  return api<void>({ url: `/api/complements/${id}`, method: 'DELETE', signal })
+}
 
+export const getComplementsControllerDeleteOneMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
+    TError,
+    { id: string },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['complementsControllerDeleteOne']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getComplementsControllerDeleteOneMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerDeleteOne>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof complementsControllerDeleteOne>>, TError,{id: string}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {}
 
-const mutationKey = ['complementsControllerDeleteOne'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return complementsControllerDeleteOne(id)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type ComplementsControllerDeleteOneMutationResult = NonNullable<
+  Awaited<ReturnType<typeof complementsControllerDeleteOne>>
+>
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof complementsControllerDeleteOne>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+export type ComplementsControllerDeleteOneMutationError = unknown
 
-          return  complementsControllerDeleteOne(id,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ComplementsControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof complementsControllerDeleteOne>>>
-    
-    export type ComplementsControllerDeleteOneMutationError = unknown
-
-    export const useComplementsControllerDeleteOne = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof complementsControllerDeleteOne>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getComplementsControllerDeleteOneMutationOptions(options), queryClient);
-    }
-    
+export const useComplementsControllerDeleteOne = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
+      TError,
+      { id: string },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof complementsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(
+    getComplementsControllerDeleteOneMutationOptions(options),
+    queryClient
+  )
+}

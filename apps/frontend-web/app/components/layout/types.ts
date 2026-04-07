@@ -23,4 +23,3 @@ export interface ModuleConfig {
 }
 
 export type ModuleConfigMap = Record<string, ModuleConfig>
-

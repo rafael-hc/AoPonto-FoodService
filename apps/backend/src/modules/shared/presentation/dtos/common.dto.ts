@@ -1,4 +1,4 @@
 import { z } from 'zod'
 import { UserRole } from '@/parties/domain/entities/user'
 
-export const userRoleSchema = z.nativeEnum(UserRole).describe('UserRole')
+export const userRoleSchema = z.enum(UserRole).describe('UserRole')

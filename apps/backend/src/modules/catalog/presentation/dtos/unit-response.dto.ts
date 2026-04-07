@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
 export const unitResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   initials: z.string(),
   description: z.string().nullable(),
   createdAt: z.any(),

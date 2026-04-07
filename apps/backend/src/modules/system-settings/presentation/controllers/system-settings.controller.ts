@@ -1,10 +1,10 @@
-import { Controller, Get, Put, Body, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Put, Query, UseGuards } from '@nestjs/common'
 import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
   ApiBearerAuth,
-  ApiQuery
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags
 } from '@nestjs/swagger'
 import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard'
 import { FetchSettingsByGroupUseCase } from '../../application/use-cases/fetch-settings-by-group.use-case'

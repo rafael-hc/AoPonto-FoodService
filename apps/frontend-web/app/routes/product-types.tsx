@@ -1,13 +1,12 @@
 import { Button, Card } from '@aoponto/ui-kit'
 import { Pencil, Plus, Ruler, Search, Trash2 } from 'lucide-react'
 import { useState } from 'react'
+import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 import {
   useProductTypesControllerDeleteOne,
   useProductTypesControllerFetch
 } from '../api/generated/product-types/product-types'
 import { ProductTypeModal } from '../components/products/ProductTypeModal'
-
-import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 
 interface ProductTypeRowProps {
   type: ProductType

@@ -19,16 +19,19 @@ export function useHotkeysConfig({
   // Mapeamos todos os itens que possuem shortcut
   const itemsWithShortcut = Object.values(allowedModules).flatMap((module) =>
     module.groups.flatMap((group) =>
-      group.items.reduce((acc, item) => {
-        if (item.shortcut) {
-          acc.push({
-            shortcut: item.shortcut,
-            moduleId: module.id,
-            actionId: item.id || item.name
-          })
-        }
-        return acc
-      }, [] as { shortcut: string; moduleId: string; actionId: string }[])
+      group.items.reduce(
+        (acc, item) => {
+          if (item.shortcut) {
+            acc.push({
+              shortcut: item.shortcut,
+              moduleId: module.id,
+              actionId: item.id || item.name
+            })
+          }
+          return acc
+        },
+        [] as { shortcut: string; moduleId: string; actionId: string }[]
+      )
     )
   )
 

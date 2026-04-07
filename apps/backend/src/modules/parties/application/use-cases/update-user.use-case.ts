@@ -53,7 +53,7 @@ export class UpdateUserUseCase {
       }
     }
 
-    let hashedPassword = undefined
+    let hashedPassword
     if (password) {
       hashedPassword = await this.hashGenerator.hash(password)
     }

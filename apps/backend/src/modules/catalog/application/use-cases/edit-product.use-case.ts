@@ -28,7 +28,10 @@ interface EditProductUseCaseResponse {
 export class EditProductUseCase {
   constructor(private productsRepository: ProductsRepository) {}
 
-  async execute({ id, ...data }: EditProductUseCaseRequest): Promise<EditProductUseCaseResponse> {
+  async execute({
+    id,
+    ...data
+  }: EditProductUseCaseRequest): Promise<EditProductUseCaseResponse> {
     const product = await this.productsRepository.findById(id)
 
     if (!product) {

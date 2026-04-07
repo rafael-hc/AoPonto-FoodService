@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { SystemSettingsRepository } from '../../domain/repositories/system-settings.repository'
 import { SystemSetting } from '../../domain/entities/system-setting'
+import { SystemSettingsRepository } from '../../domain/repositories/system-settings.repository'
 
 export interface SaveSystemSettingRequest {
   parameter: string

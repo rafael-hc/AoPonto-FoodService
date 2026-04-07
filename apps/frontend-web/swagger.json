@@ -1,1 +1,1111 @@
-{"openapi":"3.1.0","paths":{"/api/users":{"post":{"operationId":"RegisterUserController_handle","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterUserDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserResponseDto"}}}}},"tags":["users"]},"get":{"operationId":"FetchUsersController_handle","parameters":[],"responses":{"200":{"description":"Lista de usuários","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FetchUsersResponseDto"}}}}},"tags":["users"]}},"/api/users/{id}":{"put":{"operationId":"UpdateUserController_handle","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateUserDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserResponseDto"}}}}},"tags":["users"]},"delete":{"operationId":"DeleteUserController_handle","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"204":{"description":""}},"tags":["users"]}},"/api/products":{"post":{"operationId":"ProductsController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterProductDto"}}}},"responses":{"201":{"description":""}},"tags":["Products"]},"get":{"operationId":"ProductsController_list","parameters":[],"responses":{"200":{"description":""}},"tags":["Products"]}},"/api/kitchens":{"post":{"operationId":"KitchensController_register","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterKitchenDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleKitchenResponseDto"}}}}},"tags":["Kitchens"]},"get":{"operationId":"KitchensController_fetch","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FetchKitchensResponseDto"}}}}},"tags":["Kitchens"]}},"/api/kitchens/{id}":{"put":{"operationId":"KitchensController_edit","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EditKitchenDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleKitchenResponseDto"}}}}},"tags":["Kitchens"]},"delete":{"operationId":"KitchensController_deleteOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"204":{"description":""}},"tags":["Kitchens"]}},"/api/labels":{"post":{"operationId":"LabelsController_register","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterLabelDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleLabelResponseDto"}}}}},"tags":["Labels"]},"get":{"operationId":"LabelsController_fetch","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FetchLabelsResponseDto"}}}}},"tags":["Labels"]}},"/api/labels/{id}":{"put":{"operationId":"LabelsController_edit","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EditLabelDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleLabelResponseDto"}}}}},"tags":["Labels"]},"delete":{"operationId":"LabelsController_deleteOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"204":{"description":""}},"tags":["Labels"]}},"/api/units":{"post":{"operationId":"UnitsController_register","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterUnitDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleUnitResponseDto"}}}}},"tags":["Units"]},"get":{"operationId":"UnitsController_fetch","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FetchUnitsResponseDto"}}}}},"tags":["Units"]}},"/api/units/{id}":{"put":{"operationId":"UnitsController_edit","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EditUnitDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleUnitResponseDto"}}}}},"tags":["Units"]},"delete":{"operationId":"UnitsController_deleteOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"204":{"description":""}},"tags":["Units"]}},"/api/product-types":{"post":{"operationId":"ProductTypesController_register","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterProductTypeDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleProductTypeResponseDto"}}}}},"tags":["ProductTypes"]},"get":{"operationId":"ProductTypesController_fetch","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/FetchProductTypesResponseDto"}}}}},"tags":["ProductTypes"]}},"/api/product-types/{id}":{"put":{"operationId":"ProductTypesController_edit","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EditProductTypeDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SingleProductTypeResponseDto"}}}}},"tags":["ProductTypes"]},"delete":{"operationId":"ProductTypesController_deleteOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"204":{"description":""}},"tags":["ProductTypes"]}},"/api/session":{"post":{"description":"Realiza o login e gera os tokens de acesso.","operationId":"AuthenticateController_handle","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthenticateDto"}}}},"responses":{"200":{"description":"Autenticado com sucesso"},"401":{"description":"Credenciais inválidas"}},"summary":"Autenticar usuário","tags":["session"]}},"/api/session/refresh":{"patch":{"description":"Gera um novo token de acesso usando o refresh token.","operationId":"RefreshTokenController_handle","parameters":[],"responses":{"200":{"description":"Token atualizado com sucesso"},"401":{"description":"Token inválido ou ausente"}},"summary":"Atualizar token","tags":["session"]}},"/api/me":{"get":{"description":"Retorna os dados do usuário autenticado.","operationId":"GetProfileController_handle","parameters":[],"responses":{"200":{"description":"Perfil do usuário logado","content":{"application/json":{"schema":{"$ref":"#/components/schemas/GetProfileResponseDto"}}}}},"security":[{"bearer":[]}],"summary":"Obter perfil","tags":["GetProfile","session"]}},"/api/session/logout":{"post":{"description":"Limpa os cookies de autenticação.","operationId":"LogoutController_handle","parameters":[],"responses":{"200":{"description":"Logout realizado com sucesso"}},"summary":"Encerrar sessão","tags":["session"]}}},"info":{"title":"AoPonto FoodService API","description":"Documentação da API do sistema AoPonto","version":"1.0","contact":{}},"tags":[{"name":"users","description":""},{"name":"session","description":""}],"servers":[],"components":{"securitySchemes":{"bearer":{"scheme":"bearer","bearerFormat":"JWT","type":"http"}},"schemas":{"RegisterUserDto":{"type":"object","properties":{"name":{"type":"string","minLength":1},"email":{"type":"string","minLength":1,"format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"document":{"type":"string","minLength":1},"login":{"type":"string","minLength":3},"password":{"type":"string","minLength":6},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]}},"required":["name","email","document","login","password"]},"UserResponseDto":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"login":{"type":"string"},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]},"active":{"type":"boolean"},"name":{"type":"string"},"email":{"type":"string","format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"document":{"type":"string"},"contactId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"}},"required":["id","login","role","active","name","email","document","contactId"]},"FetchUsersResponseDto":{"type":"object","properties":{"users":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"login":{"type":"string"},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]},"active":{"type":"boolean"},"name":{"type":"string"},"email":{"type":"string","format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"document":{"type":"string"},"contactId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"}},"required":["id","login","role","active","name","email","document","contactId"]}}},"required":["users"]},"UpdateUserDto":{"type":"object","properties":{"name":{"type":"string","minLength":1},"email":{"type":"string","format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"document":{"type":"string","minLength":1},"login":{"type":"string","minLength":3},"password":{"type":"string","minLength":6},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]},"active":{"type":"boolean"}}},"RegisterProductDto":{"type":"object","properties":{"code":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"name":{"type":"string","minLength":1},"price":{"type":"number","minimum":0},"description":{"type":"string"},"costPrice":{"type":"number"},"minStock":{"type":"number"},"unitId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"kitchenId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"labelId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"productTypeId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"}},"required":["code","name","price","unitId","labelId","productTypeId"]},"RegisterKitchenDto":{"type":"object","properties":{"description":{"type":"string","minLength":1},"ip":{"type":"string","format":"ipv4","pattern":"^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$"},"port":{"type":"string"},"printer":{"type":"string"},"versionReg":{"type":"number"},"versionSync":{"type":"number"}},"required":["description","ip","port","printer"]},"SingleKitchenResponseDto":{"type":"object","properties":{"kitchen":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"description":{"type":"string"},"ip":{"type":"string"},"port":{"type":"string"},"printer":{"type":"string"},"versionReg":{"type":"number","nullable":true},"versionSync":{"type":"number","nullable":true},"createdAt":{},"updatedAt":{"anyOf":[{},{"type":"null"}]}},"required":["id","description","ip","port","printer","createdAt"],"x-nestjs_zod-has-null":true,"x-nestjs_zod-self-required":true}},"required":["kitchen"]},"FetchKitchensResponseDto":{"type":"object","properties":{"kitchens":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"description":{"type":"string"},"ip":{"type":"string"},"port":{"type":"string"},"printer":{"type":"string"},"versionReg":{"type":"number","nullable":true},"versionSync":{"type":"number","nullable":true},"createdAt":{},"updatedAt":{"anyOf":[{},{"type":"null"}]}},"required":["id","description","ip","port","printer","createdAt"]},"x-nestjs_zod-has-null":true}},"required":["kitchens"]},"EditKitchenDto":{"type":"object","properties":{"description":{"type":"string","minLength":1},"ip":{"type":"string","format":"ipv4","pattern":"^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$"},"port":{"type":"string"},"printer":{"type":"string"},"versionReg":{"type":"number"},"versionSync":{"type":"number"}}},"RegisterLabelDto":{"type":"object","properties":{"description":{"type":"string","minLength":1},"order":{"type":"number"},"type":{"type":"string"},"externalId":{"type":"string"},"versionReg":{"type":"number"},"versionSync":{"type":"number"}},"required":["description","externalId"]},"SingleLabelResponseDto":{"type":"object","properties":{"label":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"code":{"type":"number"},"description":{"type":"string"},"order":{"type":"number"},"type":{"type":"string"},"externalId":{"type":"string"},"versionReg":{"type":"number","nullable":true},"versionSync":{"type":"number","nullable":true},"createdAt":{},"updatedAt":{"anyOf":[{},{"type":"null"}]}},"required":["id","code","description","order","type","externalId","createdAt"],"x-nestjs_zod-has-null":true,"x-nestjs_zod-self-required":true}},"required":["label"]},"FetchLabelsResponseDto":{"type":"object","properties":{"labels":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"code":{"type":"number"},"description":{"type":"string"},"order":{"type":"number"},"type":{"type":"string"},"externalId":{"type":"string"},"versionReg":{"type":"number","nullable":true},"versionSync":{"type":"number","nullable":true},"createdAt":{},"updatedAt":{"anyOf":[{},{"type":"null"}]}},"required":["id","code","description","order","type","externalId","createdAt"]},"x-nestjs_zod-has-null":true}},"required":["labels"]},"EditLabelDto":{"type":"object","properties":{"description":{"type":"string","minLength":1},"order":{"type":"number"},"type":{"type":"string"},"versionReg":{"type":"number"},"versionSync":{"type":"number"}}},"RegisterUnitDto":{"type":"object","properties":{"initials":{"type":"string","minLength":1},"description":{"type":"string"}},"required":["initials"]},"SingleUnitResponseDto":{"type":"object","properties":{"unit":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"initials":{"type":"string"},"description":{"type":"string","nullable":true},"createdAt":{},"updatedAt":{}},"required":["id","initials","description","createdAt","updatedAt"],"x-nestjs_zod-has-null":true,"x-nestjs_zod-self-required":true}},"required":["unit"]},"FetchUnitsResponseDto":{"type":"object","properties":{"units":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"initials":{"type":"string"},"description":{"type":"string","nullable":true},"createdAt":{},"updatedAt":{}},"required":["id","initials","description","createdAt","updatedAt"]},"x-nestjs_zod-has-null":true}},"required":["units"]},"EditUnitDto":{"type":"object","properties":{"initials":{"type":"string","minLength":1,"x-nestjs_zod-has-null":true},"description":{"x-nestjs_zod-has-null":true,"x-nestjs_zod-empty-type":true,"type":"string","nullable":true}}},"RegisterProductTypeDto":{"type":"object","properties":{"description":{"type":"string","minLength":1}},"required":["description"]},"SingleProductTypeResponseDto":{"type":"object","properties":{"productType":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"description":{"type":"string"},"createdAt":{},"updatedAt":{}},"required":["id","description","createdAt","updatedAt"],"x-nestjs_zod-self-required":true}},"required":["productType"]},"FetchProductTypesResponseDto":{"type":"object","properties":{"productTypes":{"type":"array","items":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"description":{"type":"string"},"createdAt":{},"updatedAt":{}},"required":["id","description","createdAt","updatedAt"]}}},"required":["productTypes"]},"EditProductTypeDto":{"type":"object","properties":{"description":{"type":"string","minLength":1}}},"AuthenticateDto":{"type":"object","properties":{"login":{"type":"string","minLength":1},"password":{"type":"string","minLength":6}},"required":["login","password"]},"GetProfileResponseDto":{"type":"object","properties":{"user":{"type":"object","properties":{"id":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"},"login":{"type":"string"},"role":{"type":"string","enum":["ADMIN","CASHIER","KITCHEN"]},"active":{"type":"boolean"},"name":{"type":"string"},"email":{"type":"string","format":"email","pattern":"^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"},"document":{"type":"string"},"contactId":{"type":"string","format":"uuid","pattern":"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"}},"required":["id","login","role","active","name","email","document","contactId"],"x-nestjs_zod-self-required":true}},"required":["user"]}}}}
+{
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/users": {
+      "post": {
+        "operationId": "RegisterUserController_handle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterUserDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["users"]
+      },
+      "get": {
+        "operationId": "FetchUsersController_handle",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchUsersResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["users"]
+      }
+    },
+    "/api/users/{id}": {
+      "put": {
+        "operationId": "UpdateUserController_handle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateUserDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserResponseDto" }
+              }
+            }
+          }
+        },
+        "tags": ["users"]
+      },
+      "delete": {
+        "operationId": "DeleteUserController_handle",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["users"]
+      }
+    },
+    "/api/products": {
+      "post": {
+        "operationId": "ProductsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterProductDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Products"]
+      },
+      "get": {
+        "operationId": "ProductsController_list",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Products"]
+      }
+    },
+    "/api/kitchens": {
+      "post": {
+        "operationId": "KitchensController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterKitchenDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleKitchenResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Kitchens"]
+      },
+      "get": {
+        "operationId": "KitchensController_fetch",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchKitchensResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Kitchens"]
+      }
+    },
+    "/api/kitchens/{id}": {
+      "put": {
+        "operationId": "KitchensController_edit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EditKitchenDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleKitchenResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Kitchens"]
+      },
+      "delete": {
+        "operationId": "KitchensController_deleteOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Kitchens"]
+      }
+    },
+    "/api/labels": {
+      "post": {
+        "operationId": "LabelsController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterLabelDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleLabelResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Labels"]
+      },
+      "get": {
+        "operationId": "LabelsController_fetch",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchLabelsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Labels"]
+      }
+    },
+    "/api/labels/{id}": {
+      "put": {
+        "operationId": "LabelsController_edit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EditLabelDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleLabelResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Labels"]
+      },
+      "delete": {
+        "operationId": "LabelsController_deleteOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Labels"]
+      }
+    },
+    "/api/units": {
+      "post": {
+        "operationId": "UnitsController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterUnitDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleUnitResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Units"]
+      },
+      "get": {
+        "operationId": "UnitsController_fetch",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchUnitsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Units"]
+      }
+    },
+    "/api/units/{id}": {
+      "put": {
+        "operationId": "UnitsController_edit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EditUnitDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleUnitResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Units"]
+      },
+      "delete": {
+        "operationId": "UnitsController_deleteOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["Units"]
+      }
+    },
+    "/api/product-types": {
+      "post": {
+        "operationId": "ProductTypesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterProductTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleProductTypeResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ProductTypes"]
+      },
+      "get": {
+        "operationId": "ProductTypesController_fetch",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchProductTypesResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ProductTypes"]
+      }
+    },
+    "/api/product-types/{id}": {
+      "put": {
+        "operationId": "ProductTypesController_edit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EditProductTypeDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleProductTypeResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["ProductTypes"]
+      },
+      "delete": {
+        "operationId": "ProductTypesController_deleteOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "204": { "description": "" } },
+        "tags": ["ProductTypes"]
+      }
+    },
+    "/api/session": {
+      "post": {
+        "description": "Realiza o login e gera os tokens de acesso.",
+        "operationId": "AuthenticateController_handle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AuthenticateDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Autenticado com sucesso" },
+          "401": { "description": "Credenciais inválidas" }
+        },
+        "summary": "Autenticar usuário",
+        "tags": ["session"]
+      }
+    },
+    "/api/session/refresh": {
+      "patch": {
+        "description": "Gera um novo token de acesso usando o refresh token.",
+        "operationId": "RefreshTokenController_handle",
+        "parameters": [],
+        "responses": {
+          "200": { "description": "Token atualizado com sucesso" },
+          "401": { "description": "Token inválido ou ausente" }
+        },
+        "summary": "Atualizar token",
+        "tags": ["session"]
+      }
+    },
+    "/api/me": {
+      "get": {
+        "description": "Retorna os dados do usuário autenticado.",
+        "operationId": "GetProfileController_handle",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Perfil do usuário logado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProfileResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearer": [] }],
+        "summary": "Obter perfil",
+        "tags": ["GetProfile", "session"]
+      }
+    },
+    "/api/session/logout": {
+      "post": {
+        "description": "Limpa os cookies de autenticação.",
+        "operationId": "LogoutController_handle",
+        "parameters": [],
+        "responses": {
+          "200": { "description": "Logout realizado com sucesso" }
+        },
+        "summary": "Encerrar sessão",
+        "tags": ["session"]
+      }
+    }
+  },
+  "info": {
+    "title": "AoPonto FoodService API",
+    "description": "Documentação da API do sistema AoPonto",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    { "name": "users", "description": "" },
+    { "name": "session", "description": "" }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+    },
+    "schemas": {
+      "RegisterUserDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "document": { "type": "string", "minLength": 1 },
+          "login": { "type": "string", "minLength": 3 },
+          "password": { "type": "string", "minLength": 6 },
+          "role": { "type": "string", "enum": ["ADMIN", "CASHIER", "KITCHEN"] }
+        },
+        "required": ["name", "email", "document", "login", "password"]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "login": { "type": "string" },
+          "role": { "type": "string", "enum": ["ADMIN", "CASHIER", "KITCHEN"] },
+          "active": { "type": "boolean" },
+          "name": { "type": "string" },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "document": { "type": "string" },
+          "contactId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "role",
+          "active",
+          "name",
+          "email",
+          "document",
+          "contactId"
+        ]
+      },
+      "FetchUsersResponseDto": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "login": { "type": "string" },
+                "role": {
+                  "type": "string",
+                  "enum": ["ADMIN", "CASHIER", "KITCHEN"]
+                },
+                "active": { "type": "boolean" },
+                "name": { "type": "string" },
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                },
+                "document": { "type": "string" },
+                "contactId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                }
+              },
+              "required": [
+                "id",
+                "login",
+                "role",
+                "active",
+                "name",
+                "email",
+                "document",
+                "contactId"
+              ]
+            }
+          }
+        },
+        "required": ["users"]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          },
+          "document": { "type": "string", "minLength": 1 },
+          "login": { "type": "string", "minLength": 3 },
+          "password": { "type": "string", "minLength": 6 },
+          "role": { "type": "string", "enum": ["ADMIN", "CASHIER", "KITCHEN"] },
+          "active": { "type": "boolean" }
+        }
+      },
+      "RegisterProductDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "name": { "type": "string", "minLength": 1 },
+          "price": { "type": "number", "minimum": 0 },
+          "description": { "type": "string" },
+          "costPrice": { "type": "number" },
+          "minStock": { "type": "number" },
+          "unitId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "kitchenId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "labelId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "productTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "price",
+          "unitId",
+          "labelId",
+          "productTypeId"
+        ]
+      },
+      "RegisterKitchenDto": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "ip": {
+            "type": "string",
+            "format": "ipv4",
+            "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$"
+          },
+          "port": { "type": "string" },
+          "printer": { "type": "string" },
+          "versionReg": { "type": "number" },
+          "versionSync": { "type": "number" }
+        },
+        "required": ["description", "ip", "port", "printer"]
+      },
+      "SingleKitchenResponseDto": {
+        "type": "object",
+        "properties": {
+          "kitchen": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "description": { "type": "string" },
+              "ip": { "type": "string" },
+              "port": { "type": "string" },
+              "printer": { "type": "string" },
+              "versionReg": { "type": "number", "nullable": true },
+              "versionSync": { "type": "number", "nullable": true },
+              "createdAt": {},
+              "updatedAt": { "anyOf": [{}, { "type": "null" }] }
+            },
+            "required": [
+              "id",
+              "description",
+              "ip",
+              "port",
+              "printer",
+              "createdAt"
+            ],
+            "x-nestjs_zod-has-null": true,
+            "x-nestjs_zod-self-required": true
+          }
+        },
+        "required": ["kitchen"]
+      },
+      "FetchKitchensResponseDto": {
+        "type": "object",
+        "properties": {
+          "kitchens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "description": { "type": "string" },
+                "ip": { "type": "string" },
+                "port": { "type": "string" },
+                "printer": { "type": "string" },
+                "versionReg": { "type": "number", "nullable": true },
+                "versionSync": { "type": "number", "nullable": true },
+                "createdAt": {},
+                "updatedAt": { "anyOf": [{}, { "type": "null" }] }
+              },
+              "required": [
+                "id",
+                "description",
+                "ip",
+                "port",
+                "printer",
+                "createdAt"
+              ]
+            },
+            "x-nestjs_zod-has-null": true
+          }
+        },
+        "required": ["kitchens"]
+      },
+      "EditKitchenDto": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "ip": {
+            "type": "string",
+            "format": "ipv4",
+            "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$"
+          },
+          "port": { "type": "string" },
+          "printer": { "type": "string" },
+          "versionReg": { "type": "number" },
+          "versionSync": { "type": "number" }
+        }
+      },
+      "RegisterLabelDto": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "order": { "type": "number" },
+          "type": { "type": "string" },
+          "externalId": { "type": "string" },
+          "versionReg": { "type": "number" },
+          "versionSync": { "type": "number" }
+        },
+        "required": ["description", "externalId"]
+      },
+      "SingleLabelResponseDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "code": { "type": "number" },
+              "description": { "type": "string" },
+              "order": { "type": "number" },
+              "type": { "type": "string" },
+              "externalId": { "type": "string" },
+              "versionReg": { "type": "number", "nullable": true },
+              "versionSync": { "type": "number", "nullable": true },
+              "createdAt": {},
+              "updatedAt": { "anyOf": [{}, { "type": "null" }] }
+            },
+            "required": [
+              "id",
+              "code",
+              "description",
+              "order",
+              "type",
+              "externalId",
+              "createdAt"
+            ],
+            "x-nestjs_zod-has-null": true,
+            "x-nestjs_zod-self-required": true
+          }
+        },
+        "required": ["label"]
+      },
+      "FetchLabelsResponseDto": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "code": { "type": "number" },
+                "description": { "type": "string" },
+                "order": { "type": "number" },
+                "type": { "type": "string" },
+                "externalId": { "type": "string" },
+                "versionReg": { "type": "number", "nullable": true },
+                "versionSync": { "type": "number", "nullable": true },
+                "createdAt": {},
+                "updatedAt": { "anyOf": [{}, { "type": "null" }] }
+              },
+              "required": [
+                "id",
+                "code",
+                "description",
+                "order",
+                "type",
+                "externalId",
+                "createdAt"
+              ]
+            },
+            "x-nestjs_zod-has-null": true
+          }
+        },
+        "required": ["labels"]
+      },
+      "EditLabelDto": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "order": { "type": "number" },
+          "type": { "type": "string" },
+          "versionReg": { "type": "number" },
+          "versionSync": { "type": "number" }
+        }
+      },
+      "RegisterUnitDto": {
+        "type": "object",
+        "properties": {
+          "initials": { "type": "string", "minLength": 1 },
+          "description": { "type": "string" }
+        },
+        "required": ["initials"]
+      },
+      "SingleUnitResponseDto": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "initials": { "type": "string" },
+              "description": { "type": "string", "nullable": true },
+              "createdAt": {},
+              "updatedAt": {}
+            },
+            "required": [
+              "id",
+              "initials",
+              "description",
+              "createdAt",
+              "updatedAt"
+            ],
+            "x-nestjs_zod-has-null": true,
+            "x-nestjs_zod-self-required": true
+          }
+        },
+        "required": ["unit"]
+      },
+      "FetchUnitsResponseDto": {
+        "type": "object",
+        "properties": {
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "initials": { "type": "string" },
+                "description": { "type": "string", "nullable": true },
+                "createdAt": {},
+                "updatedAt": {}
+              },
+              "required": [
+                "id",
+                "initials",
+                "description",
+                "createdAt",
+                "updatedAt"
+              ]
+            },
+            "x-nestjs_zod-has-null": true
+          }
+        },
+        "required": ["units"]
+      },
+      "EditUnitDto": {
+        "type": "object",
+        "properties": {
+          "initials": {
+            "type": "string",
+            "minLength": 1,
+            "x-nestjs_zod-has-null": true
+          },
+          "description": {
+            "x-nestjs_zod-has-null": true,
+            "x-nestjs_zod-empty-type": true,
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RegisterProductTypeDto": {
+        "type": "object",
+        "properties": { "description": { "type": "string", "minLength": 1 } },
+        "required": ["description"]
+      },
+      "SingleProductTypeResponseDto": {
+        "type": "object",
+        "properties": {
+          "productType": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "description": { "type": "string" },
+              "createdAt": {},
+              "updatedAt": {}
+            },
+            "required": ["id", "description", "createdAt", "updatedAt"],
+            "x-nestjs_zod-self-required": true
+          }
+        },
+        "required": ["productType"]
+      },
+      "FetchProductTypesResponseDto": {
+        "type": "object",
+        "properties": {
+          "productTypes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "description": { "type": "string" },
+                "createdAt": {},
+                "updatedAt": {}
+              },
+              "required": ["id", "description", "createdAt", "updatedAt"]
+            }
+          }
+        },
+        "required": ["productTypes"]
+      },
+      "EditProductTypeDto": {
+        "type": "object",
+        "properties": { "description": { "type": "string", "minLength": 1 } }
+      },
+      "AuthenticateDto": {
+        "type": "object",
+        "properties": {
+          "login": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 6 }
+        },
+        "required": ["login", "password"]
+      },
+      "GetProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "login": { "type": "string" },
+              "role": {
+                "type": "string",
+                "enum": ["ADMIN", "CASHIER", "KITCHEN"]
+              },
+              "active": { "type": "boolean" },
+              "name": { "type": "string" },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              "document": { "type": "string" },
+              "contactId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              }
+            },
+            "required": [
+              "id",
+              "login",
+              "role",
+              "active",
+              "name",
+              "email",
+              "document",
+              "contactId"
+            ],
+            "x-nestjs_zod-self-required": true
+          }
+        },
+        "required": ["user"]
+      }
+    }
+  }
+}

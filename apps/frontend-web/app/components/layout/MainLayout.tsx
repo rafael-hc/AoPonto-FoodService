@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router'
 import { useHotkeysConfig } from '../../hooks/use-hotkeys-config'
 import { useNavigation } from '../../hooks/use-navigation'
+import { SystemSettingsModal } from '../settings/SystemSettingsModal'
 import { Sidebar } from './Sidebar'
 import { SubNavigation } from './SubNavigation'
 import { Topbar } from './Topbar'
-import { SystemSettingsModal } from '../settings/SystemSettingsModal'
 
 export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   children
@@ -86,7 +86,9 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   const currentModule = allowedModules[activeModule]
 
   if (!currentModule) {
-    return <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800" />
+    return (
+      <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800" />
+    )
   }
 
   return (

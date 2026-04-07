@@ -8,5 +8,5 @@
 
 export interface RegisterProductTypeDto {
   /** @minLength 1 */
-  description: string;
+  description: string
 }

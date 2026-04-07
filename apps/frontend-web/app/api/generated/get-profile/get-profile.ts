@@ -5,9 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,109 +16,154 @@ import type {
   UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
+} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
+import type { GetProfileResponseDto } from '../model'
 
-import type {
-  GetProfileResponseDto
-} from '../model';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-import { api } from '../../../lib/api';
-
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 /**
  * Retorna os dados do usuário autenticado.
  * @summary Obter perfil
  */
-export const getProfileControllerHandle = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return api<GetProfileResponseDto>(
-      {url: `/api/me`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getGetProfileControllerHandleQueryKey = () => {
-    return [
-    `/api/me`
-    ] as const;
-    }
-
-    
-export const getGetProfileControllerHandleQueryOptions = <TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetProfileControllerHandleQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProfileControllerHandle>>> = ({ signal }) => getProfileControllerHandle(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+export const getProfileControllerHandle = (signal?: AbortSignal) => {
+  return api<GetProfileResponseDto>({ url: `/api/me`, method: 'GET', signal })
 }
 
-export type GetProfileControllerHandleQueryResult = NonNullable<Awaited<ReturnType<typeof getProfileControllerHandle>>>
+export const getGetProfileControllerHandleQueryKey = () => {
+  return [`/api/me`] as const
+}
+
+export const getGetProfileControllerHandleQueryOptions = <
+  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
+  TError = unknown
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProfileControllerHandle>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetProfileControllerHandleQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getProfileControllerHandle>>
+  > = ({ signal }) => getProfileControllerHandle(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getProfileControllerHandle>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetProfileControllerHandleQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProfileControllerHandle>>
+>
 export type GetProfileControllerHandleQueryError = unknown
 
-
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>> & Pick<
+export function useGetProfileControllerHandle<
+  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
+  TError = unknown
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProfileControllerHandle>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getProfileControllerHandle>>,
           TError,
           Awaited<ReturnType<typeof getProfileControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetProfileControllerHandle<
+  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProfileControllerHandle>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getProfileControllerHandle>>,
           TError,
           Awaited<ReturnType<typeof getProfileControllerHandle>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetProfileControllerHandle<
+  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProfileControllerHandle>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Obter perfil
  */
 
-export function useGetProfileControllerHandle<TData = Awaited<ReturnType<typeof getProfileControllerHandle>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getProfileControllerHandle>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
+export function useGetProfileControllerHandle<
+  TData = Awaited<ReturnType<typeof getProfileControllerHandle>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProfileControllerHandle>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetProfileControllerHandleQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey }
 }
-
-
-
-

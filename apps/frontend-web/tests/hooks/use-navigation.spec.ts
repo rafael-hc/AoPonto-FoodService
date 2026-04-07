@@ -46,7 +46,7 @@ describe('useNavigation Hook (RBAC Filtering)', () => {
     const { result } = renderHook(() => useNavigation())
     const { allowedModules } = result.current
 
-    // Sem usuário defindo (por precaução/loading), a lógica renderiza o não restrito, ou poderíamos escolher renderizar vazio 
+    // Sem usuário defindo (por precaução/loading), a lógica renderiza o não restrito, ou poderíamos escolher renderizar vazio
     // Como a lógica atual mostra menus abertos na ausência de User, validamos a premissa de que os restritos ficam bloqueados:
     expect(allowedModules).not.toHaveProperty('financeiro')
     expect(allowedModules).toHaveProperty('principal')

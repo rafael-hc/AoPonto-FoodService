@@ -4,11 +4,11 @@ import { Layout, Ruler } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 import {
   useProductTypesControllerEdit,
   useProductTypesControllerRegister
 } from '../../api/generated/product-types/product-types'
-import { FetchProductTypesResponseDtoProductTypesItem as ProductType } from '../../api/generated/model/fetchProductTypesResponseDtoProductTypesItem'
 
 const productTypeSchema = z.object({
   description: z.string().min(1, { error: 'Descrição é obrigatória' })

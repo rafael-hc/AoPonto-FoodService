@@ -7,5 +7,5 @@
  */
 
 export type SystemSettingsControllerFindByGroupParams = {
-group: string;
-};
+  group: string
+}

@@ -8,7 +8,7 @@
 
 export interface AuthenticateDto {
   /** @minLength 1 */
-  login: string;
+  login: string
   /** @minLength 6 */
-  password: string;
+  password: string
 }

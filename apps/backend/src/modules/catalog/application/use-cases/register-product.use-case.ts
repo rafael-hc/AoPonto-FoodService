@@ -21,7 +21,6 @@ interface RegisterProductUseCaseRequest {
   useDigitalMenu?: boolean
 }
 
-
 interface RegisterProductUseCaseResponse {
   product: Product
 }

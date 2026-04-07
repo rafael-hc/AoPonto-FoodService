@@ -1,8 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
-import { userRoleSchema } from '@/shared/presentation/dtos/common.dto'
 import { UserRole } from '@/parties/domain/entities/user'
-import { ApiProperty } from '@nestjs/swagger'
+import { userRoleSchema } from '@/shared/presentation/dtos/common.dto'
 
 const registerUserSchema = z.object({
   name: z.string().min(1, { error: 'O nome é obrigatório' }),

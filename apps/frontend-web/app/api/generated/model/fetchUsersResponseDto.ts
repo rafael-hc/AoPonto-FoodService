@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchUsersResponseDtoUsersItem } from './fetchUsersResponseDtoUsersItem';
+import type { FetchUsersResponseDtoUsersItem } from './fetchUsersResponseDtoUsersItem'
 
 export interface FetchUsersResponseDto {
-  users: FetchUsersResponseDtoUsersItem[];
+  users: FetchUsersResponseDtoUsersItem[]
 }

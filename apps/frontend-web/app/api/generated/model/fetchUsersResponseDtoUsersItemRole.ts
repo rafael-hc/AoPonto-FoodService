@@ -9,11 +9,11 @@
 /**
  * UserRole
  */
-export type FetchUsersResponseDtoUsersItemRole = typeof FetchUsersResponseDtoUsersItemRole[keyof typeof FetchUsersResponseDtoUsersItemRole];
-
+export type FetchUsersResponseDtoUsersItemRole =
+  (typeof FetchUsersResponseDtoUsersItemRole)[keyof typeof FetchUsersResponseDtoUsersItemRole]
 
 export const FetchUsersResponseDtoUsersItemRole = {
   ADMIN: 'ADMIN',
   CASHIER: 'CASHIER',
-  KITCHEN: 'KITCHEN',
-} as const;
+  KITCHEN: 'KITCHEN'
+} as const

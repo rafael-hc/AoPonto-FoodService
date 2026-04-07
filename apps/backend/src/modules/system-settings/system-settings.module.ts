@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common'
-
+import { FetchSettingsByGroupUseCase } from './application/use-cases/fetch-settings-by-group.use-case'
+import { SaveSystemSettingUseCase } from './application/use-cases/save-system-setting.use-case'
 import { SystemSettingsRepository } from './domain/repositories/system-settings.repository'
 import { PrismaSystemSettingsRepository } from './infrastructure/repositories/prisma-system-settings.repository'
-import { SaveSystemSettingUseCase } from './application/use-cases/save-system-setting.use-case'
-import { FetchSettingsByGroupUseCase } from './application/use-cases/fetch-settings-by-group.use-case'
 import { SystemSettingsController } from './presentation/controllers/system-settings.controller'
 
 @Module({
@@ -16,9 +15,6 @@ import { SystemSettingsController } from './presentation/controllers/system-sett
     SaveSystemSettingUseCase,
     FetchSettingsByGroupUseCase
   ],
-  exports: [
-    SystemSettingsRepository,
-    FetchSettingsByGroupUseCase
-  ]
+  exports: [SystemSettingsRepository, FetchSettingsByGroupUseCase]
 })
 export class SystemSettingsModule {}

@@ -9,11 +9,10 @@
 /**
  * UserRole
  */
-export type UserRole = typeof UserRole[keyof typeof UserRole];
-
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 export const UserRole = {
   ADMIN: 'ADMIN',
   CASHIER: 'CASHIER',
-  KITCHEN: 'KITCHEN',
-} as const;
+  KITCHEN: 'KITCHEN'
+} as const

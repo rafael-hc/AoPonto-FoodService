@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
 export const labelResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   code: z.number(),
   description: z.string(),
   order: z.number(),

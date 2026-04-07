@@ -5,10 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -22,276 +19,385 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
-
+} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
 import type {
   EditLabelDto,
   FetchLabelsResponseDto,
   RegisterLabelDto,
   SingleLabelResponseDto
-} from '../model';
+} from '../model'
 
-import { api } from '../../../lib/api';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 export const labelsControllerRegister = (
-    registerLabelDto: RegisterLabelDto,
- signal?: AbortSignal
+  registerLabelDto: RegisterLabelDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleLabelResponseDto>(
-      {url: `/api/labels`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: registerLabelDto, signal
-    },
-      );
-    }
-  
-
-
-export const getLabelsControllerRegisterMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerRegister>>, TError,{data: RegisterLabelDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof labelsControllerRegister>>, TError,{data: RegisterLabelDto}, TContext> => {
-
-const mutationKey = ['labelsControllerRegister'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof labelsControllerRegister>>, {data: RegisterLabelDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  labelsControllerRegister(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type LabelsControllerRegisterMutationResult = NonNullable<Awaited<ReturnType<typeof labelsControllerRegister>>>
-    export type LabelsControllerRegisterMutationBody = RegisterLabelDto
-    export type LabelsControllerRegisterMutationError = unknown
-
-    export const useLabelsControllerRegister = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerRegister>>, TError,{data: RegisterLabelDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof labelsControllerRegister>>,
-        TError,
-        {data: RegisterLabelDto},
-        TContext
-      > => {
-      return useMutation(getLabelsControllerRegisterMutationOptions(options), queryClient);
-    }
-    export const labelsControllerFetch = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return api<FetchLabelsResponseDto>(
-      {url: `/api/labels`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getLabelsControllerFetchQueryKey = () => {
-    return [
-    `/api/labels`
-    ] as const;
-    }
-
-    
-export const getLabelsControllerFetchQueryOptions = <TData = Awaited<ReturnType<typeof labelsControllerFetch>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getLabelsControllerFetchQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof labelsControllerFetch>>> = ({ signal }) => labelsControllerFetch(signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<SingleLabelResponseDto>({
+    url: `/api/labels`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: registerLabelDto,
+    signal
+  })
 }
 
-export type LabelsControllerFetchQueryResult = NonNullable<Awaited<ReturnType<typeof labelsControllerFetch>>>
+export const getLabelsControllerRegisterMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof labelsControllerRegister>>,
+    TError,
+    { data: RegisterLabelDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof labelsControllerRegister>>,
+  TError,
+  { data: RegisterLabelDto },
+  TContext
+> => {
+  const mutationKey = ['labelsControllerRegister']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof labelsControllerRegister>>,
+    { data: RegisterLabelDto }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return labelsControllerRegister(data)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type LabelsControllerRegisterMutationResult = NonNullable<
+  Awaited<ReturnType<typeof labelsControllerRegister>>
+>
+export type LabelsControllerRegisterMutationBody = RegisterLabelDto
+export type LabelsControllerRegisterMutationError = unknown
+
+export const useLabelsControllerRegister = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof labelsControllerRegister>>,
+      TError,
+      { data: RegisterLabelDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof labelsControllerRegister>>,
+  TError,
+  { data: RegisterLabelDto },
+  TContext
+> => {
+  return useMutation(
+    getLabelsControllerRegisterMutationOptions(options),
+    queryClient
+  )
+}
+export const labelsControllerFetch = (signal?: AbortSignal) => {
+  return api<FetchLabelsResponseDto>({
+    url: `/api/labels`,
+    method: 'GET',
+    signal
+  })
+}
+
+export const getLabelsControllerFetchQueryKey = () => {
+  return [`/api/labels`] as const
+}
+
+export const getLabelsControllerFetchQueryOptions = <
+  TData = Awaited<ReturnType<typeof labelsControllerFetch>>,
+  TError = unknown
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof labelsControllerFetch>>,
+      TError,
+      TData
+    >
+  >
+}) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getLabelsControllerFetchQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof labelsControllerFetch>>
+  > = ({ signal }) => labelsControllerFetch(signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof labelsControllerFetch>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type LabelsControllerFetchQueryResult = NonNullable<
+  Awaited<ReturnType<typeof labelsControllerFetch>>
+>
 export type LabelsControllerFetchQueryError = unknown
 
-
-export function useLabelsControllerFetch<TData = Awaited<ReturnType<typeof labelsControllerFetch>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData>> & Pick<
+export function useLabelsControllerFetch<
+  TData = Awaited<ReturnType<typeof labelsControllerFetch>>,
+  TError = unknown
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof labelsControllerFetch>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof labelsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof labelsControllerFetch>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useLabelsControllerFetch<TData = Awaited<ReturnType<typeof labelsControllerFetch>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useLabelsControllerFetch<
+  TData = Awaited<ReturnType<typeof labelsControllerFetch>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof labelsControllerFetch>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof labelsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof labelsControllerFetch>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useLabelsControllerFetch<TData = Awaited<ReturnType<typeof labelsControllerFetch>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useLabelsControllerFetch<TData = Awaited<ReturnType<typeof labelsControllerFetch>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof labelsControllerFetch>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getLabelsControllerFetchQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useLabelsControllerFetch<
+  TData = Awaited<ReturnType<typeof labelsControllerFetch>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof labelsControllerFetch>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 
+export function useLabelsControllerFetch<
+  TData = Awaited<ReturnType<typeof labelsControllerFetch>>,
+  TError = unknown
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof labelsControllerFetch>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getLabelsControllerFetchQueryOptions(options)
 
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
+  return { ...query, queryKey: queryOptions.queryKey }
+}
 
 export const labelsControllerEdit = (
-    id: string,
-    editLabelDto: EditLabelDto,
- signal?: AbortSignal
+  id: string,
+  editLabelDto: EditLabelDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleLabelResponseDto>(
-      {url: `/api/labels/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: editLabelDto, signal
-    },
-      );
-    }
-  
+  return api<SingleLabelResponseDto>({
+    url: `/api/labels/${id}`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: editLabelDto,
+    signal
+  })
+}
 
+export const getLabelsControllerEditMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof labelsControllerEdit>>,
+    TError,
+    { id: string; data: EditLabelDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof labelsControllerEdit>>,
+  TError,
+  { id: string; data: EditLabelDto },
+  TContext
+> => {
+  const mutationKey = ['labelsControllerEdit']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getLabelsControllerEditMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerEdit>>, TError,{id: string;data: EditLabelDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof labelsControllerEdit>>, TError,{id: string;data: EditLabelDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof labelsControllerEdit>>,
+    { id: string; data: EditLabelDto }
+  > = (props) => {
+    const { id, data } = props ?? {}
 
-const mutationKey = ['labelsControllerEdit'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return labelsControllerEdit(id, data)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type LabelsControllerEditMutationResult = NonNullable<
+  Awaited<ReturnType<typeof labelsControllerEdit>>
+>
+export type LabelsControllerEditMutationBody = EditLabelDto
+export type LabelsControllerEditMutationError = unknown
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof labelsControllerEdit>>, {id: string;data: EditLabelDto}> = (props) => {
-          const {id,data} = props ?? {};
+export const useLabelsControllerEdit = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof labelsControllerEdit>>,
+      TError,
+      { id: string; data: EditLabelDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof labelsControllerEdit>>,
+  TError,
+  { id: string; data: EditLabelDto },
+  TContext
+> => {
+  return useMutation(
+    getLabelsControllerEditMutationOptions(options),
+    queryClient
+  )
+}
+export const labelsControllerDeleteOne = (id: string, signal?: AbortSignal) => {
+  return api<void>({ url: `/api/labels/${id}`, method: 'DELETE', signal })
+}
 
-          return  labelsControllerEdit(id,data,)
-        }
+export const getLabelsControllerDeleteOneMutationOptions = <
+  TError = unknown,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
+    TError,
+    { id: string },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['labelsControllerDeleteOne']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {}
 
+    return labelsControllerDeleteOne(id)
+  }
 
-        
+  return { mutationFn, ...mutationOptions }
+}
 
+export type LabelsControllerDeleteOneMutationResult = NonNullable<
+  Awaited<ReturnType<typeof labelsControllerDeleteOne>>
+>
 
-  return  { mutationFn, ...mutationOptions }}
+export type LabelsControllerDeleteOneMutationError = unknown
 
-    export type LabelsControllerEditMutationResult = NonNullable<Awaited<ReturnType<typeof labelsControllerEdit>>>
-    export type LabelsControllerEditMutationBody = EditLabelDto
-    export type LabelsControllerEditMutationError = unknown
-
-    export const useLabelsControllerEdit = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerEdit>>, TError,{id: string;data: EditLabelDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof labelsControllerEdit>>,
-        TError,
-        {id: string;data: EditLabelDto},
-        TContext
-      > => {
-      return useMutation(getLabelsControllerEditMutationOptions(options), queryClient);
-    }
-    export const labelsControllerDeleteOne = (
-    id: string,
- signal?: AbortSignal
-) => {
-      
-      
-      return api<void>(
-      {url: `/api/labels/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-  
-
-
-export const getLabelsControllerDeleteOneMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerDeleteOne>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof labelsControllerDeleteOne>>, TError,{id: string}, TContext> => {
-
-const mutationKey = ['labelsControllerDeleteOne'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof labelsControllerDeleteOne>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  labelsControllerDeleteOne(id,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type LabelsControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof labelsControllerDeleteOne>>>
-    
-    export type LabelsControllerDeleteOneMutationError = unknown
-
-    export const useLabelsControllerDeleteOne = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof labelsControllerDeleteOne>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getLabelsControllerDeleteOneMutationOptions(options), queryClient);
-    }
-    
+export const useLabelsControllerDeleteOne = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
+      TError,
+      { id: string },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof labelsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(
+    getLabelsControllerDeleteOneMutationOptions(options),
+    queryClient
+  )
+}

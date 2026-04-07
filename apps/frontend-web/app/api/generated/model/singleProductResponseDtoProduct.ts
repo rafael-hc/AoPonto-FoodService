@@ -7,25 +7,25 @@
  */
 
 export type SingleProductResponseDtoProduct = {
-  id: string;
-  code: number;
-  name: string;
-  description?: string | null;
-  methodOfPreparation?: string | null;
-  price: unknown;
-  costPrice?: unknown | null;
-  minStock?: number;
-  currentStock?: number;
-  active?: boolean;
-  discontinued?: boolean;
-  labelId: string;
-  unitId: string;
-  kitchenId?: string | null;
-  productTypeId: string;
-  isKitchenItem?: boolean;
-  useMobileComanda?: boolean;
-  useDigitalMenu?: boolean;
-  barcode?: string | null;
-  createdAt: unknown;
-  updatedAt: unknown;
-};
+  id: string
+  code: number
+  name: string
+  description?: string | null
+  methodOfPreparation?: string | null
+  price: unknown
+  costPrice?: unknown | null
+  minStock?: number
+  currentStock?: number
+  active?: boolean
+  discontinued?: boolean
+  labelId: string
+  unitId: string
+  kitchenId?: string | null
+  productTypeId: string
+  isKitchenItem?: boolean
+  useMobileComanda?: boolean
+  useDigitalMenu?: boolean
+  barcode?: string | null
+  createdAt: unknown
+  updatedAt: unknown
+}

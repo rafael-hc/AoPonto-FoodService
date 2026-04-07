@@ -1,18 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
-import { userRoleSchema } from '@/shared/presentation/dtos/common.dto'
 import { UserRole } from '@/parties/domain/entities/user'
-import { ApiProperty } from '@nestjs/swagger'
+import { userRoleSchema } from '@/shared/presentation/dtos/common.dto'
 
 export const userResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   login: z.string(),
   role: userRoleSchema,
   active: z.boolean(),
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   document: z.string(),
-  contactId: z.string().uuid(),
+  contactId: z.uuid(),
   permissions: z.array(z.string()).optional()
 })
 

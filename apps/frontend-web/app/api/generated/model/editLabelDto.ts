@@ -8,9 +8,9 @@
 
 export interface EditLabelDto {
   /** @minLength 1 */
-  description?: string;
-  order?: number;
-  type?: string;
-  versionReg?: number;
-  versionSync?: number;
+  description?: string
+  order?: number
+  type?: string
+  versionReg?: number
+  versionSync?: number
 }

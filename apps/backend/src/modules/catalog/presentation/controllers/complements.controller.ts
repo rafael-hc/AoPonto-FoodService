@@ -61,11 +61,11 @@ export class ComplementsController {
   @Put(':id')
   @ApiOkResponse({ type: SingleProductResponseDto })
   async edit(@Param('id') id: string, @Body() body: EditProductDto) {
-    const { product } = await this.editProduct.execute({ 
-      id, 
+    const { product } = await this.editProduct.execute({
+      id,
       ...body,
       productTypeId: COMPLEMENTO_TYPE_ID
-     })
+    })
 
     return {
       product: ProductPresenter.toHTTP(product)

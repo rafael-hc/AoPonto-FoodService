@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
 export const kitchenResponseSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   description: z.string(),
   ip: z.string(),
   port: z.string(),

@@ -1,23 +1,26 @@
-import { Button, Card, Badge } from '@aoponto/ui-kit'
+import { Badge, Button, Card } from '@aoponto/ui-kit'
 import {
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
   LayoutGrid,
   List,
-  PlusCircle
+  Pencil,
+  Plus,
+  PlusCircle,
+  Search,
+  Trash2
 } from 'lucide-react'
 import { useState } from 'react'
-import { useLabelsControllerFetch } from '../api/generated/labels/labels'
-import { FetchLabelsResponseDtoLabelsItem as Label } from '../api/generated/model/fetchLabelsResponseDtoLabelsItem'
-import { FetchProductsResponseDtoProductsItem as Product } from '../api/generated/model/fetchProductsResponseDtoProductsItem'
 import {
   useComplementsControllerCreate,
   useComplementsControllerEdit,
   useComplementsControllerList
 } from '../api/generated/complements/complements'
-import { ProductModal, ProductFormData } from '../components/products/ProductModal'
+import { useLabelsControllerFetch } from '../api/generated/labels/labels'
+import { FetchLabelsResponseDtoLabelsItem as Label } from '../api/generated/model/fetchLabelsResponseDtoLabelsItem'
+import { FetchProductsResponseDtoProductsItem as Product } from '../api/generated/model/fetchProductsResponseDtoProductsItem'
+import {
+  ProductFormData,
+  ProductModal
+} from '../components/products/ProductModal'
 
 interface ProductRowProps {
   product: Product
@@ -188,7 +191,7 @@ export default function ComplementosPage() {
 
   const labels = labelsData?.labels ?? []
   const complementos = data?.products ?? []
-  
+
   const filteredComplementos = complementos.filter((product) => {
     const categoryName =
       labels.find((label) => label.id === product.labelId)?.description || ''
@@ -209,7 +212,7 @@ export default function ComplementosPage() {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              Complementos 
+              Complementos
             </h1>
             <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
               {isLoading ? '...' : `${complementos.length} itens`}

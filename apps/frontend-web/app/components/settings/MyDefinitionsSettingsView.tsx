@@ -1,80 +1,101 @@
 import { Button, Checkbox, Input, Select } from '@aoponto/ui-kit'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   ArrowLeft,
   Check,
   ClipboardList,
-  Truck,
   Package,
+  Search,
   ShieldCheck,
-  Search
+  Truck
 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-const myDefinitionsSettingsSchema = z.object({
-  // Pedidos e Busca
-  enableCustomCodeSearch: z.boolean().default(true),
-  chargeHighestValueHalfAndHalf: z.boolean().default(false),
-  autoRemoveEmptyOrders: z.boolean().default(true),
-  allowPaymentsClosedBox: z.boolean().default(false),
-  assignLoggedUserAsAttendant: z.boolean().default(true),
-  assignLoggedUserAsDeliveryman: z.boolean().default(false),
-  chargeServiceFeeOnCounter: z.boolean().default(true),
-  linkAddonAnswersToMainProduct: z.boolean().default(true),
+const myDefinitionsSettingsSchema = z
+  .object({
+    // Pedidos e Busca
+    enableCustomCodeSearch: z.boolean().default(true),
+    chargeHighestValueHalfAndHalf: z.boolean().default(false),
+    autoRemoveEmptyOrders: z.boolean().default(true),
+    allowPaymentsClosedBox: z.boolean().default(false),
+    assignLoggedUserAsAttendant: z.boolean().default(true),
+    assignLoggedUserAsDeliveryman: z.boolean().default(false),
+    chargeServiceFeeOnCounter: z.boolean().default(true),
+    linkAddonAnswersToMainProduct: z.boolean().default(true),
 
-  // Delivery e Bina
-  useMapsForDelivery: z.boolean().default(true),
-  binaIgnoreInitialDigits: z.boolean().default(false),
-  binaIgnoreDigitsCount: z.number().default(1),
-  defaultDeliverymanId: z.string().default('Maycon'),
-  autoChangeStatusToInProduction: z.boolean().default(true),
+    // Delivery e Bina
+    useMapsForDelivery: z.boolean().default(true),
+    binaIgnoreInitialDigits: z.boolean().default(false),
+    binaIgnoreDigitsCount: z.number().default(1),
+    defaultDeliverymanId: z.string().default('Maycon'),
+    autoChangeStatusToInProduction: z.boolean().default(true),
 
-  // Produtos e Estoque
-  allowNegativeProductStock: z.boolean().default(true),
-  allowNegativeIngredientStock: z.boolean().default(true),
-  autoUpdateCostPriceByIngredients: z.boolean().default(true),
-  enableEAN13Search: z.boolean().default(false),
-  allowRemoveIngredientsOnOrder: z.boolean().default(true),
-  requireAddonsOnOrder: z.boolean().default(false),
+    // Produtos e Estoque
+    allowNegativeProductStock: z.boolean().default(true),
+    allowNegativeIngredientStock: z.boolean().default(true),
+    autoUpdateCostPriceByIngredients: z.boolean().default(true),
+    enableEAN13Search: z.boolean().default(false),
+    allowRemoveIngredientsOnOrder: z.boolean().default(true),
+    requireAddonsOnOrder: z.boolean().default(false),
 
-  // Permissões e Outros
-  adminOnlyPermissions: z.boolean().default(true)
-}).required()
+    // Permissões e Outros
+    adminOnlyPermissions: z.boolean().default(true)
+  })
+  .required()
 
-export type MyDefinitionsSettingsData = z.infer<typeof myDefinitionsSettingsSchema>
+export type MyDefinitionsSettingsData = z.infer<
+  typeof myDefinitionsSettingsSchema
+>
 
 interface MyDefinitionsSettingsViewProps {
   onBack: () => void
   onSave: (data: MyDefinitionsSettingsData) => void
 }
 
-const SectionHeader = ({ icon: Icon, title, className = "" }: { icon: React.ElementType, title: string, className?: string }) => (
-  <div className={cn("flex items-center gap-2 mb-6", className)}>
+const SectionHeader = ({
+  icon: Icon,
+  title,
+  className = ''
+}: {
+  icon: React.ElementType
+  title: string
+  className?: string
+}) => (
+  <div className={cn('flex items-center gap-2 mb-6', className)}>
     <div className="p-1.5 bg-slate-100 text-slate-600 rounded-lg">
       <Icon size={16} />
     </div>
-    <h3 className="font-bold text-slate-800 text-sm tracking-tight capitalize">{title}</h3>
+    <h3 className="font-bold text-slate-800 text-sm tracking-tight capitalize">
+      {title}
+    </h3>
   </div>
 )
 
-const GroupContainer = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-  <div className={cn("bg-white rounded-4xl border border-slate-200 p-8 shadow-sm flex flex-col h-full", className)}>
+const GroupContainer = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode
+  className?: string
+}) => (
+  <div
+    className={cn(
+      'bg-white rounded-4xl border border-slate-200 p-8 shadow-sm flex flex-col h-full',
+      className
+    )}
+  >
     {children}
   </div>
 )
 
 import { cn } from '@aoponto/ui-kit'
 
-export const MyDefinitionsSettingsView: React.FC<MyDefinitionsSettingsViewProps> = ({
-  onBack,
-  onSave
-}) => {
-  const {
-    register,
-    handleSubmit
-  } = useForm<MyDefinitionsSettingsData>({
+export const MyDefinitionsSettingsView: React.FC<
+  MyDefinitionsSettingsViewProps
+> = ({ onBack, onSave }) => {
+  const { register, handleSubmit } = useForm<MyDefinitionsSettingsData>({
     resolver: zodResolver(myDefinitionsSettingsSchema),
     defaultValues: {
       enableCustomCodeSearch: true,
@@ -139,43 +160,41 @@ export const MyDefinitionsSettingsView: React.FC<MyDefinitionsSettingsViewProps>
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-6xl mx-auto space-y-6">
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-            
             {/* Section: Pedidos e Busca */}
             <GroupContainer className="md:col-span-2">
               <SectionHeader icon={Search} title="Pedidos e Busca" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
-                <Checkbox 
-                  label="Ativar busca de produto pelo código personalizado" 
+                <Checkbox
+                  label="Ativar busca de produto pelo código personalizado"
                   {...register('enableCustomCodeSearch')}
                 />
-                <Checkbox 
-                  label="Novo pedido - atribuir o usuário logado como atendente (mesas e comandas)" 
+                <Checkbox
+                  label="Novo pedido - atribuir o usuário logado como atendente (mesas e comandas)"
                   {...register('assignLoggedUserAsAttendant')}
                 />
-                <Checkbox 
-                  label="Itens meio a meio - cobrar pelo item de maior valor quando houver mais de um sabor" 
+                <Checkbox
+                  label="Itens meio a meio - cobrar pelo item de maior valor quando houver mais de um sabor"
                   {...register('chargeHighestValueHalfAndHalf')}
                 />
-                <Checkbox 
-                  label="Novo pedido - atribuir o usuário logado como entregador (delivery)" 
+                <Checkbox
+                  label="Novo pedido - atribuir o usuário logado como entregador (delivery)"
                   {...register('assignLoggedUserAsDeliveryman')}
                 />
-                <Checkbox 
-                  label="Remover automaticamente pedido sem consumo (mesas e delivery)" 
+                <Checkbox
+                  label="Remover automaticamente pedido sem consumo (mesas e delivery)"
                   {...register('autoRemoveEmptyOrders')}
                 />
-                <Checkbox 
-                  label="Pedido Balcão - cobrar taxa de serviço em pedidos no balcão" 
+                <Checkbox
+                  label="Pedido Balcão - cobrar taxa de serviço em pedidos no balcão"
                   {...register('chargeServiceFeeOnCounter')}
                 />
-                <Checkbox 
-                  label="Permitir lançar pagamentos previstos quando o caixa está fechado" 
+                <Checkbox
+                  label="Permitir lançar pagamentos previstos quando o caixa está fechado"
                   {...register('allowPaymentsClosedBox')}
                 />
-                <Checkbox 
-                  label="Vincular as respostas (complementos e observações) no produto principal ao adicionar com pergunta" 
+                <Checkbox
+                  label="Vincular as respostas (complementos e observações) no produto principal ao adicionar com pergunta"
                   {...register('linkAddonAnswersToMainProduct')}
                 />
               </div>
@@ -185,33 +204,38 @@ export const MyDefinitionsSettingsView: React.FC<MyDefinitionsSettingsViewProps>
             <GroupContainer>
               <SectionHeader icon={Truck} title="Delivery e Bina" />
               <div className="flex flex-col gap-6">
-                <Checkbox 
-                  label="Delivery - usar mapas para mostrar local da entrega" 
+                <Checkbox
+                  label="Delivery - usar mapas para mostrar local da entrega"
                   {...register('useMapsForDelivery')}
                 />
                 <div className="flex items-center gap-4">
-                  <Checkbox 
-                    label="Bina - Ignorar dígitos iniciais no IC Box" 
+                  <Checkbox
+                    label="Bina - Ignorar dígitos iniciais no IC Box"
                     {...register('binaIgnoreInitialDigits')}
                   />
                   <Input.Root className="w-20 bg-slate-50 border-slate-200 h-8 rounded-lg mt-1">
-                    <Input.Control 
-                      type="number" 
+                    <Input.Control
+                      type="number"
                       className="text-center font-bold text-xs"
-                      {...register('binaIgnoreDigitsCount', { valueAsNumber: true })}
+                      {...register('binaIgnoreDigitsCount', {
+                        valueAsNumber: true
+                      })}
                     />
                   </Input.Root>
                 </div>
-                
-                <Select label="Entregador Padrão" {...register('defaultDeliverymanId')}>
+
+                <Select
+                  label="Entregador Padrão"
+                  {...register('defaultDeliverymanId')}
+                >
                   <option value="Maycon">Maycon</option>
                   <option value="Joao">João Silva</option>
                   <option value="Outro">A definir...</option>
                 </Select>
 
-                <Checkbox 
-                   label="Delivery - alterar status do pedido para 'Em Produção' após impressão do cupom na cozinha"
-                   {...register('autoChangeStatusToInProduction')}
+                <Checkbox
+                  label="Delivery - alterar status do pedido para 'Em Produção' após impressão do cupom na cozinha"
+                  {...register('autoChangeStatusToInProduction')}
                 />
               </div>
             </GroupContainer>
@@ -220,29 +244,29 @@ export const MyDefinitionsSettingsView: React.FC<MyDefinitionsSettingsViewProps>
             <GroupContainer>
               <SectionHeader icon={Package} title="Produtos e Estoque" />
               <div className="flex flex-col gap-6">
-                <Checkbox 
-                  label="Permitir estoque negativo para produtos" 
+                <Checkbox
+                  label="Permitir estoque negativo para produtos"
                   {...register('allowNegativeProductStock')}
                 />
-                <Checkbox 
-                  label="Produtos acabados - ativar cadastro e busca pelo código de barras (EAN13)" 
+                <Checkbox
+                  label="Produtos acabados - ativar cadastro e busca pelo código de barras (EAN13)"
                   {...register('enableEAN13Search')}
                 />
-                <Checkbox 
-                  label="Permitir estoque negativo para insumos" 
+                <Checkbox
+                  label="Permitir estoque negativo para insumos"
                   {...register('allowNegativeIngredientStock')}
                 />
-                <Checkbox 
-                  label="Permitir remover insumos da ficha técnica ao inserir o item no pedido" 
+                <Checkbox
+                  label="Permitir remover insumos da ficha técnica ao inserir o item no pedido"
                   description="(Itens removidos não são baixados do estoque)"
                   {...register('allowRemoveIngredientsOnOrder')}
                 />
-                <Checkbox 
-                  label="Atualizar automaticamente preço de custo do produto baseado nos insumos" 
+                <Checkbox
+                  label="Atualizar automaticamente preço de custo do produto baseado nos insumos"
                   {...register('autoUpdateCostPriceByIngredients')}
                 />
-                <Checkbox 
-                  label="Tornar obrigatório adicionar ou editar item no pedido com as perguntas (se houver)" 
+                <Checkbox
+                  label="Tornar obrigatório adicionar ou editar item no pedido com as perguntas (se houver)"
                   {...register('requireAddonsOnOrder')}
                 />
               </div>
@@ -251,19 +275,18 @@ export const MyDefinitionsSettingsView: React.FC<MyDefinitionsSettingsViewProps>
             {/* Section: Permissões e Outros */}
             <GroupContainer className="md:col-span-2">
               <SectionHeader icon={ShieldCheck} title="Permissões e Outros" />
-              <Checkbox 
-                label="Liberação de permissões para operações apenas por usuários Administradores" 
+              <Checkbox
+                label="Liberação de permissões para operações apenas por usuários Administradores"
                 {...register('adminOnlyPermissions')}
               />
             </GroupContainer>
-
           </div>
-          
+
           <div className="flex justify-center pb-8 pt-4">
-             <p className="flex items-center gap-2 text-[10px] uppercase font-black tracking-[0.2em] text-slate-300">
-               <ClipboardList size={14} className="opacity-50" />
-               Configurações Locais de Funcionamento
-             </p>
+            <p className="flex items-center gap-2 text-[10px] uppercase font-black tracking-[0.2em] text-slate-300">
+              <ClipboardList size={14} className="opacity-50" />
+              Configurações Locais de Funcionamento
+            </p>
           </div>
         </div>
       </div>
