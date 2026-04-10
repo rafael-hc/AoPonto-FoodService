@@ -8,6 +8,6 @@
 
 export interface RegisterUnitDto {
   /** @minLength 1 */
-  initials: string
-  description?: string
+  initials: string;
+  description?: string;
 }

@@ -374,8 +374,8 @@ model Product {
   barcode      String? @map("custom_code") @db.VarChar(15)
 
   // Relacionamentos Base
-  label   Label  @relation(fields: [labelId], references: [id])
-  labelId String @map("label_id")
+  label   Label? @relation(fields: [labelId], references: [id])
+  labelId String? @map("label_id")
 
   kitchen   Kitchen? @relation(fields: [kitchenId], references: [id])
   kitchenId String?  @map("kitchen_id")

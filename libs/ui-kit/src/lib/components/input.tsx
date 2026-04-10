@@ -1,6 +1,24 @@
+import * as LabelPrimitive from '@radix-ui/react-label'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 import { cn } from '../utils/cn'
+
+const labelVariants = cva(
+  'text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2 mb-1.5 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-colors'
+)
+
+const Label = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+    VariantProps<typeof labelVariants>
+>(({ className, ...props }, ref) => (
+  <LabelPrimitive.Root
+    ref={ref}
+    className={cn(labelVariants(), className)}
+    {...props}
+  />
+))
+Label.displayName = LabelPrimitive.Root.displayName
 
 const inputRootVariants = cva(
   'flex w-full items-center rounded-md border bg-white px-3 h-10 transition-all shadow-sm focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-orange-500 overflow-hidden',
@@ -51,7 +69,7 @@ const InputControl = React.forwardRef<HTMLInputElement, InputControlProps>(
       <input
         type={type}
         className={cn(
-          'flex-1 h-full w-full bg-transparent text-sm placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed',
+          'peer flex-1 h-full w-full bg-transparent text-sm font-bold text-slate-700 placeholder:text-slate-400 placeholder:font-medium focus:outline-none disabled:cursor-not-allowed',
           className
         )}
         ref={ref}
@@ -62,95 +80,61 @@ const InputControl = React.forwardRef<HTMLInputElement, InputControlProps>(
 )
 InputControl.displayName = 'Input.Control'
 
-export interface InputIconProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode
-}
-
-const InputIcon = React.forwardRef<HTMLDivElement, InputIconProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'flex items-center justify-center text-slate-400 mr-2',
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-)
+const InputIcon = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, children, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex items-center justify-center text-slate-400 mr-2', className)}
+    {...props}
+  >
+    {children}
+  </div>
+))
 InputIcon.displayName = 'Input.Icon'
 
-export interface InputLabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {}
-
-const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      // biome-ignore lint/a11y/noLabelWithoutControl: Controle é associado pelo consumidor via htmlFor
-      <label
-        ref={ref}
-        className={cn(
-          'text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2 mb-1.5',
-          className
-        )}
-        {...props}
-      />
-    )
-  }
-)
-InputLabel.displayName = 'Input.Label'
-
-export interface InputMessageProps
-  extends React.HTMLAttributes<HTMLParagraphElement> {}
-
-const InputMessage = React.forwardRef<HTMLParagraphElement, InputMessageProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <p
-        ref={ref}
-        className={cn(
-          'text-[10px] font-medium text-red-500 animate-in fade-in slide-in-from-top-1 mt-1',
-          className
-        )}
-        {...props}
-      />
-    )
-  }
-)
+const InputMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn(
+      'text-[10px] font-medium text-red-500 animate-in fade-in slide-in-from-top-1 mt-1',
+      className
+    )}
+    {...props}
+  />
+))
 InputMessage.displayName = 'Input.Message'
 
-export interface InputWrapperProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
-
-const InputWrapper = React.forwardRef<HTMLDivElement, InputWrapperProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn('w-full flex flex-col', className)}
-        {...props}
-      />
-    )
-  }
-)
+const InputWrapper = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('w-full flex flex-col', className)}
+    {...props}
+  />
+))
 InputWrapper.displayName = 'Input.Wrapper'
 
-// Componente legado para compatibilidade (Input simples antigo) - Pode ser deprecado no futuro
+// Componente legado para compatibilidade (Input simples antigo)
 export interface InputLegacyProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string
+  label?: string
 }
 
 const InputLegacy = React.forwardRef<HTMLInputElement, InputLegacyProps>(
-  ({ className, type, error, disabled, ...props }, ref) => {
+  ({ className, type, error, label, disabled, id, ...props }, ref) => {
     return (
       <InputWrapper>
+        {label && <Label htmlFor={id}>{label}</Label>}
         <InputRoot error={!!error} disabled={disabled} className={className}>
-          <InputControl type={type} disabled={disabled} ref={ref} {...props} />
+          <InputControl id={id} type={type} disabled={disabled} ref={ref} {...props} />
         </InputRoot>
         {error && <InputMessage>{error}</InputMessage>}
       </InputWrapper>
@@ -163,7 +147,9 @@ export const Input = Object.assign(InputLegacy, {
   Root: InputRoot,
   Control: InputControl,
   Icon: InputIcon,
-  Label: InputLabel,
+  Label: Label,
   Message: InputMessage,
   Wrapper: InputWrapper
 })
+
+export { Label }

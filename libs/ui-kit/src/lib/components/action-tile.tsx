@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../utils/cn'
 
 // --- Context ---
@@ -20,24 +21,48 @@ function useActionTile() {
   return context
 }
 
+// --- Variants ---
+const actionTileRootVariants = cva(
+  'flex flex-col items-center justify-start gap-1.5 cursor-pointer p-2.5 rounded-xl transition-all min-w-[80px] group/btn border',
+  {
+    variants: {
+      active: {
+        true: 'bg-orange-50 border-orange-200 shadow-sm text-orange-700',
+        false: 'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-600'
+      }
+    },
+    defaultVariants: {
+      active: false
+    }
+  }
+)
+
+const actionTileIconVariants = cva(
+  'p-2 rounded-lg transition-colors',
+  {
+    variants: {
+      active: {
+        true: 'bg-orange-500 text-white shadow-md shadow-orange-500/20',
+        false: 'bg-slate-100 text-slate-500 group-hover/btn:bg-white group-hover/btn:shadow-sm'
+      }
+    },
+    defaultVariants: {
+      active: false
+    }
+  }
+)
+
 // --- Components ---
 export interface ActionTileRootProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  active?: boolean
-}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof actionTileRootVariants> {}
 
 const ActionTileRoot = React.forwardRef<HTMLButtonElement, ActionTileRootProps>(
   ({ className, active = false, ...props }, ref) => (
-    <ActionTileContext.Provider value={{ active }}>
+    <ActionTileContext.Provider value={{ active: !!active }}>
       <button
         ref={ref}
-        className={cn(
-          'flex flex-col items-center justify-start gap-1.5 cursor-pointer p-2.5 rounded-xl transition-all min-w-[80px] group/btn border',
-          active
-            ? 'bg-orange-50 border-orange-200 shadow-sm text-orange-700'
-            : 'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-600',
-          className
-        )}
+        className={cn(actionTileRootVariants({ active, className }))}
         {...props}
       />
     </ActionTileContext.Provider>
@@ -54,13 +79,7 @@ const ActionTileIcon = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        'p-2 rounded-lg transition-colors',
-        active
-          ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
-          : 'bg-slate-100 text-slate-500 group-hover/btn:bg-white group-hover/btn:shadow-sm',
-        className
-      )}
+      className={cn(actionTileIconVariants({ active, className }))}
       {...props}
     >
       {children}
@@ -103,7 +122,7 @@ ActionTileLabel.displayName = 'ActionTile.Label'
 const ActionTileShortcut = React.forwardRef<
   HTMLSpanElement,
   React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => {
+> (({ className, ...props }, ref) => {
   const { active } = useActionTile()
   return (
     <span

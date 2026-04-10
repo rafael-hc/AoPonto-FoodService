@@ -7,7 +7,9 @@ export class InMemoryContactsRepository implements ContactsRepository {
   async delete(contact: Contact): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === contact.id)
 
-    this.items[itemIndex] = contact
+    if (itemIndex > -1) {
+      this.items[itemIndex] = contact
+    }
   }
 
   async findById(id: string): Promise<Contact | null> {
@@ -37,6 +39,8 @@ export class InMemoryContactsRepository implements ContactsRepository {
   async save(contact: Contact): Promise<void> {
     const itemIndex = this.items.findIndex((item) => item.id === contact.id)
 
-    this.items[itemIndex] = contact
+    if (itemIndex > -1) {
+      this.items[itemIndex] = contact
+    }
   }
 }

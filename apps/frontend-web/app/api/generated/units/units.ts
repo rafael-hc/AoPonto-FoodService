@@ -5,7 +5,10 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,385 +22,301 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
+} from '@tanstack/react-query';
+
 import type {
   EditUnitDto,
   FetchUnitsResponseDto,
   RegisterUnitDto,
-  SingleUnitResponseDto
-} from '../model'
+  SingleUnitResponseDto,
+  ZodValidationErrorDto
+} from '../model';
 
-type AwaitedInput<T> = PromiseLike<T> | T
+import { api } from '../../../lib/api';
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
+type AwaitedInput<T> = PromiseLike<T> | T;
 
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+
+
+
+/**
+ * @summary Register a unit
+ */
 export const unitsControllerRegister = (
-  registerUnitDto: RegisterUnitDto,
-  signal?: AbortSignal
+    registerUnitDto: RegisterUnitDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleUnitResponseDto>({
-    url: `/api/units`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: registerUnitDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleUnitResponseDto>(
+      {url: `/api/units`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerUnitDto, signal
+    },
+      );
+    }
+  
 
-export const getUnitsControllerRegisterMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof unitsControllerRegister>>,
-    TError,
-    { data: RegisterUnitDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof unitsControllerRegister>>,
-  TError,
-  { data: RegisterUnitDto },
-  TContext
-> => {
-  const mutationKey = ['unitsControllerRegister']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof unitsControllerRegister>>,
-    { data: RegisterUnitDto }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getUnitsControllerRegisterMutationOptions = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerRegister>>, TError,{data: RegisterUnitDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof unitsControllerRegister>>, TError,{data: RegisterUnitDto}, TContext> => {
 
-    return unitsControllerRegister(data)
-  }
+const mutationKey = ['unitsControllerRegister'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type UnitsControllerRegisterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof unitsControllerRegister>>
->
-export type UnitsControllerRegisterMutationBody = RegisterUnitDto
-export type UnitsControllerRegisterMutationError = unknown
 
-export const useUnitsControllerRegister = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof unitsControllerRegister>>,
-      TError,
-      { data: RegisterUnitDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof unitsControllerRegister>>,
-  TError,
-  { data: RegisterUnitDto },
-  TContext
-> => {
-  return useMutation(
-    getUnitsControllerRegisterMutationOptions(options),
-    queryClient
-  )
-}
-export const unitsControllerFetch = (signal?: AbortSignal) => {
-  return api<FetchUnitsResponseDto>({
-    url: `/api/units`,
-    method: 'GET',
-    signal
-  })
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof unitsControllerRegister>>, {data: RegisterUnitDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  unitsControllerRegister(data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UnitsControllerRegisterMutationResult = NonNullable<Awaited<ReturnType<typeof unitsControllerRegister>>>
+    export type UnitsControllerRegisterMutationBody = RegisterUnitDto
+    export type UnitsControllerRegisterMutationError = ZodValidationErrorDto
+
+    /**
+ * @summary Register a unit
+ */
+export const useUnitsControllerRegister = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerRegister>>, TError,{data: RegisterUnitDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof unitsControllerRegister>>,
+        TError,
+        {data: RegisterUnitDto},
+        TContext
+      > => {
+      return useMutation(getUnitsControllerRegisterMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary List all units
+ */
+export const unitsControllerFetch = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<FetchUnitsResponseDto>(
+      {url: `/api/units`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getUnitsControllerFetchQueryKey = () => {
-  return [`/api/units`] as const
+    return [
+    `/api/units`
+    ] as const;
+    }
+
+    
+export const getUnitsControllerFetchQueryOptions = <TData = Awaited<ReturnType<typeof unitsControllerFetch>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getUnitsControllerFetchQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof unitsControllerFetch>>> = ({ signal }) => unitsControllerFetch(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getUnitsControllerFetchQueryOptions = <
-  TData = Awaited<ReturnType<typeof unitsControllerFetch>>,
-  TError = unknown
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof unitsControllerFetch>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getUnitsControllerFetchQueryKey()
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof unitsControllerFetch>>
-  > = ({ signal }) => unitsControllerFetch(signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof unitsControllerFetch>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type UnitsControllerFetchQueryResult = NonNullable<
-  Awaited<ReturnType<typeof unitsControllerFetch>>
->
+export type UnitsControllerFetchQueryResult = NonNullable<Awaited<ReturnType<typeof unitsControllerFetch>>>
 export type UnitsControllerFetchQueryError = unknown
 
-export function useUnitsControllerFetch<
-  TData = Awaited<ReturnType<typeof unitsControllerFetch>>,
-  TError = unknown
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof unitsControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useUnitsControllerFetch<TData = Awaited<ReturnType<typeof unitsControllerFetch>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof unitsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof unitsControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useUnitsControllerFetch<
-  TData = Awaited<ReturnType<typeof unitsControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof unitsControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUnitsControllerFetch<TData = Awaited<ReturnType<typeof unitsControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof unitsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof unitsControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useUnitsControllerFetch<
-  TData = Awaited<ReturnType<typeof unitsControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof unitsControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useUnitsControllerFetch<TData = Awaited<ReturnType<typeof unitsControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary List all units
+ */
 
-export function useUnitsControllerFetch<
-  TData = Awaited<ReturnType<typeof unitsControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof unitsControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
+export function useUnitsControllerFetch<TData = Awaited<ReturnType<typeof unitsControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof unitsControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
   const queryOptions = getUnitsControllerFetchQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
+
+
+
+/**
+ * @summary Edit a unit by ID
+ */
 export const unitsControllerEdit = (
-  id: string,
-  editUnitDto: EditUnitDto,
-  signal?: AbortSignal
+    id: string,
+    editUnitDto: EditUnitDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleUnitResponseDto>({
-    url: `/api/units/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: editUnitDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleUnitResponseDto>(
+      {url: `/api/units/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: editUnitDto, signal
+    },
+      );
+    }
+  
 
-export const getUnitsControllerEditMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof unitsControllerEdit>>,
-    TError,
-    { id: string; data: EditUnitDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof unitsControllerEdit>>,
-  TError,
-  { id: string; data: EditUnitDto },
-  TContext
-> => {
-  const mutationKey = ['unitsControllerEdit']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof unitsControllerEdit>>,
-    { id: string; data: EditUnitDto }
-  > = (props) => {
-    const { id, data } = props ?? {}
+export const getUnitsControllerEditMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerEdit>>, TError,{id: string;data: EditUnitDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof unitsControllerEdit>>, TError,{id: string;data: EditUnitDto}, TContext> => {
 
-    return unitsControllerEdit(id, data)
-  }
+const mutationKey = ['unitsControllerEdit'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type UnitsControllerEditMutationResult = NonNullable<
-  Awaited<ReturnType<typeof unitsControllerEdit>>
->
-export type UnitsControllerEditMutationBody = EditUnitDto
-export type UnitsControllerEditMutationError = unknown
 
-export const useUnitsControllerEdit = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof unitsControllerEdit>>,
-      TError,
-      { id: string; data: EditUnitDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof unitsControllerEdit>>,
-  TError,
-  { id: string; data: EditUnitDto },
-  TContext
-> => {
-  return useMutation(
-    getUnitsControllerEditMutationOptions(options),
-    queryClient
-  )
-}
-export const unitsControllerDeleteOne = (id: string, signal?: AbortSignal) => {
-  return api<void>({ url: `/api/units/${id}`, method: 'DELETE', signal })
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof unitsControllerEdit>>, {id: string;data: EditUnitDto}> = (props) => {
+          const {id,data} = props ?? {};
 
-export const getUnitsControllerDeleteOneMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ['unitsControllerDeleteOne']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
+          return  unitsControllerEdit(id,data,)
+        }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {}
 
-    return unitsControllerDeleteOne(id)
-  }
 
-  return { mutationFn, ...mutationOptions }
-}
+        
 
-export type UnitsControllerDeleteOneMutationResult = NonNullable<
-  Awaited<ReturnType<typeof unitsControllerDeleteOne>>
->
 
-export type UnitsControllerDeleteOneMutationError = unknown
+  return  { mutationFn, ...mutationOptions }}
 
-export const useUnitsControllerDeleteOne = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
-      TError,
-      { id: string },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getUnitsControllerDeleteOneMutationOptions(options),
-    queryClient
-  )
-}
+    export type UnitsControllerEditMutationResult = NonNullable<Awaited<ReturnType<typeof unitsControllerEdit>>>
+    export type UnitsControllerEditMutationBody = EditUnitDto
+    export type UnitsControllerEditMutationError = void
+
+    /**
+ * @summary Edit a unit by ID
+ */
+export const useUnitsControllerEdit = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerEdit>>, TError,{id: string;data: EditUnitDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof unitsControllerEdit>>,
+        TError,
+        {id: string;data: EditUnitDto},
+        TContext
+      > => {
+      return useMutation(getUnitsControllerEditMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Delete a unit by ID
+ */
+export const unitsControllerDeleteOne = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<void>(
+      {url: `/api/units/${id}`, method: 'DELETE', signal
+    },
+      );
+    }
+  
+
+
+export const getUnitsControllerDeleteOneMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerDeleteOne>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof unitsControllerDeleteOne>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['unitsControllerDeleteOne'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof unitsControllerDeleteOne>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  unitsControllerDeleteOne(id,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UnitsControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof unitsControllerDeleteOne>>>
+    
+    export type UnitsControllerDeleteOneMutationError = void
+
+    /**
+ * @summary Delete a unit by ID
+ */
+export const useUnitsControllerDeleteOne = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof unitsControllerDeleteOne>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof unitsControllerDeleteOne>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getUnitsControllerDeleteOneMutationOptions(options), queryClient);
+    }
+    

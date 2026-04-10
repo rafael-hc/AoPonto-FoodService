@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common'
+import { ConflictException, NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BcryptHasher } from '@/auth/infrastructure/cryptography/bcrypt-hasher'
 import { UpdateUserUseCase } from '@/parties/application/use-cases/update-user.use-case'
@@ -73,5 +73,34 @@ describe('UpdateUserController', () => {
     await expect(
       controller.handle('non-existing', { name: 'New' })
     ).rejects.toThrow(NotFoundException)
+  })
+
+  it('should throw ConflictException if login is already taken by another user', async () => {
+    // Create first user
+    const contact1 = new Contact({ name: 'User 1' })
+    await contactsRepository.create(contact1)
+    const user1 = new User({
+      login: 'user1',
+      password: 'p',
+      role: UserRole.ADMIN,
+      contactId: contact1.id
+    })
+    await usersRepository.create(user1)
+
+    // Create second user
+    const contact2 = new Contact({ name: 'User 2' })
+    await contactsRepository.create(contact2)
+    const user2 = new User({
+      login: 'user2',
+      password: 'p',
+      role: UserRole.ADMIN,
+      contactId: contact2.id
+    })
+    await usersRepository.create(user2)
+
+    // Try to update user2's login to 'user1'
+    await expect(
+      controller.handle(user2.id, { login: 'user1' })
+    ).rejects.toThrow(ConflictException)
   })
 })

@@ -1,22 +1,22 @@
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
-export const unitResponseSchema = z.object({
+export const unitResponseSchema = z.strictObject({
   id: z.uuid(),
   initials: z.string(),
   description: z.string().nullable(),
-  createdAt: z.any(),
-  updatedAt: z.any()
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime()
 })
 
 export class SingleUnitResponseDto extends createZodDto(
-  z.object({
+  z.strictObject({
     unit: unitResponseSchema
   })
 ) {}
 
 export class FetchUnitsResponseDto extends createZodDto(
-  z.object({
+  z.strictObject({
     units: z.array(unitResponseSchema)
   })
 ) {}

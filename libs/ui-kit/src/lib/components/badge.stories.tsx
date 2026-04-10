@@ -12,6 +12,7 @@ const meta: Meta<typeof Badge> = {
     variant: {
       options: [
         'default',
+        'primary',
         'info',
         'warning',
         'success',
@@ -33,23 +34,30 @@ export const Default: Story = {
   }
 }
 
+export const Primary: Story = {
+  args: {
+    children: 'Destaque',
+    variant: 'primary'
+  }
+}
+
 export const Info: Story = {
   args: {
-    children: 'Novo Pedido',
+    children: 'Informação',
     variant: 'info'
   }
 }
 
 export const Warning: Story = {
   args: {
-    children: 'Preparando',
+    children: 'Atenção',
     variant: 'warning'
   }
 }
 
 export const Success: Story = {
   args: {
-    children: 'Pronto',
+    children: 'Sucesso',
     variant: 'success'
   }
 }
@@ -63,7 +71,7 @@ export const Destructive: Story = {
 
 export const Outline: Story = {
   args: {
-    children: 'Etiqueta',
+    children: 'Outline',
     variant: 'outline'
   }
 }

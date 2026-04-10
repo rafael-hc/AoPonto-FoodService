@@ -5,254 +5,215 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-
+import {
+  useMutation
+} from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
   UseMutationResult
-} from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
-import type { AuthenticateDto } from '../model'
+} from '@tanstack/react-query';
 
-type AwaitedInput<T> = PromiseLike<T> | T
+import type {
+  AuthenticateDto
+} from '../model';
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
+import { api } from '../../../lib/api';
+
+type AwaitedInput<T> = PromiseLike<T> | T;
+
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+
+
 
 /**
  * Realiza o login e gera os tokens de acesso.
  * @summary Autenticar usuário
  */
 export const authenticateControllerHandle = (
-  authenticateDto: AuthenticateDto,
-  signal?: AbortSignal
+    authenticateDto: AuthenticateDto,
+ signal?: AbortSignal
 ) => {
-  return api<void>({
-    url: `/api/session`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: authenticateDto,
-    signal
-  })
-}
+      
+      
+      return api<void>(
+      {url: `/api/session`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: authenticateDto, signal
+    },
+      );
+    }
+  
 
-export const getAuthenticateControllerHandleMutationOptions = <
-  TError = void,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authenticateControllerHandle>>,
-    TError,
-    { data: AuthenticateDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof authenticateControllerHandle>>,
-  TError,
-  { data: AuthenticateDto },
-  TContext
-> => {
-  const mutationKey = ['authenticateControllerHandle']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authenticateControllerHandle>>,
-    { data: AuthenticateDto }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getAuthenticateControllerHandleMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateControllerHandle>>, TError,{data: AuthenticateDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof authenticateControllerHandle>>, TError,{data: AuthenticateDto}, TContext> => {
 
-    return authenticateControllerHandle(data)
-  }
+const mutationKey = ['authenticateControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type AuthenticateControllerHandleMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authenticateControllerHandle>>
->
-export type AuthenticateControllerHandleMutationBody = AuthenticateDto
-export type AuthenticateControllerHandleMutationError = void
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authenticateControllerHandle>>, {data: AuthenticateDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authenticateControllerHandle(data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthenticateControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof authenticateControllerHandle>>>
+    export type AuthenticateControllerHandleMutationBody = AuthenticateDto
+    export type AuthenticateControllerHandleMutationError = void
+
+    /**
  * @summary Autenticar usuário
  */
-export const useAuthenticateControllerHandle = <
-  TError = void,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof authenticateControllerHandle>>,
-      TError,
-      { data: AuthenticateDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof authenticateControllerHandle>>,
-  TError,
-  { data: AuthenticateDto },
-  TContext
-> => {
-  return useMutation(
-    getAuthenticateControllerHandleMutationOptions(options),
-    queryClient
-  )
-}
-/**
+export const useAuthenticateControllerHandle = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authenticateControllerHandle>>, TError,{data: AuthenticateDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authenticateControllerHandle>>,
+        TError,
+        {data: AuthenticateDto},
+        TContext
+      > => {
+      return useMutation(getAuthenticateControllerHandleMutationOptions(options), queryClient);
+    }
+    /**
  * Gera um novo token de acesso usando o refresh token.
  * @summary Atualizar token
  */
-export const refreshTokenControllerHandle = (signal?: AbortSignal) => {
-  return api<void>({ url: `/api/session/refresh`, method: 'PATCH', signal })
-}
+export const refreshTokenControllerHandle = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<void>(
+      {url: `/api/session/refresh`, method: 'PATCH', signal
+    },
+      );
+    }
+  
 
-export const getRefreshTokenControllerHandleMutationOptions = <
-  TError = void,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
-    TError,
-    void,
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ['refreshTokenControllerHandle']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
-    void
-  > = () => {
-    return refreshTokenControllerHandle()
-  }
+export const getRefreshTokenControllerHandleMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof refreshTokenControllerHandle>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof refreshTokenControllerHandle>>, TError,void, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['refreshTokenControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-export type RefreshTokenControllerHandleMutationResult = NonNullable<
-  Awaited<ReturnType<typeof refreshTokenControllerHandle>>
->
+      
 
-export type RefreshTokenControllerHandleMutationError = void
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof refreshTokenControllerHandle>>, void> = () => {
+          
+
+          return  refreshTokenControllerHandle()
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RefreshTokenControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof refreshTokenControllerHandle>>>
+    
+    export type RefreshTokenControllerHandleMutationError = void
+
+    /**
  * @summary Atualizar token
  */
-export const useRefreshTokenControllerHandle = <
-  TError = void,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
-      TError,
-      void,
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getRefreshTokenControllerHandleMutationOptions(options),
-    queryClient
-  )
-}
-/**
+export const useRefreshTokenControllerHandle = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof refreshTokenControllerHandle>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof refreshTokenControllerHandle>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getRefreshTokenControllerHandleMutationOptions(options), queryClient);
+    }
+    /**
  * Limpa os cookies de autenticação.
  * @summary Encerrar sessão
  */
-export const logoutControllerHandle = (signal?: AbortSignal) => {
-  return api<void>({ url: `/api/session/logout`, method: 'POST', signal })
-}
+export const logoutControllerHandle = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<void>(
+      {url: `/api/session/logout`, method: 'POST', signal
+    },
+      );
+    }
+  
 
-export const getLogoutControllerHandleMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof logoutControllerHandle>>,
-    TError,
-    void,
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof logoutControllerHandle>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ['logoutControllerHandle']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof logoutControllerHandle>>,
-    void
-  > = () => {
-    return logoutControllerHandle()
-  }
+export const getLogoutControllerHandleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof logoutControllerHandle>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof logoutControllerHandle>>, TError,void, TContext> => {
 
-  return { mutationFn, ...mutationOptions }
-}
+const mutationKey = ['logoutControllerHandle'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-export type LogoutControllerHandleMutationResult = NonNullable<
-  Awaited<ReturnType<typeof logoutControllerHandle>>
->
+      
 
-export type LogoutControllerHandleMutationError = unknown
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof logoutControllerHandle>>, void> = () => {
+          
+
+          return  logoutControllerHandle()
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LogoutControllerHandleMutationResult = NonNullable<Awaited<ReturnType<typeof logoutControllerHandle>>>
+    
+    export type LogoutControllerHandleMutationError = unknown
+
+    /**
  * @summary Encerrar sessão
  */
-export const useLogoutControllerHandle = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof logoutControllerHandle>>,
-      TError,
-      void,
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof logoutControllerHandle>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getLogoutControllerHandleMutationOptions(options),
-    queryClient
-  )
-}
+export const useLogoutControllerHandle = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof logoutControllerHandle>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof logoutControllerHandle>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getLogoutControllerHandleMutationOptions(options), queryClient);
+    }
+    

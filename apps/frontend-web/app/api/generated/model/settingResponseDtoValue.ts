@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SettingResponseDtoValue = { [key: string]: unknown } | null
+export type SettingResponseDtoValue = { [key: string]: unknown } | null;

@@ -1,11 +1,12 @@
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import * as React from 'react'
 import { cn } from '../utils/cn'
 
 const AvatarRoot = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ElementRef<typeof AvatarPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <div
+  <AvatarPrimitive.Root
     ref={ref}
     className={cn(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-slate-100 border border-slate-200 shadow-sm',
@@ -14,31 +15,25 @@ const AvatarRoot = React.forwardRef<
     {...props}
   />
 ))
-AvatarRoot.displayName = 'Avatar.Root'
+AvatarRoot.displayName = AvatarPrimitive.Root.displayName
 
-interface AvatarImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  onLoadingStatusChange?: (
-    status: 'idle' | 'loading' | 'loaded' | 'error'
-  ) => void
-}
-
-const AvatarImage = React.forwardRef<HTMLImageElement, AvatarImageProps>(
-  ({ className, alt = '', ...props }, ref) => (
-    <img
-      ref={ref}
-      alt={alt}
-      className={cn('aspect-square h-full w-full object-cover', className)}
-      {...props}
-    />
-  )
-)
-AvatarImage.displayName = 'Avatar.Image'
+const AvatarImage = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Image>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Image
+    ref={ref}
+    className={cn('aspect-square h-full w-full object-cover', className)}
+    {...props}
+  />
+))
+AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
 const AvatarFallback = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.ElementRef<typeof AvatarPrimitive.Fallback>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
 >(({ className, ...props }, ref) => (
-  <div
+  <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
       'flex h-full w-full items-center justify-center rounded-full bg-slate-100 text-slate-500 font-medium',
@@ -47,7 +42,7 @@ const AvatarFallback = React.forwardRef<
     {...props}
   />
 ))
-AvatarFallback.displayName = 'Avatar.Fallback'
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 export const Avatar = {
   Root: AvatarRoot,

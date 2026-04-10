@@ -8,10 +8,10 @@
 
 export interface RegisterLabelDto {
   /** @minLength 1 */
-  description: string
-  order?: number
-  type?: string
-  externalId: string
-  versionReg?: number
-  versionSync?: number
+  description: string;
+  order?: number;
+  type?: string;
+  externalId: string;
+  versionReg?: number;
+  versionSync?: number;
 }

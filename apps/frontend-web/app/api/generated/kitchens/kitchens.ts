@@ -5,7 +5,10 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,389 +22,301 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
+} from '@tanstack/react-query';
+
 import type {
   EditKitchenDto,
   FetchKitchensResponseDto,
   RegisterKitchenDto,
-  SingleKitchenResponseDto
-} from '../model'
+  SingleKitchenResponseDto,
+  ZodValidationErrorDto
+} from '../model';
 
-type AwaitedInput<T> = PromiseLike<T> | T
+import { api } from '../../../lib/api';
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
+type AwaitedInput<T> = PromiseLike<T> | T;
 
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+
+
+
+/**
+ * @summary Register a kitchen
+ */
 export const kitchensControllerRegister = (
-  registerKitchenDto: RegisterKitchenDto,
-  signal?: AbortSignal
+    registerKitchenDto: RegisterKitchenDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleKitchenResponseDto>({
-    url: `/api/kitchens`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: registerKitchenDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleKitchenResponseDto>(
+      {url: `/api/kitchens`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerKitchenDto, signal
+    },
+      );
+    }
+  
 
-export const getKitchensControllerRegisterMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof kitchensControllerRegister>>,
-    TError,
-    { data: RegisterKitchenDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof kitchensControllerRegister>>,
-  TError,
-  { data: RegisterKitchenDto },
-  TContext
-> => {
-  const mutationKey = ['kitchensControllerRegister']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof kitchensControllerRegister>>,
-    { data: RegisterKitchenDto }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getKitchensControllerRegisterMutationOptions = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerRegister>>, TError,{data: RegisterKitchenDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerRegister>>, TError,{data: RegisterKitchenDto}, TContext> => {
 
-    return kitchensControllerRegister(data)
-  }
+const mutationKey = ['kitchensControllerRegister'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type KitchensControllerRegisterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof kitchensControllerRegister>>
->
-export type KitchensControllerRegisterMutationBody = RegisterKitchenDto
-export type KitchensControllerRegisterMutationError = unknown
 
-export const useKitchensControllerRegister = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof kitchensControllerRegister>>,
-      TError,
-      { data: RegisterKitchenDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof kitchensControllerRegister>>,
-  TError,
-  { data: RegisterKitchenDto },
-  TContext
-> => {
-  return useMutation(
-    getKitchensControllerRegisterMutationOptions(options),
-    queryClient
-  )
-}
-export const kitchensControllerFetch = (signal?: AbortSignal) => {
-  return api<FetchKitchensResponseDto>({
-    url: `/api/kitchens`,
-    method: 'GET',
-    signal
-  })
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof kitchensControllerRegister>>, {data: RegisterKitchenDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  kitchensControllerRegister(data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type KitchensControllerRegisterMutationResult = NonNullable<Awaited<ReturnType<typeof kitchensControllerRegister>>>
+    export type KitchensControllerRegisterMutationBody = RegisterKitchenDto
+    export type KitchensControllerRegisterMutationError = ZodValidationErrorDto
+
+    /**
+ * @summary Register a kitchen
+ */
+export const useKitchensControllerRegister = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerRegister>>, TError,{data: RegisterKitchenDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof kitchensControllerRegister>>,
+        TError,
+        {data: RegisterKitchenDto},
+        TContext
+      > => {
+      return useMutation(getKitchensControllerRegisterMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary List all kitchens
+ */
+export const kitchensControllerFetch = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<FetchKitchensResponseDto>(
+      {url: `/api/kitchens`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getKitchensControllerFetchQueryKey = () => {
-  return [`/api/kitchens`] as const
+    return [
+    `/api/kitchens`
+    ] as const;
+    }
+
+    
+export const getKitchensControllerFetchQueryOptions = <TData = Awaited<ReturnType<typeof kitchensControllerFetch>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getKitchensControllerFetchQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof kitchensControllerFetch>>> = ({ signal }) => kitchensControllerFetch(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getKitchensControllerFetchQueryOptions = <
-  TData = Awaited<ReturnType<typeof kitchensControllerFetch>>,
-  TError = unknown
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof kitchensControllerFetch>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getKitchensControllerFetchQueryKey()
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof kitchensControllerFetch>>
-  > = ({ signal }) => kitchensControllerFetch(signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof kitchensControllerFetch>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type KitchensControllerFetchQueryResult = NonNullable<
-  Awaited<ReturnType<typeof kitchensControllerFetch>>
->
+export type KitchensControllerFetchQueryResult = NonNullable<Awaited<ReturnType<typeof kitchensControllerFetch>>>
 export type KitchensControllerFetchQueryError = unknown
 
-export function useKitchensControllerFetch<
-  TData = Awaited<ReturnType<typeof kitchensControllerFetch>>,
-  TError = unknown
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof kitchensControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useKitchensControllerFetch<TData = Awaited<ReturnType<typeof kitchensControllerFetch>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof kitchensControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof kitchensControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useKitchensControllerFetch<
-  TData = Awaited<ReturnType<typeof kitchensControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof kitchensControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useKitchensControllerFetch<TData = Awaited<ReturnType<typeof kitchensControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof kitchensControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof kitchensControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useKitchensControllerFetch<
-  TData = Awaited<ReturnType<typeof kitchensControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof kitchensControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useKitchensControllerFetch<TData = Awaited<ReturnType<typeof kitchensControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary List all kitchens
+ */
 
-export function useKitchensControllerFetch<
-  TData = Awaited<ReturnType<typeof kitchensControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof kitchensControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
+export function useKitchensControllerFetch<TData = Awaited<ReturnType<typeof kitchensControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kitchensControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
   const queryOptions = getKitchensControllerFetchQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
+
+
+
+/**
+ * @summary Edit a kitchen by ID
+ */
 export const kitchensControllerEdit = (
-  id: string,
-  editKitchenDto: EditKitchenDto,
-  signal?: AbortSignal
+    id: string,
+    editKitchenDto: EditKitchenDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleKitchenResponseDto>({
-    url: `/api/kitchens/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: editKitchenDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleKitchenResponseDto>(
+      {url: `/api/kitchens/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: editKitchenDto, signal
+    },
+      );
+    }
+  
 
-export const getKitchensControllerEditMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof kitchensControllerEdit>>,
-    TError,
-    { id: string; data: EditKitchenDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof kitchensControllerEdit>>,
-  TError,
-  { id: string; data: EditKitchenDto },
-  TContext
-> => {
-  const mutationKey = ['kitchensControllerEdit']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof kitchensControllerEdit>>,
-    { id: string; data: EditKitchenDto }
-  > = (props) => {
-    const { id, data } = props ?? {}
+export const getKitchensControllerEditMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerEdit>>, TError,{id: string;data: EditKitchenDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerEdit>>, TError,{id: string;data: EditKitchenDto}, TContext> => {
 
-    return kitchensControllerEdit(id, data)
-  }
+const mutationKey = ['kitchensControllerEdit'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type KitchensControllerEditMutationResult = NonNullable<
-  Awaited<ReturnType<typeof kitchensControllerEdit>>
->
-export type KitchensControllerEditMutationBody = EditKitchenDto
-export type KitchensControllerEditMutationError = unknown
 
-export const useKitchensControllerEdit = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof kitchensControllerEdit>>,
-      TError,
-      { id: string; data: EditKitchenDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof kitchensControllerEdit>>,
-  TError,
-  { id: string; data: EditKitchenDto },
-  TContext
-> => {
-  return useMutation(
-    getKitchensControllerEditMutationOptions(options),
-    queryClient
-  )
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof kitchensControllerEdit>>, {id: string;data: EditKitchenDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  kitchensControllerEdit(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type KitchensControllerEditMutationResult = NonNullable<Awaited<ReturnType<typeof kitchensControllerEdit>>>
+    export type KitchensControllerEditMutationBody = EditKitchenDto
+    export type KitchensControllerEditMutationError = void
+
+    /**
+ * @summary Edit a kitchen by ID
+ */
+export const useKitchensControllerEdit = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerEdit>>, TError,{id: string;data: EditKitchenDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof kitchensControllerEdit>>,
+        TError,
+        {id: string;data: EditKitchenDto},
+        TContext
+      > => {
+      return useMutation(getKitchensControllerEditMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Delete a kitchen by ID
+ */
 export const kitchensControllerDeleteOne = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return api<void>({ url: `/api/kitchens/${id}`, method: 'DELETE', signal })
-}
+      
+      
+      return api<void>(
+      {url: `/api/kitchens/${id}`, method: 'DELETE', signal
+    },
+      );
+    }
+  
 
-export const getKitchensControllerDeleteOneMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ['kitchensControllerDeleteOne']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {}
+export const getKitchensControllerDeleteOneMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerDeleteOne>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerDeleteOne>>, TError,{id: string}, TContext> => {
 
-    return kitchensControllerDeleteOne(id)
-  }
+const mutationKey = ['kitchensControllerDeleteOne'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type KitchensControllerDeleteOneMutationResult = NonNullable<
-  Awaited<ReturnType<typeof kitchensControllerDeleteOne>>
->
 
-export type KitchensControllerDeleteOneMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof kitchensControllerDeleteOne>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
 
-export const useKitchensControllerDeleteOne = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
-      TError,
-      { id: string },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getKitchensControllerDeleteOneMutationOptions(options),
-    queryClient
-  )
-}
+          return  kitchensControllerDeleteOne(id,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type KitchensControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof kitchensControllerDeleteOne>>>
+    
+    export type KitchensControllerDeleteOneMutationError = void
+
+    /**
+ * @summary Delete a kitchen by ID
+ */
+export const useKitchensControllerDeleteOne = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof kitchensControllerDeleteOne>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof kitchensControllerDeleteOne>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getKitchensControllerDeleteOneMutationOptions(options), queryClient);
+    }
+    

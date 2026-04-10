@@ -8,6 +8,8 @@ import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { cleanupOpenApiDoc, ZodValidationPipe } from 'nestjs-zod'
 import { AppModule } from './modules/app.module'
 
@@ -66,6 +68,11 @@ async function bootstrap() {
   if (document.components?.schemas) {
     patchSchemas(document.components.schemas as Record<string, unknown>)
   }
+
+  // Exportar o Swagger JSON para a raiz do workspace para facilitar Orval/DevOps
+  const rootPath = join(__dirname, '../../..')
+  writeFileSync(join(rootPath, 'swagger.json'), JSON.stringify(document, null, 2))
+  Logger.log(`📝 Swagger JSON exported to: ${join(rootPath, 'swagger.json')}`)
 
   SwaggerModule.setup('docs', app, document) // Acessível em /api/docs
 

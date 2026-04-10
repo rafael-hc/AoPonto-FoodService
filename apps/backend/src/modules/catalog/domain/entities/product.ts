@@ -20,7 +20,7 @@ export interface ProductProps {
 
   taxMetadata: TaxMetadata
 
-  labelId: string
+  labelId?: string | null
   kitchenId?: string | null
   unitId: string
   productTypeId: string

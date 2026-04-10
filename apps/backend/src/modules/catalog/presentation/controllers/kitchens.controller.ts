@@ -8,7 +8,7 @@ import {
   Post,
   Put
 } from '@nestjs/common'
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
 import { DeleteKitchenUseCase } from '@/catalog/application/use-cases/delete-kitchen.use-case'
 import { EditKitchenUseCase } from '@/catalog/application/use-cases/edit-kitchen.use-case'
 import { FetchKitchensUseCase } from '@/catalog/application/use-cases/fetch-kitchens.use-case'
@@ -20,6 +20,7 @@ import {
 } from '@/catalog/presentation/dtos/kitchen-response.dto'
 import { RegisterKitchenDto } from '@/catalog/presentation/dtos/register-kitchen.dto'
 import { KitchenPresenter } from '@/catalog/presentation/presenters/kitchen.presenter'
+import { ZodValidationErrorDto } from '@/catalog/presentation/dtos/zod-validation-error.dto'
 
 @ApiTags('Kitchens')
 @Controller('kitchens')
@@ -32,13 +33,16 @@ export class KitchensController {
   ) {}
 
   @Post()
-  @ApiOkResponse({ type: SingleKitchenResponseDto })
+  @ApiOperation({ summary: 'Register a kitchen' })
+  @ApiCreatedResponse({ type: SingleKitchenResponseDto })
+  @ApiBadRequestResponse({ description: 'Invalid payload', type: ZodValidationErrorDto })
   async register(@Body() body: RegisterKitchenDto) {
     const { kitchen } = await this.registerKitchen.execute(body)
     return { kitchen: KitchenPresenter.toHTTP(kitchen) }
   }
 
   @Get()
+  @ApiOperation({ summary: 'List all kitchens' })
   @ApiOkResponse({ type: FetchKitchensResponseDto })
   async fetch() {
     const { kitchens } = await this.fetchKitchens.execute()
@@ -46,7 +50,11 @@ export class KitchensController {
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Edit a kitchen by ID' })
+  @ApiParam({ name: 'id', type: 'string', format: 'uuid' })
   @ApiOkResponse({ type: SingleKitchenResponseDto })
+  @ApiBadRequestResponse({ description: 'Invalid payload' })
+  @ApiNotFoundResponse({ description: 'Kitchen not found' })
   async edit(@Param('id') id: string, @Body() body: EditKitchenDto) {
     const { kitchen } = await this.editKitchen.execute({
       id,
@@ -56,6 +64,10 @@ export class KitchensController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a kitchen by ID' })
+  @ApiParam({ name: 'id', type: 'string', format: 'uuid' })
+  @ApiNoContentResponse({ description: 'Deleted with success' })
+  @ApiNotFoundResponse({ description: 'Kitchen not found' })
   @HttpCode(204)
   async deleteOne(@Param('id') id: string) {
     await this.deleteKitchen.execute({ id })

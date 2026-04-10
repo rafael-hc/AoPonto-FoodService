@@ -8,7 +8,7 @@ const TopbarRoot = React.forwardRef<
   <header
     ref={ref}
     className={cn(
-      'h-16 bg-white px-8 flex items-center justify-between shrink-0 shadow-sm z-10',
+      'h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between shrink-0 z-10 sticky top-0',
       className
     )}
     {...props}
@@ -24,7 +24,7 @@ const TopbarTitle = React.forwardRef<
     <h2
       ref={ref}
       className={cn(
-        'text-xl font-bold text-slate-800 flex items-center gap-2',
+        'text-xl font-bold text-slate-900 flex items-center gap-2 tracking-tight',
         className
       )}
       {...props}

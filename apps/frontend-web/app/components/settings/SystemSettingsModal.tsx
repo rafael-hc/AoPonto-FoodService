@@ -75,18 +75,20 @@ export const SystemSettingsModal: React.FC<SystemSettingsModalProps> = ({
     <Dialog.Root
       open={open}
       onOpenChange={handleOpenChange}
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/60 backdrop-blur-md" />
-        <Dialog.Content className="max-w-[1000px] w-[95vw] p-0 overflow-hidden bg-white rounded-[2.5rem] shadow-2xl border-none">
+        <Dialog.Content 
+          className="max-w-[1000px] w-[95vw] p-0 overflow-hidden bg-white rounded-[2.5rem] shadow-2xl border-none"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
           {view === 'grid' ? (
             <>
               {/* Botão de Fechar - Somente na Grade Principal */}
               <button
                 type="button"
                 onClick={() => handleOpenChange(false)}
-                className="absolute right-8 top-8 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all z-[60]"
+                className="absolute right-8 top-8 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all z-60"
               >
                 <X size={24} />
               </button>

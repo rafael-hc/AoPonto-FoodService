@@ -4,8 +4,8 @@ import { z } from 'zod'
 export const productTypeResponseSchema = z.object({
   id: z.uuid(),
   description: z.string(),
-  createdAt: z.any(),
-  updatedAt: z.any()
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime()
 })
 
 export const registerProductTypeSchema = z.object({

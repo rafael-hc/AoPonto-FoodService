@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SingleLabelResponseDtoLabel } from './singleLabelResponseDtoLabel'
+import type { SingleLabelResponseDtoLabel } from './singleLabelResponseDtoLabel';
 
 export interface SingleLabelResponseDto {
-  label: SingleLabelResponseDtoLabel
+  label: SingleLabelResponseDtoLabel;
 }

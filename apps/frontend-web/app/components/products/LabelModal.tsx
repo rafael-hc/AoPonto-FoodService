@@ -125,13 +125,15 @@ export default function LabelModal({
     <Dialog.Root
       open={open}
       onOpenChange={onOpenChange}
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content className="max-w-3xl border-none shadow-2xl">
-          <Dialog.Header className="space-y-4 pb-4 border-b border-slate-100">
-            <div className="flex items-center justify-between">
+        <Dialog.Content 
+          className="h-[80dvh] w-[70dvw] max-w-none border-none shadow-2xl p-0 overflow-hidden bg-slate-50 flex flex-col"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
+          <div className="bg-white border-b border-slate-100 px-8 py-6">
+            <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl ring-8 ring-orange-500/5">
                 <Layers size={24} />
               </div>
@@ -144,20 +146,22 @@ export default function LabelModal({
             </div>
 
             <div className="space-y-1">
-              <Dialog.Title className="text-3xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">
                 {isEditMode ? 'Alterar Categoria' : 'Cadastrar Categoria'}
-              </Dialog.Title>
-              <Dialog.Description className="text-slate-500 font-medium text-base">
+              </h2>
+              <p className="text-slate-500 font-medium text-base">
                 Organize seu catálogo dividindo os produtos em categorias
                 específicas.
-              </Dialog.Description>
+              </p>
             </div>
-          </Dialog.Header>
+          </div>
 
-          <form
-            onSubmit={handleSubmit(onFormSubmit)}
-            className="space-y-6 py-6"
-          >
+          <div className="overflow-y-auto flex-1 px-8 py-6">
+            <form
+              id="category-form"
+              onSubmit={handleSubmit(onFormSubmit)}
+              className="space-y-6"
+            >
             <div className="space-y-6">
               <Input.Wrapper className="space-y-2">
                 <Input.Label
@@ -253,29 +257,32 @@ export default function LabelModal({
               </Input.Wrapper>
             </div>
 
-            <Dialog.Footer className="pt-6 border-t border-slate-100 gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                className="h-12 px-6 font-bold border-2 hover:bg-slate-50"
-                onClick={() => onOpenChange(false)}
-                disabled={isPending}
-              >
-                Voltar
-              </Button>
-              <Button
-                type="submit"
-                className="h-12 px-8 font-extrabold shadow-xl shadow-orange-500/20 active:scale-95 transition-transform"
-                disabled={isPending}
-              >
-                {isPending
-                  ? 'Processando...'
-                  : isEditMode
-                    ? 'Salvar Alterações'
-                    : 'Finalizar Cadastro'}
-              </Button>
-            </Dialog.Footer>
-          </form>
+            </form>
+          </div>
+
+          <div className="bg-slate-100 border-t border-slate-100 px-8 py-4 flex items-center justify-end gap-3 shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              className="h-12 px-6 font-bold border-2 bg-white hover:bg-slate-50"
+              onClick={() => onOpenChange(false)}
+              disabled={isPending}
+            >
+              Voltar
+            </Button>
+            <Button
+              type="submit"
+              form="category-form"
+              className="h-12 px-8 font-extrabold shadow-xl shadow-orange-500/20 active:scale-95 transition-transform"
+              disabled={isPending}
+            >
+              {isPending
+                ? 'Processando...'
+                : isEditMode
+                  ? 'Salvar Alterações'
+                  : 'Finalizar Cadastro'}
+            </Button>
+          </div>
           <Dialog.Close className="absolute right-4 top-4 rounded-full p-2 hover:bg-slate-100 transition-colors" />
         </Dialog.Content>
       </Dialog.Portal>

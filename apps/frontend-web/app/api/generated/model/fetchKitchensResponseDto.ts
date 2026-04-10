@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchKitchensResponseDtoKitchensItem } from './fetchKitchensResponseDtoKitchensItem'
+import type { FetchKitchensResponseDtoKitchensItem } from './fetchKitchensResponseDtoKitchensItem';
 
 export interface FetchKitchensResponseDto {
-  kitchens: FetchKitchensResponseDtoKitchensItem[]
+  kitchens: FetchKitchensResponseDtoKitchensItem[];
 }

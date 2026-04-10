@@ -5,18 +5,18 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SaveSettingDtoDescription } from './saveSettingDtoDescription'
-import type { SaveSettingDtoValue } from './saveSettingDtoValue'
+import type { SaveSettingDtoDescription } from './saveSettingDtoDescription';
+import type { SaveSettingDtoValue } from './saveSettingDtoValue';
 
 export interface SaveSettingDto {
   /** Nome único do parâmetro */
-  parameter: string
+  parameter: string;
   /** Valor da configuração no formato texto */
-  value?: SaveSettingDtoValue
+  value?: SaveSettingDtoValue;
   /** Tipo do dado armazenado (string, int, bool, date) */
-  type: string
+  type: string;
   /** Grupo lógico no modal de configurações */
-  group: string
+  group: string;
   /** Descrição amigável em HTML ou texto puro */
-  description?: SaveSettingDtoDescription
+  description?: SaveSettingDtoDescription;
 }

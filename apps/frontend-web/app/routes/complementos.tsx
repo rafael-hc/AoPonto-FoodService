@@ -18,9 +18,9 @@ import { useLabelsControllerFetch } from '../api/generated/labels/labels'
 import { FetchLabelsResponseDtoLabelsItem as Label } from '../api/generated/model/fetchLabelsResponseDtoLabelsItem'
 import { FetchProductsResponseDtoProductsItem as Product } from '../api/generated/model/fetchProductsResponseDtoProductsItem'
 import {
-  ProductFormData,
-  ProductModal
-} from '../components/products/ProductModal'
+  ComplementFormData,
+  ComplementModal
+} from '../components/products/ComplementModal'
 
 interface ProductRowProps {
   product: Product
@@ -169,7 +169,7 @@ export default function ComplementosPage() {
     setIsModalOpen(true)
   }
 
-  const handleSave = (formData: ProductFormData) => {
+  const handleSave = (formData: ComplementFormData) => {
     if (selectedProduct) {
       editComplement({
         id: selectedProduct.id,
@@ -376,7 +376,7 @@ export default function ComplementosPage() {
         )}
       </Card.Root>
 
-      <ProductModal
+      <ComplementModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         product={selectedProduct}

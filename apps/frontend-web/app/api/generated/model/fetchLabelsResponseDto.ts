@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchLabelsResponseDtoLabelsItem } from './fetchLabelsResponseDtoLabelsItem'
+import type { FetchLabelsResponseDtoLabelsItem } from './fetchLabelsResponseDtoLabelsItem';
 
 export interface FetchLabelsResponseDto {
-  labels: FetchLabelsResponseDtoLabelsItem[]
+  labels: FetchLabelsResponseDtoLabelsItem[];
 }

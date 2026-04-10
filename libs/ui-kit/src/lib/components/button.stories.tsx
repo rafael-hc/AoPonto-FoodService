@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Plus } from 'lucide-react'
 import { Button } from './button'
 
 const meta: Meta<typeof Button> = {
@@ -10,14 +11,17 @@ const meta: Meta<typeof Button> = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ['primary', 'secondary', 'outline'],
-      control: { type: 'radio' }
+      options: ['primary', 'secondary', 'outline', 'ghost', 'link'],
+      control: { type: 'select' }
     },
     size: {
-      options: ['sm', 'md', 'lg'],
-      control: { type: 'radio' }
+      options: ['sm', 'md', 'lg', 'icon'],
+      control: { type: 'select' }
     },
     disabled: {
+      control: 'boolean'
+    },
+    asChild: {
       control: 'boolean'
     }
   }
@@ -47,6 +51,28 @@ export const Outline: Story = {
     children: 'Button Outline',
     variant: 'outline',
     size: 'md'
+  }
+}
+
+export const Ghost: Story = {
+  args: {
+    children: 'Ghost Button',
+    variant: 'ghost'
+  }
+}
+
+export const Link: Story = {
+  args: {
+    children: 'Link Button',
+    variant: 'link'
+  }
+}
+
+export const Icon: Story = {
+  args: {
+    variant: 'outline',
+    size: 'icon',
+    children: <Plus size={18} />
   }
 }
 

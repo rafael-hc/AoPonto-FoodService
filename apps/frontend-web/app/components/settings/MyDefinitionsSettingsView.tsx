@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Select } from '@aoponto/ui-kit'
+import { Button, Checkbox, Input, SelectSimple, SelectItem } from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   ArrowLeft,
@@ -10,7 +10,7 @@ import {
   Truck
 } from 'lucide-react'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const myDefinitionsSettingsSchema = z
@@ -95,7 +95,7 @@ import { cn } from '@aoponto/ui-kit'
 export const MyDefinitionsSettingsView: React.FC<
   MyDefinitionsSettingsViewProps
 > = ({ onBack, onSave }) => {
-  const { register, handleSubmit } = useForm<MyDefinitionsSettingsData>({
+  const { register, handleSubmit, control } = useForm<MyDefinitionsSettingsData>({
     resolver: zodResolver(myDefinitionsSettingsSchema),
     defaultValues: {
       enableCustomCodeSearch: true,
@@ -224,14 +224,21 @@ export const MyDefinitionsSettingsView: React.FC<
                   </Input.Root>
                 </div>
 
-                <Select
-                  label="Entregador Padrão"
-                  {...register('defaultDeliverymanId')}
-                >
-                  <option value="Maycon">Maycon</option>
-                  <option value="Joao">João Silva</option>
-                  <option value="Outro">A definir...</option>
-                </Select>
+                <Controller
+                  name="defaultDeliverymanId"
+                  control={control}
+                  render={({ field }) => (
+                    <SelectSimple
+                      label="Entregador Padrão"
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectItem value="Maycon">Maycon</SelectItem>
+                      <SelectItem value="Joao">João Silva</SelectItem>
+                      <SelectItem value="Outro">A definir...</SelectItem>
+                    </SelectSimple>
+                  )}
+                />
 
                 <Checkbox
                   label="Delivery - alterar status do pedido para 'Em Produção' após impressão do cupom na cozinha"

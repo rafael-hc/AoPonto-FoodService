@@ -5,14 +5,14 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SettingResponseDtoDescription } from './settingResponseDtoDescription'
-import type { SettingResponseDtoValue } from './settingResponseDtoValue'
+import type { SettingResponseDtoDescription } from './settingResponseDtoDescription';
+import type { SettingResponseDtoValue } from './settingResponseDtoValue';
 
 export interface SettingResponseDto {
-  id: string
-  parameter: string
-  value: SettingResponseDtoValue
-  type: string
-  group: string
-  description: SettingResponseDtoDescription
+  id: string;
+  parameter: string;
+  value: SettingResponseDtoValue;
+  type: string;
+  group: string;
+  description: SettingResponseDtoDescription;
 }

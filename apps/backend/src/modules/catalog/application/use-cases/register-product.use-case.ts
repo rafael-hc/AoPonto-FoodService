@@ -14,7 +14,7 @@ interface RegisterProductUseCaseRequest {
   active?: boolean
   unitId: string
   kitchenId?: string | null
-  labelId: string
+  labelId?: string
   productTypeId?: string
   isKitchenItem?: boolean
   useMobileComanda?: boolean

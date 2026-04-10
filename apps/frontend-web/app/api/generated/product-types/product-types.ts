@@ -5,7 +5,10 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -19,396 +22,301 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
+} from '@tanstack/react-query';
+
 import type {
   EditProductTypeDto,
   FetchProductTypesResponseDto,
   RegisterProductTypeDto,
-  SingleProductTypeResponseDto
-} from '../model'
+  SingleProductTypeResponseDto,
+  ZodValidationErrorDto
+} from '../model';
 
-type AwaitedInput<T> = PromiseLike<T> | T
+import { api } from '../../../lib/api';
 
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
+type AwaitedInput<T> = PromiseLike<T> | T;
 
+      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+
+
+
+/**
+ * @summary Register a product type
+ */
 export const productTypesControllerRegister = (
-  registerProductTypeDto: RegisterProductTypeDto,
-  signal?: AbortSignal
+    registerProductTypeDto: RegisterProductTypeDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleProductTypeResponseDto>({
-    url: `/api/product-types`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: registerProductTypeDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleProductTypeResponseDto>(
+      {url: `/api/product-types`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: registerProductTypeDto, signal
+    },
+      );
+    }
+  
 
-export const getProductTypesControllerRegisterMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof productTypesControllerRegister>>,
-    TError,
-    { data: RegisterProductTypeDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof productTypesControllerRegister>>,
-  TError,
-  { data: RegisterProductTypeDto },
-  TContext
-> => {
-  const mutationKey = ['productTypesControllerRegister']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof productTypesControllerRegister>>,
-    { data: RegisterProductTypeDto }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getProductTypesControllerRegisterMutationOptions = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerRegister>>, TError,{data: RegisterProductTypeDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerRegister>>, TError,{data: RegisterProductTypeDto}, TContext> => {
 
-    return productTypesControllerRegister(data)
-  }
+const mutationKey = ['productTypesControllerRegister'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type ProductTypesControllerRegisterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof productTypesControllerRegister>>
->
-export type ProductTypesControllerRegisterMutationBody = RegisterProductTypeDto
-export type ProductTypesControllerRegisterMutationError = unknown
 
-export const useProductTypesControllerRegister = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof productTypesControllerRegister>>,
-      TError,
-      { data: RegisterProductTypeDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof productTypesControllerRegister>>,
-  TError,
-  { data: RegisterProductTypeDto },
-  TContext
-> => {
-  return useMutation(
-    getProductTypesControllerRegisterMutationOptions(options),
-    queryClient
-  )
-}
-export const productTypesControllerFetch = (signal?: AbortSignal) => {
-  return api<FetchProductTypesResponseDto>({
-    url: `/api/product-types`,
-    method: 'GET',
-    signal
-  })
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof productTypesControllerRegister>>, {data: RegisterProductTypeDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  productTypesControllerRegister(data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ProductTypesControllerRegisterMutationResult = NonNullable<Awaited<ReturnType<typeof productTypesControllerRegister>>>
+    export type ProductTypesControllerRegisterMutationBody = RegisterProductTypeDto
+    export type ProductTypesControllerRegisterMutationError = ZodValidationErrorDto
+
+    /**
+ * @summary Register a product type
+ */
+export const useProductTypesControllerRegister = <TError = ZodValidationErrorDto,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerRegister>>, TError,{data: RegisterProductTypeDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof productTypesControllerRegister>>,
+        TError,
+        {data: RegisterProductTypeDto},
+        TContext
+      > => {
+      return useMutation(getProductTypesControllerRegisterMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary List all product types
+ */
+export const productTypesControllerFetch = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return api<FetchProductTypesResponseDto>(
+      {url: `/api/product-types`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getProductTypesControllerFetchQueryKey = () => {
-  return [`/api/product-types`] as const
+    return [
+    `/api/product-types`
+    ] as const;
+    }
+
+    
+export const getProductTypesControllerFetchQueryOptions = <TData = Awaited<ReturnType<typeof productTypesControllerFetch>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getProductTypesControllerFetchQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof productTypesControllerFetch>>> = ({ signal }) => productTypesControllerFetch(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const getProductTypesControllerFetchQueryOptions = <
-  TData = Awaited<ReturnType<typeof productTypesControllerFetch>>,
-  TError = unknown
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof productTypesControllerFetch>>,
-      TError,
-      TData
-    >
-  >
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getProductTypesControllerFetchQueryKey()
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof productTypesControllerFetch>>
-  > = ({ signal }) => productTypesControllerFetch(signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof productTypesControllerFetch>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type ProductTypesControllerFetchQueryResult = NonNullable<
-  Awaited<ReturnType<typeof productTypesControllerFetch>>
->
+export type ProductTypesControllerFetchQueryResult = NonNullable<Awaited<ReturnType<typeof productTypesControllerFetch>>>
 export type ProductTypesControllerFetchQueryError = unknown
 
-export function useProductTypesControllerFetch<
-  TData = Awaited<ReturnType<typeof productTypesControllerFetch>>,
-  TError = unknown
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof productTypesControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+export function useProductTypesControllerFetch<TData = Awaited<ReturnType<typeof productTypesControllerFetch>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof productTypesControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof productTypesControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useProductTypesControllerFetch<
-  TData = Awaited<ReturnType<typeof productTypesControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof productTypesControllerFetch>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useProductTypesControllerFetch<TData = Awaited<ReturnType<typeof productTypesControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof productTypesControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof productTypesControllerFetch>>
-        >,
-        'initialData'
-      >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useProductTypesControllerFetch<
-  TData = Awaited<ReturnType<typeof productTypesControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof productTypesControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useProductTypesControllerFetch<TData = Awaited<ReturnType<typeof productTypesControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary List all product types
+ */
 
-export function useProductTypesControllerFetch<
-  TData = Awaited<ReturnType<typeof productTypesControllerFetch>>,
-  TError = unknown
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof productTypesControllerFetch>>,
-        TError,
-        TData
-      >
-    >
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
+export function useProductTypesControllerFetch<TData = Awaited<ReturnType<typeof productTypesControllerFetch>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productTypesControllerFetch>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
   const queryOptions = getProductTypesControllerFetchQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  return { ...query, queryKey: queryOptions.queryKey }
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
+
+
+
+/**
+ * @summary Edit a product type by ID
+ */
 export const productTypesControllerEdit = (
-  id: string,
-  editProductTypeDto: EditProductTypeDto,
-  signal?: AbortSignal
+    id: string,
+    editProductTypeDto: EditProductTypeDto,
+ signal?: AbortSignal
 ) => {
-  return api<SingleProductTypeResponseDto>({
-    url: `/api/product-types/${id}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: editProductTypeDto,
-    signal
-  })
-}
+      
+      
+      return api<SingleProductTypeResponseDto>(
+      {url: `/api/product-types/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: editProductTypeDto, signal
+    },
+      );
+    }
+  
 
-export const getProductTypesControllerEditMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof productTypesControllerEdit>>,
-    TError,
-    { id: string; data: EditProductTypeDto },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof productTypesControllerEdit>>,
-  TError,
-  { id: string; data: EditProductTypeDto },
-  TContext
-> => {
-  const mutationKey = ['productTypesControllerEdit']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof productTypesControllerEdit>>,
-    { id: string; data: EditProductTypeDto }
-  > = (props) => {
-    const { id, data } = props ?? {}
+export const getProductTypesControllerEditMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerEdit>>, TError,{id: string;data: EditProductTypeDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerEdit>>, TError,{id: string;data: EditProductTypeDto}, TContext> => {
 
-    return productTypesControllerEdit(id, data)
-  }
+const mutationKey = ['productTypesControllerEdit'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type ProductTypesControllerEditMutationResult = NonNullable<
-  Awaited<ReturnType<typeof productTypesControllerEdit>>
->
-export type ProductTypesControllerEditMutationBody = EditProductTypeDto
-export type ProductTypesControllerEditMutationError = unknown
 
-export const useProductTypesControllerEdit = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof productTypesControllerEdit>>,
-      TError,
-      { id: string; data: EditProductTypeDto },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof productTypesControllerEdit>>,
-  TError,
-  { id: string; data: EditProductTypeDto },
-  TContext
-> => {
-  return useMutation(
-    getProductTypesControllerEditMutationOptions(options),
-    queryClient
-  )
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof productTypesControllerEdit>>, {id: string;data: EditProductTypeDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  productTypesControllerEdit(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ProductTypesControllerEditMutationResult = NonNullable<Awaited<ReturnType<typeof productTypesControllerEdit>>>
+    export type ProductTypesControllerEditMutationBody = EditProductTypeDto
+    export type ProductTypesControllerEditMutationError = void
+
+    /**
+ * @summary Edit a product type by ID
+ */
+export const useProductTypesControllerEdit = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerEdit>>, TError,{id: string;data: EditProductTypeDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof productTypesControllerEdit>>,
+        TError,
+        {id: string;data: EditProductTypeDto},
+        TContext
+      > => {
+      return useMutation(getProductTypesControllerEditMutationOptions(options), queryClient);
+    }
+    /**
+ * @summary Delete a product type by ID
+ */
 export const productTypesControllerDeleteOne = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return api<void>({
-    url: `/api/product-types/${id}`,
-    method: 'DELETE',
-    signal
-  })
-}
+      
+      
+      return api<void>(
+      {url: `/api/product-types/${id}`, method: 'DELETE', signal
+    },
+      );
+    }
+  
 
-export const getProductTypesControllerDeleteOneMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
-    TError,
-    { id: string },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ['productTypesControllerDeleteOne']
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } }
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {}
+export const getProductTypesControllerDeleteOneMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerDeleteOne>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerDeleteOne>>, TError,{id: string}, TContext> => {
 
-    return productTypesControllerDeleteOne(id)
-  }
+const mutationKey = ['productTypesControllerDeleteOne'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-  return { mutationFn, ...mutationOptions }
-}
+      
 
-export type ProductTypesControllerDeleteOneMutationResult = NonNullable<
-  Awaited<ReturnType<typeof productTypesControllerDeleteOne>>
->
 
-export type ProductTypesControllerDeleteOneMutationError = unknown
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof productTypesControllerDeleteOne>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
 
-export const useProductTypesControllerDeleteOne = <
-  TError = unknown,
-  TContext = unknown
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
-      TError,
-      { id: string },
-      TContext
-    >
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getProductTypesControllerDeleteOneMutationOptions(options),
-    queryClient
-  )
-}
+          return  productTypesControllerDeleteOne(id,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ProductTypesControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof productTypesControllerDeleteOne>>>
+    
+    export type ProductTypesControllerDeleteOneMutationError = void
+
+    /**
+ * @summary Delete a product type by ID
+ */
+export const useProductTypesControllerDeleteOne = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productTypesControllerDeleteOne>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof productTypesControllerDeleteOne>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getProductTypesControllerDeleteOneMutationOptions(options), queryClient);
+    }
+    

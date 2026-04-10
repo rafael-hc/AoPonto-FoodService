@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SingleKitchenResponseDtoKitchen } from './singleKitchenResponseDtoKitchen'
+import type { SingleKitchenResponseDtoKitchen } from './singleKitchenResponseDtoKitchen';
 
 export interface SingleKitchenResponseDto {
-  kitchen: SingleKitchenResponseDtoKitchen
+  kitchen: SingleKitchenResponseDtoKitchen;
 }

@@ -1,8 +1,8 @@
-import { Badge, Button, Dialog, Input } from '@aoponto/ui-kit'
+import { Badge, Button, Dialog, Input, SelectSimple, SelectItem } from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Package, Plus } from 'lucide-react'
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useKitchensControllerFetch } from '../../api/generated/kitchens/kitchens'
 import { useLabelsControllerFetch } from '../../api/generated/labels/labels'
@@ -68,6 +68,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     handleSubmit,
     reset,
     watch,
+    control,
     formState: { errors }
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -142,48 +143,18 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     onSave(finalData)
   }
 
-  interface SelectPlaceholderProps
-    extends React.SelectHTMLAttributes<HTMLSelectElement> {
-    children: React.ReactNode
-    id: string
-    error?: string
-    label: string
-  }
-
-  // Helper para custom nativo select estilizado (já que o ui-kit não tem select).
-  const SelectPlaceholder = ({
-    children,
-    id,
-    error,
-    label,
-    ...props
-  }: SelectPlaceholderProps) => (
-    <Input.Wrapper className="space-y-2">
-      <Input.Label htmlFor={id}>{label}</Input.Label>
-      <div
-        className={`flex w-full items-center rounded-md border bg-white px-3 h-10 transition-all shadow-sm focus-within:ring-2 focus-within:ring-orange-500/20 focus-within:border-orange-500 overflow-hidden ${error ? 'border-red-500' : 'border-slate-300'}`}
-      >
-        <select
-          id={id}
-          className="flex-1 h-full w-full bg-transparent text-sm text-slate-700 focus:outline-none disabled:cursor-not-allowed appearance-none"
-          {...props}
-        >
-          {children}
-        </select>
-      </div>
-      {error && <Input.Message>{error}</Input.Message>}
-    </Input.Wrapper>
-  )
 
   return (
     <Dialog.Root
       open={open}
       onOpenChange={onOpenChange}
-      onPointerDownOutside={(e) => e.preventDefault()}
     >
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content className="max-w-[1200px] p-0 overflow-hidden bg-slate-50 flex flex-col max-h-[90vh]">
+        <Dialog.Content 
+          className="h-[80dvh] w-[70dvw] max-w-none p-0 overflow-hidden bg-slate-50 flex flex-col"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
           {/* Header estático Premium */}
           <div className="bg-white border-b border-slate-200 px-8 py-6">
             <div className="flex items-center justify-between mb-4">
@@ -259,19 +230,25 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <div className="col-span-12 md:col-span-4">
                   <div className="flex items-end gap-2">
                     <div className="flex-1">
-                      <SelectPlaceholder
-                        id="labelId"
-                        label="Categoria"
-                        error={errors.labelId?.message}
-                        {...register('labelId')}
-                      >
-                        <option value="">Selecione...</option>
-                        {labels.map((label) => (
-                          <option key={label.id} value={label.id}>
-                            {label.description}
-                          </option>
-                        ))}
-                      </SelectPlaceholder>
+                      <Controller
+                        name="labelId"
+                        control={control}
+                        render={({ field }) => (
+                          <SelectSimple
+                            label="Categoria"
+                            placeholder="Selecione..."
+                            error={errors.labelId?.message}
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            {labels.map((label) => (
+                              <SelectItem key={label.id} value={label.id}>
+                                {label.description}
+                              </SelectItem>
+                            ))}
+                          </SelectSimple>
+                        )}
+                      />
                     </div>
                     <Button
                       type="button"
@@ -287,19 +264,25 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
 
                 <div className="col-span-12 md:col-span-2">
-                  <SelectPlaceholder
-                    id="unitId"
-                    label="Medida/UN"
-                    error={errors.unitId?.message}
-                    {...register('unitId')}
-                  >
-                    <option value="">...</option>
-                    {units.map((unit) => (
-                      <option key={unit.id} value={unit.id}>
-                        {unit.initials}
-                      </option>
-                    ))}
-                  </SelectPlaceholder>
+                  <Controller
+                    name="unitId"
+                    control={control}
+                    render={({ field }) => (
+                      <SelectSimple
+                        label="Medida/UN"
+                        placeholder="..."
+                        error={errors.unitId?.message}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        {units.map((unit) => (
+                          <SelectItem key={unit.id} value={unit.id}>
+                            {unit.initials}
+                          </SelectItem>
+                        ))}
+                      </SelectSimple>
+                    )}
+                  />
                 </div>
 
                 <div className="col-span-12 md:col-span-3">
@@ -424,18 +407,27 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                           <div
                             className={`transition-all overflow-hidden ${isKitchenItemActive ? 'max-h-24 opacity-100 mt-3' : 'max-h-0 opacity-0'}`}
                           >
-                            <SelectPlaceholder
-                              id="kitchenId"
-                              label="Setor de impressão"
-                              {...register('kitchenId')}
-                            >
-                              <option value="">Nenhum/Padrão</option>
-                              {kitchens.map((kitchen) => (
-                                <option key={kitchen.id} value={kitchen.id}>
-                                  {kitchen.description}
-                                </option>
-                              ))}
-                            </SelectPlaceholder>
+                            <Controller
+                              name="kitchenId"
+                              control={control}
+                              render={({ field }) => (
+                                <SelectSimple
+                                  label="Setor de impressão"
+                                  placeholder="Nenhum/Padrão"
+                                  value={field.value || ''}
+                                  onValueChange={field.onChange}
+                                >
+                                  {kitchens.map((kitchen) => (
+                                    <SelectItem
+                                      key={kitchen.id}
+                                      value={kitchen.id}
+                                    >
+                                      {kitchen.description}
+                                    </SelectItem>
+                                  ))}
+                                </SelectSimple>
+                              )}
+                            />
                           </div>
                         </div>
                       </div>

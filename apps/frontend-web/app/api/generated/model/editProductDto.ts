@@ -8,28 +8,28 @@
 
 export interface EditProductDto {
   /** @minLength 1 */
-  name?: string
-  barcode?: string
-  description?: string
-  methodOfPreparation?: string
+  name?: string;
+  barcode?: string;
+  description?: string;
+  methodOfPreparation?: string;
   /** @minimum 0 */
-  price?: number
-  costPrice?: number
+  price?: number;
+  costPrice?: number;
   /**
    * @minimum -9007199254740991
    * @maximum 9007199254740991
    */
-  minStock?: number
-  active?: boolean
-  discontinued?: boolean
+  minStock?: number;
+  active?: boolean;
+  discontinued?: boolean;
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  labelId?: string
+  labelId?: string;
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  unitId?: string
-  kitchenId?: string | null
+  unitId?: string;
+  kitchenId?: string | null;
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  productTypeId?: string
-  isKitchenItem?: boolean
-  useMobileComanda?: boolean
-  useDigitalMenu?: boolean
+  productTypeId?: string;
+  isKitchenItem?: boolean;
+  useMobileComanda?: boolean;
+  useDigitalMenu?: boolean;
 }

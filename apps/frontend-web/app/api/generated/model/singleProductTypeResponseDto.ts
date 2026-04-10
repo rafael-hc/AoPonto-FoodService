@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SingleProductTypeResponseDtoProductType } from './singleProductTypeResponseDtoProductType'
+import type { SingleProductTypeResponseDtoProductType } from './singleProductTypeResponseDtoProductType';
 
 export interface SingleProductTypeResponseDto {
-  productType: SingleProductTypeResponseDtoProductType
+  productType: SingleProductTypeResponseDtoProductType;
 }

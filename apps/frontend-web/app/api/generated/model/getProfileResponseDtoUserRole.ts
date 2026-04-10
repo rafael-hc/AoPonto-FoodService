@@ -9,11 +9,11 @@
 /**
  * UserRole
  */
-export type GetProfileResponseDtoUserRole =
-  (typeof GetProfileResponseDtoUserRole)[keyof typeof GetProfileResponseDtoUserRole]
+export type GetProfileResponseDtoUserRole = typeof GetProfileResponseDtoUserRole[keyof typeof GetProfileResponseDtoUserRole];
+
 
 export const GetProfileResponseDtoUserRole = {
   ADMIN: 'ADMIN',
   CASHIER: 'CASHIER',
-  KITCHEN: 'KITCHEN'
-} as const
+  KITCHEN: 'KITCHEN',
+} as const;
