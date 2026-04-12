@@ -2662,6 +2662,13 @@
               "description": {
                 "type": "string"
               },
+              "context": {
+                "type": "string",
+                "enum": [
+                  "PRODUCT",
+                  "COMBO"
+                ]
+              },
               "minResponses": {
                 "type": "number"
               },
@@ -2721,6 +2728,7 @@
             "required": [
               "id",
               "description",
+              "context",
               "minResponses",
               "maxResponses",
               "minItems",
@@ -2756,6 +2764,13 @@
                 },
                 "description": {
                   "type": "string"
+                },
+                "context": {
+                  "type": "string",
+                  "enum": [
+                    "PRODUCT",
+                    "COMBO"
+                  ]
                 },
                 "minResponses": {
                   "type": "number"
@@ -2816,6 +2831,7 @@
               "required": [
                 "id",
                 "description",
+                "context",
                 "minResponses",
                 "maxResponses",
                 "minItems",
@@ -2909,6 +2925,13 @@
                     "description": {
                       "type": "string"
                     },
+                    "context": {
+                      "type": "string",
+                      "enum": [
+                        "PRODUCT",
+                        "COMBO"
+                      ]
+                    },
                     "minResponses": {
                       "type": "number"
                     },
@@ -2968,6 +2991,7 @@
                   "required": [
                     "id",
                     "description",
+                    "context",
                     "minResponses",
                     "maxResponses",
                     "minItems",

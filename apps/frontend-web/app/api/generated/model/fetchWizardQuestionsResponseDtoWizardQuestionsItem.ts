@@ -5,6 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
+import type { FetchWizardQuestionsResponseDtoWizardQuestionsItemContext } from './fetchWizardQuestionsResponseDtoWizardQuestionsItemContext';
 import type { FetchWizardQuestionsResponseDtoWizardQuestionsItemOptionsItem } from './fetchWizardQuestionsResponseDtoWizardQuestionsItemOptionsItem';
 
 export type FetchWizardQuestionsResponseDtoWizardQuestionsItem = {
@@ -12,6 +13,7 @@ export type FetchWizardQuestionsResponseDtoWizardQuestionsItem = {
   id: string;
   internalCode?: number | null;
   description: string;
+  context: FetchWizardQuestionsResponseDtoWizardQuestionsItemContext;
   minResponses: number;
   maxResponses: number;
   minItems: number;

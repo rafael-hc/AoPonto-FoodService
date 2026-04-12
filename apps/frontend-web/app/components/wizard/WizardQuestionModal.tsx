@@ -1,5 +1,6 @@
 import { Badge, Button, Dialog, Input } from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type { AxiosError } from 'axios'
 import {
   AlertCircle,
   HelpCircle,
@@ -16,6 +17,7 @@ import { z } from 'zod'
 import { useComplementsControllerList } from '../../api/generated/complements/complements'
 import type { FetchProductsResponseDtoProductsItem as Product } from '../../api/generated/model/fetchProductsResponseDtoProductsItem'
 import type { FetchWizardQuestionsResponseDtoWizardQuestionsItem as WizardQuestion } from '../../api/generated/model/fetchWizardQuestionsResponseDtoWizardQuestionsItem'
+import type { ZodValidationErrorDto } from '../../api/generated/model/zodValidationErrorDto'
 import { useProductsControllerList } from '../../api/generated/products/products'
 import { useWizardQuestionsControllerSync } from '../../api/generated/wizard-questions-global-bank/wizard-questions-global-bank'
 
@@ -71,13 +73,15 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   // Hook de Sincronização
-  const { mutate: syncQuestion, isPending } = useWizardQuestionsControllerSync({
+  const { mutate: syncQuestion, isPending } = useWizardQuestionsControllerSync<
+    AxiosError<ZodValidationErrorDto>
+  >({
     mutation: {
       onSuccess: () => {
         onSuccess?.()
         onOpenChange(false)
       },
-      onError: (error: any) => {
+      onError: (error) => {
         const message =
           error?.response?.data?.message ||
           'Erro ao salvar pergunta. Verifique os dados e tente novamente.'
@@ -126,7 +130,7 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
         reset({
           id: question.id,
           description: question.description,
-          context: (question as any).context || 'PRODUCT',
+          context: question.context || 'PRODUCT',
           minResponses: question.minResponses,
           maxResponses: question.maxResponses,
           minItems: question.minItems,

@@ -1,4 +1,4 @@
-import type { ProductDetail as PrismaProductDetail } from '@prisma/client'
+import { Prisma, ProductDetail as PrismaProductDetail } from '@prisma/client'
 import { ProductDetail } from '@/catalog/domain/entities/product-detail'
 
 export const PrismaProductDetailMapper = {
@@ -35,10 +35,16 @@ export const PrismaProductDetailMapper = {
       code: productDetail.code,
       productId: productDetail.productId,
       productSizeId: productDetail.productSizeId ?? null,
-      salePrice: productDetail.salePrice as any, // Decimal handle
-      costPrice: (productDetail.costPrice as any) ?? null,
-      currentStock: (productDetail.currentStock as any) ?? null,
-      minStock: (productDetail.minStock as any) ?? null,
+      salePrice: new Prisma.Decimal(productDetail.salePrice),
+      costPrice: productDetail.costPrice
+        ? new Prisma.Decimal(productDetail.costPrice)
+        : null,
+      currentStock: productDetail.currentStock
+        ? new Prisma.Decimal(productDetail.currentStock)
+        : null,
+      minStock: productDetail.minStock
+        ? new Prisma.Decimal(productDetail.minStock)
+        : null,
       isStockControlled: productDetail.isStockControlled ?? false,
       barcode: productDetail.barcode ?? null,
       externalId: productDetail.externalId,

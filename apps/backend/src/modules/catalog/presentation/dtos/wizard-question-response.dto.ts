@@ -13,6 +13,7 @@ export const wizardQuestionResponseSchema = z.strictObject({
   id: z.uuid(),
   internalCode: z.number().optional().nullable(),
   description: z.string(),
+  context: z.enum(['PRODUCT', 'COMBO']),
   minResponses: z.number(),
   maxResponses: z.number(),
   minItems: z.number(),
