@@ -142,7 +142,12 @@ export const modulesConfig: ModuleConfigMap = {
             id: 'tipos-produto',
             actionType: 'route'
           },
-          { name: 'Perguntas', icon: HelpCircle }
+          {
+            name: 'Perguntas',
+            icon: HelpCircle,
+            id: 'perguntas',
+            actionType: 'route'
+          }
         ]
       },
       {

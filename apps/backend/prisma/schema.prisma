@@ -350,6 +350,7 @@ model ProductDetail {
   updatedAt          DateTime  @updatedAt @map("updated_at")
   deletedAt          DateTime? @map("deleted_at")
 
+
   @@map("product_details")
 }
 
@@ -420,7 +421,70 @@ model Product {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
+  wizards        ProductWizard[]
+  wizardOptions  WizardOption[]
+
   @@map("products")
+}
+
+enum WizardContext {
+  PRODUCT
+  COMBO
+}
+
+model WizardQuestion {
+  id           String    @id @default(uuid())
+  internalCode Int       @unique @map("codigo") @default(autoincrement())
+  description  String
+  context      WizardContext @default(PRODUCT)
+  minResponses Int       @default(0) @map("qtd_respostas_min") @db.SmallInt
+  maxResponses Int       @default(1) @map("qtd_respostas_max") @db.SmallInt
+  minItems     Decimal   @default(0) @map("qtd_itens_min") @db.Decimal(16, 4)
+  maxItems     Decimal   @default(1) @map("qtd_itens_max") @db.Decimal(16, 4)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  options  WizardOption[]
+  products ProductWizard[]
+
+  @@map("wizard_questions")
+}
+
+model WizardOption {
+  id               String   @id @default(uuid())
+  wizardQuestion   WizardQuestion @relation(fields: [wizardQuestionId], references: [id], onDelete: Cascade)
+  wizardQuestionId String   @map("wizard_question_id")
+
+  product          Product?       @relation(fields: [productId], references: [id])
+  productId        String?        @map("product_id")
+
+  description      String?
+  promoPrice       Decimal? @map("promo_price") @db.Decimal(16, 4)
+  maxQty           Decimal  @default(1) @map("max_qty") @db.Decimal(16, 4)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("wizard_options")
+}
+
+model ProductWizard {
+  id               String   @id @default(uuid())
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String   @map("product_id")
+
+  wizardQuestion   WizardQuestion @relation(fields: [wizardQuestionId], references: [id], onDelete: Cascade)
+  wizardQuestionId String   @map("wizard_question_id")
+
+  order            Int      @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("product_wizards")
 }
 
 model Permission {

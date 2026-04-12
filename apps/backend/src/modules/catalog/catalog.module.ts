@@ -68,12 +68,34 @@ import { PrismaLabelsRepository } from './infrastructure/database/prisma/reposit
 import { PrismaProductTypesRepository } from './infrastructure/database/prisma/repositories/prisma-product-types-repository'
 import { PrismaProductsRepository } from './infrastructure/database/prisma/repositories/prisma-products-repository'
 import { PrismaUnitsRepository } from './infrastructure/database/prisma/repositories/prisma-units-repository'
+import { WizardQuestionsRepository, ProductWizardsRepository } from './domain/repositories/wizard-repositories'
+import { PrismaWizardQuestionsRepository } from './infrastructure/database/prisma/repositories/prisma-wizard-questions-repository'
+import { PrismaProductWizardsRepository } from './infrastructure/database/prisma/repositories/prisma-product-wizards-repository'
 import { ComplementsController } from './presentation/controllers/complements.controller'
 import { KitchensController } from './presentation/controllers/kitchens.controller'
 import { LabelsController } from './presentation/controllers/labels.controller'
 import { ProductTypesController } from './presentation/controllers/product-types.controller'
 import { ProductsController } from './presentation/controllers/products.controller'
 import { UnitsController } from './presentation/controllers/units.controller'
+import { WizardQuestionsController } from './presentation/controllers/wizard-questions.controller'
+import { ProductWizardsController } from './presentation/controllers/product-wizards.controller'
+
+import {
+  makeSynchronizeWizardQuestionUseCase,
+  makeListWizardQuestionsUseCase,
+  makeGetWizardQuestionUseCase,
+  makeDeleteWizardQuestionUseCase
+} from './application/use-cases/factories/make-wizard-use-cases'
+import {
+  makeSyncProductWizardsUseCase,
+  makeFetchProductWizardsUseCase
+} from './application/use-cases/factories/make-product-wizard-use-cases'
+import { SynchronizeWizardQuestionUseCase } from './application/use-cases/synchronize-wizard-question.use-case'
+import { ListWizardQuestionsUseCase } from './application/use-cases/list-wizard-questions.use-case'
+import { GetWizardQuestionUseCase } from './application/use-cases/get-wizard-question.use-case'
+import { DeleteWizardQuestionUseCase } from './application/use-cases/delete-wizard-question.use-case'
+import { SyncProductWizardsUseCase } from './application/use-cases/sync-product-wizards.use-case'
+import { FetchProductWizardsUseCase } from './application/use-cases/fetch-product-wizards.use-case'
 
 @Module({
   imports: [],
@@ -83,7 +105,9 @@ import { UnitsController } from './presentation/controllers/units.controller'
     KitchensController,
     LabelsController,
     UnitsController,
-    ProductTypesController
+    ProductTypesController,
+    WizardQuestionsController,
+    ProductWizardsController
   ],
   providers: [
     // Repositories
@@ -101,6 +125,9 @@ import { UnitsController } from './presentation/controllers/units.controller'
       provide: ProductDetailsRepository,
       useClass: PrismaProductDetailsRepository
     },
+    { provide: WizardQuestionsRepository, useClass: PrismaWizardQuestionsRepository },
+    { provide: ProductWizardsRepository, useClass: PrismaProductWizardsRepository },
+
 
     // Product Use Cases
     {
@@ -210,6 +237,38 @@ import { UnitsController } from './presentation/controllers/units.controller'
       provide: DeleteProductTypeUseCase,
       useFactory: makeDeleteProductTypeUseCase,
       inject: [ProductTypesRepository]
+    },
+
+    // Wizard Use Cases
+    {
+      provide: SynchronizeWizardQuestionUseCase,
+      useFactory: makeSynchronizeWizardQuestionUseCase,
+      inject: [WizardQuestionsRepository]
+    },
+    {
+      provide: ListWizardQuestionsUseCase,
+      useFactory: makeListWizardQuestionsUseCase,
+      inject: [WizardQuestionsRepository]
+    },
+    {
+      provide: GetWizardQuestionUseCase,
+      useFactory: makeGetWizardQuestionUseCase,
+      inject: [WizardQuestionsRepository]
+    },
+    {
+      provide: DeleteWizardQuestionUseCase,
+      useFactory: makeDeleteWizardQuestionUseCase,
+      inject: [WizardQuestionsRepository]
+    },
+    {
+      provide: SyncProductWizardsUseCase,
+      useFactory: makeSyncProductWizardsUseCase,
+      inject: [ProductWizardsRepository]
+    },
+    {
+      provide: FetchProductWizardsUseCase,
+      useFactory: makeFetchProductWizardsUseCase,
+      inject: [ProductWizardsRepository]
     }
   ],
   exports: [

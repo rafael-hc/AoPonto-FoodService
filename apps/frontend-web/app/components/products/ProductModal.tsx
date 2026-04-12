@@ -12,6 +12,7 @@ import { FetchProductsResponseDtoProductsItem as Product } from '../../api/gener
 import { FetchUnitsResponseDtoUnitsItem as Unit } from '../../api/generated/model/fetchUnitsResponseDtoUnitsItem'
 import { useUnitsControllerFetch } from '../../api/generated/units/units'
 import LabelModal from './LabelModal'
+import { WizardLinker } from '../wizard/WizardLinker'
 
 // Removido o productTypeId já que agora é tratado pelo backend em rotas separadas
 const productSchema = z.object({
@@ -50,7 +51,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   isPending = false
 }) => {
   const isEditMode = !!product
-  const [activeTab, setActiveTab] = useState<'more' | 'config'>('more')
+  const [activeTab, setActiveTab] = useState<'more' | 'config' | 'wizard'>('more')
   const [isLabelModalOpen, setIsLabelModalOpen] = useState(false)
 
   // Fetches para selects
@@ -344,6 +345,17 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   >
                     Estoque & Configurações
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('wizard')}
+                    className={`px-6 py-3 font-semibold text-sm rounded-t-lg transition-colors pb-[10px] border-b-2 ${
+                      activeTab === 'wizard'
+                        ? 'bg-white text-orange-600 border-orange-500 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]'
+                        : 'text-slate-500 border-transparent hover:text-slate-700'
+                    }`}
+                  >
+                    Wizard de Perguntas
+                  </button>
                 </div>
 
                 <div className="p-6">
@@ -470,6 +482,24 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                           </label>
                         </div>
                       </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'wizard' && (
+                    <div className="h-[430px]">
+                      {isEditMode && product?.id ? (
+                        <WizardLinker productId={product.id} />
+                      ) : (
+                        <div className="h-full flex flex-col items-center justify-center text-center p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                          <div className="p-4 bg-white rounded-full shadow-sm mb-4">
+                            <Plus size={32} className="text-slate-300" />
+                          </div>
+                          <h4 className="text-lg font-bold text-slate-800 mb-2">Configure o Wizard após salvar</h4>
+                          <p className="text-sm text-slate-500 max-w-[300px]">
+                            Para vincular perguntas de personalização, salve este item primeiro para gerar um código de registro.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
