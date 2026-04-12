@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { ProductWizardsRepository } from '@/catalog/domain/repositories/wizard-repositories'
 import { ProductWizard } from '@/catalog/domain/entities/product-wizard'
+import { ProductWizardsRepository } from '@/catalog/domain/repositories/wizard-repositories'
 
 interface FetchProductWizardsUseCaseRequest {
   productId: string
@@ -17,7 +17,8 @@ export class FetchProductWizardsUseCase {
   async execute({
     productId
   }: FetchProductWizardsUseCaseRequest): Promise<FetchProductWizardsUseCaseResponse> {
-    const productWizards = await this.productWizardsRepository.findByProductId(productId)
+    const productWizards =
+      await this.productWizardsRepository.findByProductId(productId)
 
     // Ordenar por ordem definida
     const sortedWizards = productWizards.sort((a, b) => a.order - b.order)

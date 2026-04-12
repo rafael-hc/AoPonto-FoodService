@@ -1,9 +1,9 @@
 import { NotFoundException } from '@nestjs/common'
-import { Test, TestingModule } from '@nestjs/testing'
 import { JwtService } from '@nestjs/jwt'
-import { GetProfileController } from './get-profile.controller'
+import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaService } from '@/shared/database/prisma/prisma.service'
 import { JwtAuthGuard } from '../guards/jwt-auth.guard'
+import { GetProfileController } from './get-profile.controller'
 
 describe('GetProfileController', () => {
   let sut: GetProfileController
@@ -55,7 +55,9 @@ describe('GetProfileController', () => {
       permissions: [{ permission: { code: 'P1' } }]
     }
 
-    jest.spyOn(prisma.user, 'findUnique').mockResolvedValue(mockUser as unknown as null)
+    jest
+      .spyOn(prisma.user, 'findUnique')
+      .mockResolvedValue(mockUser as unknown as null)
     jest.spyOn(prisma.rolePermission, 'findMany').mockResolvedValue([])
 
     const result = await sut.handle(mockUserPayload)

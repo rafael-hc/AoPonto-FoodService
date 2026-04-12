@@ -39,7 +39,7 @@ describe('PrismaProductMapper', () => {
       deletedAt: null
     }
 
-    const product = PrismaProductMapper.toDomain(raw as unknown as any)
+    const product = PrismaProductMapper.toDomain(raw as any)
 
     expect(product.id).toBe('product-1')
     expect(product.taxMetadata.ncm).toBe('1234')

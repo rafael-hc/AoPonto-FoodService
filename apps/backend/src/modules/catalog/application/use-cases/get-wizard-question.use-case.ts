@@ -12,7 +12,9 @@ interface GetWizardQuestionUseCaseResponse {
 export class GetWizardQuestionUseCase {
   constructor(private wizardQuestionsRepository: WizardQuestionsRepository) {}
 
-  async execute({ id }: GetWizardQuestionUseCaseRequest): Promise<GetWizardQuestionUseCaseResponse> {
+  async execute({
+    id
+  }: GetWizardQuestionUseCaseRequest): Promise<GetWizardQuestionUseCaseResponse> {
     const wizardQuestion = await this.wizardQuestionsRepository.findById(id)
 
     if (!wizardQuestion) {

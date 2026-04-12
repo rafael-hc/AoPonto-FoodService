@@ -12,7 +12,9 @@ interface ListWizardQuestionsUseCaseResponse {
 export class ListWizardQuestionsUseCase {
   constructor(private wizardQuestionsRepository: WizardQuestionsRepository) {}
 
-  async execute(request: ListWizardQuestionsUseCaseRequest): Promise<ListWizardQuestionsUseCaseResponse> {
+  async execute(
+    request: ListWizardQuestionsUseCaseRequest
+  ): Promise<ListWizardQuestionsUseCaseResponse> {
     const wizardQuestions = await this.wizardQuestionsRepository.findMany({
       search: request.search
     })

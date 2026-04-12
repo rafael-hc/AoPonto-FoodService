@@ -1,5 +1,5 @@
-import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 import { WizardOption } from '@/catalog/domain/entities/wizard-option'
+import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 import { WizardQuestionsRepository } from '@/catalog/domain/repositories/wizard-repositories'
 
 interface SynchronizeWizardQuestionUseCaseRequest {
@@ -26,7 +26,9 @@ interface SynchronizeWizardQuestionUseCaseResponse {
 export class SynchronizeWizardQuestionUseCase {
   constructor(private wizardQuestionsRepository: WizardQuestionsRepository) {}
 
-  async execute(request: SynchronizeWizardQuestionUseCaseRequest): Promise<SynchronizeWizardQuestionUseCaseResponse> {
+  async execute(
+    request: SynchronizeWizardQuestionUseCaseRequest
+  ): Promise<SynchronizeWizardQuestionUseCaseResponse> {
     let wizardQuestion: WizardQuestion | null = null
 
     if (request.id) {
@@ -55,15 +57,21 @@ export class SynchronizeWizardQuestionUseCase {
       })
     }
 
+    if (!wizardQuestion) {
+      throw new Error('Question not found or could not be created')
+    }
+
     // Mapear opções
-    const options = request.options.map(opt => WizardOption.create({
-      id: opt.id,
-      wizardQuestionId: wizardQuestion!.id,
-      productId: opt.productId,
-      description: opt.description,
-      promoPrice: opt.promoPrice,
-      maxQty: opt.maxQty
-    }))
+    const options = request.options.map((opt) =>
+      WizardOption.create({
+        id: opt.id,
+        wizardQuestionId: wizardQuestion.id,
+        productId: opt.productId,
+        description: opt.description,
+        promoPrice: opt.promoPrice,
+        maxQty: opt.maxQty
+      })
+    )
 
     wizardQuestion.setOptions(options)
 

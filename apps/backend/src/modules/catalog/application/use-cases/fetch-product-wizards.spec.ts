@@ -1,6 +1,6 @@
+import { makeProductWizard } from '../../test/factories/make-product-wizard'
 import { InMemoryProductWizardsRepository } from '../../test/repositories/in-memory-product-wizards-repository'
 import { FetchProductWizardsUseCase } from './fetch-product-wizards.use-case'
-import { makeProductWizard } from '../../test/factories/make-product-wizard'
 
 let inMemoryProductWizardsRepository: InMemoryProductWizardsRepository
 let sut: FetchProductWizardsUseCase

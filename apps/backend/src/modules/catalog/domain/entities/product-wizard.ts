@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { DateUtils } from '@/shared/utils/date-utils'
+import { WizardQuestion } from './wizard-question'
 
 export interface ProductWizardProps {
   id?: string
@@ -8,6 +9,7 @@ export interface ProductWizardProps {
   order: number
   createdAt?: Date
   updatedAt?: Date
+  wizardQuestion?: WizardQuestion
 }
 
 export class ProductWizard {
@@ -44,6 +46,9 @@ export class ProductWizard {
   }
   get updatedAt() {
     return this.props.updatedAt as Date
+  }
+  get wizardQuestion() {
+    return this.props.wizardQuestion
   }
 
   updateOrder(order: number) {

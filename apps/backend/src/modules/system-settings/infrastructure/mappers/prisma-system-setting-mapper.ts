@@ -1,8 +1,8 @@
 import { SystemSetting as PrismaSystemSetting } from '@prisma/client'
 import { SystemSetting } from '../../domain/entities/system-setting'
 
-export class PrismaSystemSettingMapper {
-  static toDomain(raw: PrismaSystemSetting): SystemSetting {
+export const PrismaSystemSettingMapper = {
+  toDomain(raw: PrismaSystemSetting): SystemSetting {
     return SystemSetting.restore({
       id: raw.id,
       parameter: raw.parameter,
@@ -13,9 +13,9 @@ export class PrismaSystemSettingMapper {
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt
     })
-  }
+  },
 
-  static toPrisma(setting: SystemSetting): PrismaSystemSetting {
+  toPrisma(setting: SystemSetting): PrismaSystemSetting {
     return {
       id: setting.id,
       parameter: setting.parameter,

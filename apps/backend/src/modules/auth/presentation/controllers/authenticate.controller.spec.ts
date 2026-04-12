@@ -60,10 +60,7 @@ describe('AuthenticateController', () => {
       .mockRejectedValueOnce(new WrongCredentialsError())
 
     await expect(
-      sut.handle(
-        { login: 'any_login', password: 'any_password' },
-        mockResponse
-      )
+      sut.handle({ login: 'any_login', password: 'any_password' }, mockResponse)
     ).rejects.toThrow(UnauthorizedException)
   })
 })

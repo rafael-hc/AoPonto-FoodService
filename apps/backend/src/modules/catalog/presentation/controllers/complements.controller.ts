@@ -8,7 +8,16 @@ import {
   Post,
   Put
 } from '@nestjs/common'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
 import { DeleteProductUseCase } from '@/catalog/application/use-cases/delete-product.use-case'
 import { EditProductUseCase } from '@/catalog/application/use-cases/edit-product.use-case'
 import { FetchProductsUseCase } from '@/catalog/application/use-cases/fetch-products.use-case'
@@ -19,8 +28,8 @@ import {
   SingleProductResponseDto
 } from '@/catalog/presentation/dtos/product-response.dto'
 import { RegisterProductDto } from '@/catalog/presentation/dtos/register-product.dto'
-import { ProductPresenter } from '@/catalog/presentation/presenters/product.presenter'
 import { ZodValidationErrorDto } from '@/catalog/presentation/dtos/zod-validation-error.dto'
+import { ProductPresenter } from '@/catalog/presentation/presenters/product.presenter'
 
 const COMPLEMENTO_TYPE_ID = 'b0dff670-38ad-4917-8952-1314a6e0d7cb'
 
@@ -37,7 +46,10 @@ export class ComplementsController {
   @Post()
   @ApiOperation({ summary: 'Register a complement' })
   @ApiCreatedResponse({ type: SingleProductResponseDto })
-  @ApiBadRequestResponse({ description: 'Invalid payload', type: ZodValidationErrorDto })
+  @ApiBadRequestResponse({
+    description: 'Invalid payload',
+    type: ZodValidationErrorDto
+  })
   async create(@Body() body: RegisterProductDto) {
     const { product } = await this.registerProduct.execute({
       ...body,

@@ -12,8 +12,24 @@ describe('List Wizard Questions', () => {
   })
 
   it('should be able to list wizard questions', async () => {
-    await wizardQuestionsRepository.create(WizardQuestion.create({ description: 'Q1', minResponses: 0, maxResponses: 1, minItems: 0, maxItems: 1 }))
-    await wizardQuestionsRepository.create(WizardQuestion.create({ description: 'Q2', minResponses: 0, maxResponses: 1, minItems: 0, maxItems: 1 }))
+    await wizardQuestionsRepository.create(
+      WizardQuestion.create({
+        description: 'Q1',
+        minResponses: 0,
+        maxResponses: 1,
+        minItems: 0,
+        maxItems: 1
+      })
+    )
+    await wizardQuestionsRepository.create(
+      WizardQuestion.create({
+        description: 'Q2',
+        minResponses: 0,
+        maxResponses: 1,
+        minItems: 0,
+        maxItems: 1
+      })
+    )
 
     const { wizardQuestions } = await sut.execute({})
 
@@ -21,8 +37,24 @@ describe('List Wizard Questions', () => {
   })
 
   it('should be able to filter wizard questions by search term', async () => {
-    await wizardQuestionsRepository.create(WizardQuestion.create({ description: 'Drinks', minResponses: 0, maxResponses: 1, minItems: 0, maxItems: 1 }))
-    await wizardQuestionsRepository.create(WizardQuestion.create({ description: 'Sauces', minResponses: 0, maxResponses: 1, minItems: 0, maxItems: 1 }))
+    await wizardQuestionsRepository.create(
+      WizardQuestion.create({
+        description: 'Drinks',
+        minResponses: 0,
+        maxResponses: 1,
+        minItems: 0,
+        maxItems: 1
+      })
+    )
+    await wizardQuestionsRepository.create(
+      WizardQuestion.create({
+        description: 'Sauces',
+        minResponses: 0,
+        maxResponses: 1,
+        minItems: 0,
+        maxItems: 1
+      })
+    )
 
     const { wizardQuestions } = await sut.execute({ search: 'drink' })
 

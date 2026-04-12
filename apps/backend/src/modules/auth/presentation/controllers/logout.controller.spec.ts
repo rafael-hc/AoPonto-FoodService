@@ -16,7 +16,9 @@ describe('LogoutController', () => {
   it('should clear cookies and return success message', async () => {
     const mockResponse = {
       clearCookie: jest.fn(),
-      send: jest.fn().mockReturnValue({ message: 'Logout realizado com sucesso' })
+      send: jest
+        .fn()
+        .mockReturnValue({ message: 'Logout realizado com sucesso' })
     } as unknown as Response
 
     const result = await sut.handle(mockResponse)

@@ -35,7 +35,11 @@ describe('Sync Product Wizards', () => {
     })
 
     expect(productWizardsRepository.items).toHaveLength(2)
-    expect(productWizardsRepository.items.find(i => i.wizardQuestionId === 'q2')).toBeUndefined()
-    expect(productWizardsRepository.items.find(i => i.wizardQuestionId === 'q3')).toBeTruthy()
+    expect(
+      productWizardsRepository.items.find((i) => i.wizardQuestionId === 'q2')
+    ).toBeUndefined()
+    expect(
+      productWizardsRepository.items.find((i) => i.wizardQuestionId === 'q3')
+    ).toBeTruthy()
   })
 })

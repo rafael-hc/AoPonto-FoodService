@@ -10,7 +10,7 @@ export const WizardQuestionPresenter = {
       maxResponses: wizardQuestion.maxResponses,
       minItems: wizardQuestion.minItems,
       maxItems: wizardQuestion.maxItems,
-      options: wizardQuestion.options?.map(opt => ({
+      options: wizardQuestion.options?.map((opt) => ({
         id: opt.id,
         description: opt.description,
         productId: opt.productId,

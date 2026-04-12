@@ -1,4 +1,7 @@
-import { WizardQuestion, WizardQuestionProps } from '@/catalog/domain/entities/wizard-question'
+import {
+  WizardQuestion,
+  WizardQuestionProps
+} from '@/catalog/domain/entities/wizard-question'
 
 export function makeWizardQuestion(
   override: Partial<WizardQuestionProps> = {},

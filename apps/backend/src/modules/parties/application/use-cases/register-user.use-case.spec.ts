@@ -1,6 +1,4 @@
 import type { HashGenerator } from '@/auth/domain/cryptography/hash-generator'
-import { Contact } from '@/parties/domain/entities/contact'
-import { User, UserRole } from '@/parties/domain/entities/user'
 import { UserAlreadyExistsError } from '@/parties/domain/errors/user-already-exists-error'
 import { InMemoryContactsRepository } from '@/parties/test/repositories/in-memory-contacts-repository'
 import { InMemoryUsersRepository } from '@/parties/test/repositories/in-memory-users-repository'

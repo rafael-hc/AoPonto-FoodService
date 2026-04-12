@@ -8,7 +8,16 @@ import {
   Post,
   Put
 } from '@nestjs/common'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
 import { DeleteUnitUseCase } from '@/catalog/application/use-cases/delete-unit.use-case'
 import { EditUnitUseCase } from '@/catalog/application/use-cases/edit-unit.use-case'
 import { FetchUnitsUseCase } from '@/catalog/application/use-cases/fetch-units.use-case'
@@ -19,8 +28,8 @@ import {
   FetchUnitsResponseDto,
   SingleUnitResponseDto
 } from '@/catalog/presentation/dtos/unit-response.dto'
-import { UnitPresenter } from '@/catalog/presentation/presenters/unit.presenter'
 import { ZodValidationErrorDto } from '@/catalog/presentation/dtos/zod-validation-error.dto'
+import { UnitPresenter } from '@/catalog/presentation/presenters/unit.presenter'
 
 @ApiTags('Units')
 @Controller('units')
@@ -35,7 +44,10 @@ export class UnitsController {
   @Post()
   @ApiOperation({ summary: 'Register a unit' })
   @ApiCreatedResponse({ type: SingleUnitResponseDto })
-  @ApiBadRequestResponse({ description: 'Invalid payload', type: ZodValidationErrorDto })
+  @ApiBadRequestResponse({
+    description: 'Invalid payload',
+    type: ZodValidationErrorDto
+  })
   async register(@Body() body: RegisterUnitDto) {
     const { unit } = await this.registerUnit.execute(body)
     return { unit: UnitPresenter.toHTTP(unit) }

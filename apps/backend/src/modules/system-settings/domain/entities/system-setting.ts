@@ -40,7 +40,7 @@ export class SystemSetting {
   }
 
   get id() {
-    return this.props.id!
+    return this.props.id as string
   }
   get parameter() {
     return this.props.parameter

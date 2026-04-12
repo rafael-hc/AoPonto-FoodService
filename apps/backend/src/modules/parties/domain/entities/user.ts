@@ -17,10 +17,6 @@ export interface UserProps extends BaseEntityProps {
 }
 
 export class User extends BaseEntity<UserProps> {
-  constructor(props: UserProps) {
-    super(props)
-  }
-
   get login() {
     return this.props.login
   }

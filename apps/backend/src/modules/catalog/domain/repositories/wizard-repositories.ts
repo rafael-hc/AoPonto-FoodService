@@ -1,5 +1,5 @@
-import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 import { ProductWizard } from '@/catalog/domain/entities/product-wizard'
+import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 
 export abstract class WizardQuestionsRepository {
   abstract findById(id: string): Promise<WizardQuestion | null>

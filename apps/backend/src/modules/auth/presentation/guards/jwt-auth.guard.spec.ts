@@ -2,8 +2,8 @@ import { type ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
 import type { Request } from 'express'
-import { JwtAuthGuard } from './jwt-auth.guard'
 import type { UserPayload } from '../decorators/current-user.decorator'
+import { JwtAuthGuard } from './jwt-auth.guard'
 
 interface MockRequest extends Request {
   user: UserPayload
@@ -70,7 +70,9 @@ describe('JwtAuthGuard', () => {
     } as unknown as MockRequest
     const context = mockExecutionContext(request)
 
-    await expect(sut.canActivate(context)).rejects.toThrow(UnauthorizedException)
+    await expect(sut.canActivate(context)).rejects.toThrow(
+      UnauthorizedException
+    )
   })
 
   it('should throw UnauthorizedException if token is invalid', async () => {
@@ -82,6 +84,8 @@ describe('JwtAuthGuard', () => {
 
     jest.spyOn(jwtService, 'verifyAsync').mockRejectedValueOnce(new Error())
 
-    await expect(sut.canActivate(context)).rejects.toThrow(UnauthorizedException)
+    await expect(sut.canActivate(context)).rejects.toThrow(
+      UnauthorizedException
+    )
   })
 })

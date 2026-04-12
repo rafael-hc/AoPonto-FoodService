@@ -1,5 +1,5 @@
-import { WizardQuestion } from './wizard-question'
 import { WizardOption } from './wizard-option'
+import { WizardQuestion } from './wizard-question'
 
 describe('WizardQuestion Entity', () => {
   it('should be able to create a new wizard question', () => {
@@ -45,7 +45,9 @@ describe('WizardQuestion Entity', () => {
         { optionId: '1', quantity: 1 }
       ])
       expect(result.isValid).toBe(false)
-      expect(result.message).toContain('A quantidade total deve ser pelo menos 2')
+      expect(result.message).toContain(
+        'A quantidade total deve ser pelo menos 2'
+      )
     })
 
     it('should fail if total items exceeds maxItems', () => {
@@ -54,7 +56,9 @@ describe('WizardQuestion Entity', () => {
         { optionId: '2', quantity: 2 }
       ])
       expect(result.isValid).toBe(false)
-      expect(result.message).toContain('A quantidade total deve ser no máximo 4')
+      expect(result.message).toContain(
+        'A quantidade total deve ser no máximo 4'
+      )
     })
 
     it('should pass if selection is valid', () => {
@@ -66,13 +70,13 @@ describe('WizardQuestion Entity', () => {
     })
 
     it('should validate individual option max quantity', () => {
-      const opt1 = WizardOption.create({ 
-        id: 'opt1', 
-        wizardQuestionId: 'q1', 
+      const opt1 = WizardOption.create({
+        id: 'opt1',
+        wizardQuestionId: 'q1',
         maxQty: 2,
         description: 'Bacon'
       })
-      
+
       const qWithOpts = WizardQuestion.create({
         description: 'With options',
         minResponses: 0,

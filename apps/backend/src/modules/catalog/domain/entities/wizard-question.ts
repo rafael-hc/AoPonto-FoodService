@@ -86,7 +86,14 @@ export class WizardQuestion {
     this.props.updatedAt = DateUtils.getBrasiliaDate()
   }
 
-  update(props: Partial<Omit<WizardQuestionProps, 'id' | 'createdAt' | 'updatedAt' | 'internalCode' | 'options'>>) {
+  update(
+    props: Partial<
+      Omit<
+        WizardQuestionProps,
+        'id' | 'createdAt' | 'updatedAt' | 'internalCode' | 'options'
+      >
+    >
+  ) {
     Object.assign(this.props, props)
     this.props.updatedAt = DateUtils.getBrasiliaDate()
   }
@@ -95,44 +102,49 @@ export class WizardQuestion {
    * Valida se uma seleção de itens satisfaz as regras da pergunta.
    * @param selections Array de { optionId: string, quantity: number }
    */
-  validateSelection(selections: { optionId: string; quantity: number }[]): { isValid: boolean; message?: string } {
+  validateSelection(selections: { optionId: string; quantity: number }[]): {
+    isValid: boolean
+    message?: string
+  } {
     const totalResponses = selections.length
     const totalItems = selections.reduce((acc, curr) => acc + curr.quantity, 0)
 
     // Validar quantidade de tipos de respostas (opções distintas)
     if (totalResponses < this.minResponses) {
-      return { 
-        isValid: false, 
-        message: `Selecione pelo menos ${this.minResponses} opção(ões).` 
+      return {
+        isValid: false,
+        message: `Selecione pelo menos ${this.minResponses} opção(ões).`
       }
     }
 
     if (this.maxResponses > 0 && totalResponses > this.maxResponses) {
-      return { 
-        isValid: false, 
-        message: `Selecione no máximo ${this.maxResponses} opção(ões).` 
+      return {
+        isValid: false,
+        message: `Selecione no máximo ${this.maxResponses} opção(ões).`
       }
     }
 
     // Validar quantidade total de itens (soma das quantidades)
     if (totalItems < this.minItems) {
-      return { 
-        isValid: false, 
-        message: `A quantidade total deve ser pelo menos ${this.minItems}.` 
+      return {
+        isValid: false,
+        message: `A quantidade total deve ser pelo menos ${this.minItems}.`
       }
     }
 
     if (this.maxItems > 0 && totalItems > this.maxItems) {
-      return { 
-        isValid: false, 
-        message: `A quantidade total deve ser no máximo ${this.maxItems}.` 
+      return {
+        isValid: false,
+        message: `A quantidade total deve ser no máximo ${this.maxItems}.`
       }
     }
 
     // Validar limites individuais de cada opção se as opções estiverem carregadas
     if (this.props.options && this.props.options.length > 0) {
       for (const selection of selections) {
-        const option = this.props.options.find(o => o.id === selection.optionId)
+        const option = this.props.options.find(
+          (o) => o.id === selection.optionId
+        )
         if (option && selection.quantity > option.maxQty) {
           return {
             isValid: false,

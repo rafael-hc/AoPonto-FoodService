@@ -1,4 +1,8 @@
-import type { Prisma, WizardQuestion as PrismaWizardQuestion, WizardOption as PrismaWizardOption } from '@prisma/client'
+import type {
+  Prisma,
+  WizardOption as PrismaWizardOption,
+  WizardQuestion as PrismaWizardQuestion
+} from '@prisma/client'
 import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 import { PrismaWizardOptionMapper } from './prisma-wizard-option-mapper'
 
@@ -24,7 +28,9 @@ export const PrismaWizardQuestionMapper = {
     })
   },
 
-  toPrisma(question: WizardQuestion): Prisma.WizardQuestionUncheckedCreateInput {
+  toPrisma(
+    question: WizardQuestion
+  ): Prisma.WizardQuestionUncheckedCreateInput {
     return {
       id: question.id,
       internalCode: question.internalCode,

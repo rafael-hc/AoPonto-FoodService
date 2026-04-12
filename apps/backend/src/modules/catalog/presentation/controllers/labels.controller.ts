@@ -8,7 +8,16 @@ import {
   Post,
   Put
 } from '@nestjs/common'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
 import { DeleteLabelUseCase } from '@/catalog/application/use-cases/delete-label.use-case'
 import { EditLabelUseCase } from '@/catalog/application/use-cases/edit-label.use-case'
 import { FetchLabelsUseCase } from '@/catalog/application/use-cases/fetch-labels.use-case'
@@ -19,8 +28,8 @@ import {
   SingleLabelResponseDto
 } from '@/catalog/presentation/dtos/label-response.dto'
 import { RegisterLabelDto } from '@/catalog/presentation/dtos/register-label.dto'
-import { LabelPresenter } from '@/catalog/presentation/presenters/label.presenter'
 import { ZodValidationErrorDto } from '@/catalog/presentation/dtos/zod-validation-error.dto'
+import { LabelPresenter } from '@/catalog/presentation/presenters/label.presenter'
 
 @ApiTags('Labels')
 @Controller('labels')
@@ -35,7 +44,10 @@ export class LabelsController {
   @Post()
   @ApiOperation({ summary: 'Register a label' })
   @ApiCreatedResponse({ type: SingleLabelResponseDto })
-  @ApiBadRequestResponse({ description: 'Invalid payload', type: ZodValidationErrorDto })
+  @ApiBadRequestResponse({
+    description: 'Invalid payload',
+    type: ZodValidationErrorDto
+  })
   async register(@Body() body: RegisterLabelDto) {
     const { label } = await this.registerLabel.execute(body)
     return { label: LabelPresenter.toHTTP(label) }

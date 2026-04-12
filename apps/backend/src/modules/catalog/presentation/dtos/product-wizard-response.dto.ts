@@ -10,7 +10,9 @@ export const productWizardResponseSchema = z.strictObject({
   wizardQuestion: wizardQuestionResponseSchema.optional()
 })
 
-export class ProductWizardResponseDto extends createZodDto(productWizardResponseSchema) {}
+export class ProductWizardResponseDto extends createZodDto(
+  productWizardResponseSchema
+) {}
 
 export class FetchProductWizardsResponseDto extends createZodDto(
   z.object({

@@ -8,7 +8,16 @@ import {
   Post,
   Put
 } from '@nestjs/common'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
 import { DeleteKitchenUseCase } from '@/catalog/application/use-cases/delete-kitchen.use-case'
 import { EditKitchenUseCase } from '@/catalog/application/use-cases/edit-kitchen.use-case'
 import { FetchKitchensUseCase } from '@/catalog/application/use-cases/fetch-kitchens.use-case'
@@ -19,8 +28,8 @@ import {
   SingleKitchenResponseDto
 } from '@/catalog/presentation/dtos/kitchen-response.dto'
 import { RegisterKitchenDto } from '@/catalog/presentation/dtos/register-kitchen.dto'
-import { KitchenPresenter } from '@/catalog/presentation/presenters/kitchen.presenter'
 import { ZodValidationErrorDto } from '@/catalog/presentation/dtos/zod-validation-error.dto'
+import { KitchenPresenter } from '@/catalog/presentation/presenters/kitchen.presenter'
 
 @ApiTags('Kitchens')
 @Controller('kitchens')
@@ -35,7 +44,10 @@ export class KitchensController {
   @Post()
   @ApiOperation({ summary: 'Register a kitchen' })
   @ApiCreatedResponse({ type: SingleKitchenResponseDto })
-  @ApiBadRequestResponse({ description: 'Invalid payload', type: ZodValidationErrorDto })
+  @ApiBadRequestResponse({
+    description: 'Invalid payload',
+    type: ZodValidationErrorDto
+  })
   async register(@Body() body: RegisterKitchenDto) {
     const { kitchen } = await this.registerKitchen.execute(body)
     return { kitchen: KitchenPresenter.toHTTP(kitchen) }

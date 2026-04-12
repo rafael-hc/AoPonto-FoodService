@@ -5,7 +5,9 @@ import { PrismaService } from '@/shared/database/prisma/prisma.service'
 import { PrismaProductWizardMapper } from '../mappers/prisma-product-wizard-mapper'
 
 @Injectable()
-export class PrismaProductWizardsRepository implements ProductWizardsRepository {
+export class PrismaProductWizardsRepository
+  implements ProductWizardsRepository
+{
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<ProductWizard | null> {

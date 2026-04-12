@@ -23,7 +23,9 @@ export const wizardQuestionResponseSchema = z.strictObject({
   updatedAt: z.iso.datetime()
 })
 
-export class WizardQuestionItemResponseDto extends createZodDto(wizardQuestionResponseSchema) {}
+export class WizardQuestionItemResponseDto extends createZodDto(
+  wizardQuestionResponseSchema
+) {}
 
 export class SingleWizardQuestionResponseDto extends createZodDto(
   z.object({

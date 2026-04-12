@@ -63,7 +63,14 @@ export class WizardOption {
     this.props.updatedAt = DateUtils.getBrasiliaDate()
   }
 
-  update(props: Partial<Omit<WizardOptionProps, 'id' | 'createdAt' | 'updatedAt' | 'wizardQuestionId'>>) {
+  update(
+    props: Partial<
+      Omit<
+        WizardOptionProps,
+        'id' | 'createdAt' | 'updatedAt' | 'wizardQuestionId'
+      >
+    >
+  ) {
     Object.assign(this.props, props)
     this.props.updatedAt = DateUtils.getBrasiliaDate()
   }

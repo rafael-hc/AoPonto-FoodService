@@ -1,16 +1,16 @@
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common'
 import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Param,
-  Post
-} from '@nestjs/common'
-import { ApiBadRequestResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
-import { SyncProductWizardsUseCase } from '@/catalog/application/use-cases/sync-product-wizards.use-case'
+  ApiBadRequestResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
 import { FetchProductWizardsUseCase } from '@/catalog/application/use-cases/fetch-product-wizards.use-case'
-import { SyncProductWizardsDto } from '../dtos/sync-product-wizards.dto'
+import { SyncProductWizardsUseCase } from '@/catalog/application/use-cases/sync-product-wizards.use-case'
 import { FetchProductWizardsResponseDto } from '../dtos/product-wizard-response.dto'
+import { SyncProductWizardsDto } from '../dtos/sync-product-wizards.dto'
 import { ProductWizardPresenter } from '../presenters/product-wizard.presenter'
 
 @ApiTags('Product Wizards (Linkage)')
@@ -31,11 +31,15 @@ export class ProductWizardsController {
   }
 
   @Get(':productId')
-  @ApiOperation({ summary: 'Fetch wizard questions linked to a product detail' })
+  @ApiOperation({
+    summary: 'Fetch wizard questions linked to a product detail'
+  })
   @ApiParam({ name: 'productId', type: 'string', format: 'uuid' })
   @ApiOkResponse({ type: FetchProductWizardsResponseDto })
   async fetch(@Param('productId') productId: string) {
-    const { productWizards } = await this.fetchProductWizards.execute({ productId })
+    const { productWizards } = await this.fetchProductWizards.execute({
+      productId
+    })
 
     return {
       productWizards: productWizards.map(ProductWizardPresenter.toHTTP)

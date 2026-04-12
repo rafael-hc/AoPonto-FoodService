@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { WizardQuestion } from '@/catalog/domain/entities/wizard-question'
 import { WizardQuestionsRepository } from '@/catalog/domain/repositories/wizard-repositories'
 import { PrismaService } from '@/shared/database/prisma/prisma.service'
-import { PrismaWizardQuestionMapper } from '../mappers/prisma-wizard-question-mapper'
 import { PrismaWizardOptionMapper } from '../mappers/prisma-wizard-option-mapper'
+import { PrismaWizardQuestionMapper } from '../mappers/prisma-wizard-question-mapper'
 
 @Injectable()
-export class PrismaWizardQuestionsRepository implements WizardQuestionsRepository {
+export class PrismaWizardQuestionsRepository
+  implements WizardQuestionsRepository
+{
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<WizardQuestion | null> {
@@ -48,7 +50,9 @@ export class PrismaWizardQuestionsRepository implements WizardQuestionsRepositor
 
   async create(wizardQuestion: WizardQuestion): Promise<void> {
     const data = PrismaWizardQuestionMapper.toPrisma(wizardQuestion)
-    const options = (wizardQuestion.options?.map(PrismaWizardOptionMapper.toPrisma) ?? []).map(opt => {
+    const options = (
+      wizardQuestion.options?.map(PrismaWizardOptionMapper.toPrisma) ?? []
+    ).map((opt) => {
       const { wizardQuestionId, ...rest } = opt
       return rest
     })
@@ -79,8 +83,8 @@ export class PrismaWizardQuestionsRepository implements WizardQuestionsRepositor
       // 2. Gerenciar opções (Simples: Deleta e Recria ou Upsert)
       // Para manter histórico e IDs, vamos usar Upsert manual ou Deletar/Criar se a lógica for simples.
       // Neste caso, vamos marcar como deletado as que não estão no array atual e upsert nas novas.
-      
-      const currentOptionIds = options.filter(o => !!o.id).map(o => o.id)
+
+      const currentOptionIds = options.filter((o) => !!o.id).map((o) => o.id)
 
       // Marcar como deletado as opções que não vieram no payload
       await tx.wizardOption.updateMany({
