@@ -13,6 +13,7 @@ export const userResponseSchema = z.object({
   email: z.email(),
   document: z.string(),
   contactId: z.uuid(),
+  passwordChangeRequired: z.boolean(),
   permissions: z.array(z.string()).optional()
 })
 

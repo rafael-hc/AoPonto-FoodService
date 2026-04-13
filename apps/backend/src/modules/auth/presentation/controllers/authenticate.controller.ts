@@ -10,9 +10,11 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { Response } from 'express'
 import { WrongCredentialsError } from '@/auth/domain/errors/wrong-credentials-error'
 import { AuthenticateUserUseCase } from '../../application/use-cases/authenticate-user.use-case'
-import { AuthenticateDto } from '../dtos/authenticate.dto'
+import { Public } from '../decorators/public.decorator'
+import { AuthenticateDto, AuthenticateResponseDto } from '../dtos/authenticate.dto'
 
 @ApiTags('session')
+@Public()
 @Controller('session')
 export class AuthenticateController {
   constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}
@@ -23,7 +25,11 @@ export class AuthenticateController {
     summary: 'Autenticar usuário',
     description: 'Realiza o login e gera os tokens de acesso.'
   })
-  @ApiResponse({ status: 200, description: 'Autenticado com sucesso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Autenticado com sucesso',
+    type: AuthenticateResponseDto
+  })
   @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
   async handle(
     @Body() body: AuthenticateDto,
@@ -32,7 +38,7 @@ export class AuthenticateController {
     const { login, password } = body
 
     try {
-      const { accessToken, refreshToken } =
+      const { accessToken, refreshToken, passwordChangeRequired } =
         await this.authenticateUserUseCase.execute({
           login,
           password
@@ -54,7 +60,8 @@ export class AuthenticateController {
       })
 
       return {
-        message: 'Authenticated successfully'
+        message: 'Authenticated successfully',
+        passwordChangeRequired
       }
     } catch (error) {
       if (error instanceof WrongCredentialsError) {

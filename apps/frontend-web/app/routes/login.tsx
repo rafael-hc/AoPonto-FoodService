@@ -11,27 +11,25 @@ export default function Login() {
   const navigate = useNavigate()
   const { getProfile } = useAuthStore()
 
-  const loginMutation = useAuthenticateControllerHandle({
-    mutation: {
-      onSuccess: async () => {
-        await getProfile()
-        navigate('/')
-      },
-      onError: (
-        err: Error & { response?: { data?: { message?: string } } }
-      ) => {
-        setError(
-          err.response?.data?.message ||
-            'Erro ao entrar. Verifique suas credenciais.'
-        )
-      }
-    }
-  })
-
+  const { signIn } = useAuthStore()
+  const [isLoading, setIsLoading] = useState(false)
+ 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    loginMutation.mutate({ data: { login, password } })
+    setIsLoading(true)
+
+    try {
+      await signIn(login, password)
+      navigate('/')
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message ||
+          'Erro ao entrar. Verifique suas credenciais.'
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -84,10 +82,10 @@ export default function Login() {
 
         <Button
           type="submit"
-          disabled={loginMutation.isPending}
+          disabled={isLoading}
           className="w-full bg-orange-600 hover:bg-orange-700 focus-visible:ring-orange-500"
         >
-          {loginMutation.isPending ? 'Entrando...' : 'Entrar'}
+          {isLoading ? 'Entrando...' : 'Entrar'}
         </Button>
       </form>
     </div>

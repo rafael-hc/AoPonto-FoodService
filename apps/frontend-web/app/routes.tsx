@@ -10,5 +10,6 @@ export default [
   route('tipos-produto', './routes/product-types.tsx'),
   route('produtos', './routes/produtos.tsx'),
   route('complementos', './routes/complementos.tsx'),
-  route('perguntas', './routes/perguntas.tsx')
+  route('perguntas', './routes/perguntas.tsx'),
+  route('alterar-senha', './routes/password-change.tsx')
 ] satisfies RouteConfig

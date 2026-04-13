@@ -58,6 +58,7 @@ export class PrismaUsersRepository implements UsersRepository {
         password: data.password,
         role: data.role,
         active: data.active,
+        passwordChangeRequired: data.passwordChangeRequired,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         contact: {
@@ -81,6 +82,7 @@ export class PrismaUsersRepository implements UsersRepository {
         password: data.password,
         role: data.role,
         active: data.active,
+        passwordChangeRequired: data.passwordChangeRequired,
         updatedAt: DateUtils.getBrasiliaDate()
       }
     })

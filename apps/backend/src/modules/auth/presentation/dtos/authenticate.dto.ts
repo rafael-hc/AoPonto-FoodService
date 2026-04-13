@@ -7,3 +7,12 @@ const authenticateBodySchema = z.object({
 })
 
 export class AuthenticateDto extends createZodDto(authenticateBodySchema) {}
+
+const authenticateResponseSchema = z.object({
+  message: z.string(),
+  passwordChangeRequired: z.boolean()
+})
+
+export class AuthenticateResponseDto extends createZodDto(
+  authenticateResponseSchema
+) {}

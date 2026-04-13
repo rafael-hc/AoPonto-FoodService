@@ -16,7 +16,7 @@ import { RefreshTokenController } from './presentation/controllers/refresh-token
     PartiesModule,
     JwtModule.register({
       global: true,
-      secret: 'your-secret-key', // TODO: Use environment variable
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '10m' } // Token de acesso curto
     })
   ],

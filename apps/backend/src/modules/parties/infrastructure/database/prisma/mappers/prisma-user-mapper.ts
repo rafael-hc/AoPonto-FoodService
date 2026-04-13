@@ -20,10 +20,13 @@ export const PrismaUserMapper = {
       contactId: raw.contactId,
       name: raw.contact?.name,
       email: raw.contact?.email ?? undefined,
-      document: raw.contact?.document,
+      document: raw.contact?.document ?? undefined,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-      deletedAt: raw.deletedAt
+      deletedAt: raw.deletedAt,
+      failureAttempts: raw.failureAttempts,
+      lockUntil: raw.lockUntil,
+      passwordChangeRequired: raw.passwordChangeRequired
     })
   },
 
@@ -37,6 +40,9 @@ export const PrismaUserMapper = {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       deletedAt: user.deletedAt,
+      failureAttempts: user.failureAttempts,
+      lockUntil: user.lockUntil,
+      passwordChangeRequired: user.passwordChangeRequired,
       contact: {
         connect: {
           id: user.contactId

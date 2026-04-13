@@ -16,7 +16,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
-  AuthenticateDto
+  AuthenticateDto,
+  AuthenticateResponseDto
 } from '../model';
 
 import { api } from '../../../lib/api';
@@ -38,7 +39,7 @@ export const authenticateControllerHandle = (
 ) => {
       
       
-      return api<void>(
+      return api<AuthenticateResponseDto>(
       {url: `/api/session`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: authenticateDto, signal

@@ -60,7 +60,10 @@ export class UpdateUserUseCase {
 
     user.updateDetails({
       ...(login && { login }),
-      ...(hashedPassword && { password: hashedPassword }),
+      ...(hashedPassword && {
+        password: hashedPassword,
+        passwordChangeRequired: false
+      }),
       ...(role && { role }),
       ...(active !== undefined && { active })
     })

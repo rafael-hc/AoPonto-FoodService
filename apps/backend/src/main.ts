@@ -10,11 +10,15 @@ import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
+import helmet from 'helmet'
 import { cleanupOpenApiDoc, ZodValidationPipe } from 'nestjs-zod'
 import { AppModule } from './modules/app.module'
+import { HttpExceptionFilter } from './modules/shared/presentation/filters/http-exception.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  app.useGlobalFilters(new HttpExceptionFilter())
+  app.use(helmet())
   app.enableCors({
     origin: 'http://localhost:4200',
     credentials: true

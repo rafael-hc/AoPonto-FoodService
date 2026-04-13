@@ -56,7 +56,10 @@ model User {
   login    String  @unique
   password String
   role     Role    @default(CASHIER)
-  active   Boolean @default(true)
+  active           Boolean   @default(true)
+  failureAttempts  Int       @default(0) @map("failure_attempts")
+  lockUntil        DateTime? @map("lock_until")
+  passwordChangeRequired Boolean   @default(false) @map("password_change_required")
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -109,13 +112,13 @@ model Cfop {
 }
 
 model Kitchen {
-  id          String  @id @default(uuid())
-  description String  // DESCRICAO
-  ip          String  // IP
-  port        String  // PORTA
-  printer     String  // IMPRESSORA
-  versionReg  Int?    @map("version_reg")
-  versionSync Int?    @map("version_sync")
+  id          String @id @default(uuid())
+  description String // DESCRICAO
+  ip          String // IP
+  port        String // PORTA
+  printer     String // IMPRESSORA
+  versionReg  Int?   @map("version_reg")
+  versionSync Int?   @map("version_sync")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -127,7 +130,7 @@ model Kitchen {
 
 model Label {
   id          String    @id @default(uuid())
-  description String    // DESCRICAO
+  description String // DESCRICAO
   order       Int       @default(0)
   type        String    @default("P") // TIPO
   externalId  String    @unique @map("external_id") // CODIGOGUID
@@ -144,10 +147,10 @@ model Label {
 }
 
 model ProductionIndicator {
-  id          String @id @default(uuid())
-  code        Int    @unique // CODIGO
-  name        String // NOME
-  initials    String // SIGLA
+  id       String @id @default(uuid())
+  code     Int    @unique // CODIGO
+  name     String // NOME
+  initials String // SIGLA
 
   products Product[]
 
@@ -191,7 +194,7 @@ model ProductType {
 model TaxSituation {
   id          String  @id @default(uuid())
   code        String  @unique // CODIGO
-  type        String  // TIPO
+  type        String // TIPO
   description String? // DESCRICAO
   fullCode    String? // CODIGODESCRICAO
 
@@ -201,12 +204,12 @@ model TaxSituation {
 }
 
 model CofinsTaxSituation {
-  id               String  @id @default(uuid())
-  code             String  @unique // CODIGO
-  description      String  // DESCRICAO
-  fullCode         String? // CODIGODESCRICAO
-  aliquotTypeNfce  String? @map("aliquot_type_nfce")
-  aliquotTypeCfe   String? @map("aliquot_type_cfe")
+  id              String  @id @default(uuid())
+  code            String  @unique // CODIGO
+  description     String // DESCRICAO
+  fullCode        String? // CODIGODESCRICAO
+  aliquotTypeNfce String? @map("aliquot_type_nfce")
+  aliquotTypeCfe  String? @map("aliquot_type_cfe")
 
   products Product[]
 
@@ -214,12 +217,12 @@ model CofinsTaxSituation {
 }
 
 model PisTaxSituation {
-  id               String  @id @default(uuid())
-  code             String  @unique // CODIGO
-  description      String  // DESCRICAO
-  fullCode         String? // CODIGODESCRICAO
-  aliquotTypeNfce  String? @map("aliquot_type_nfce")
-  aliquotTypeCfe   String? @map("aliquot_type_cfe")
+  id              String  @id @default(uuid())
+  code            String  @unique // CODIGO
+  description     String // DESCRICAO
+  fullCode        String? // CODIGODESCRICAO
+  aliquotTypeNfce String? @map("aliquot_type_nfce")
+  aliquotTypeCfe  String? @map("aliquot_type_cfe")
 
   products Product[]
 
@@ -240,9 +243,9 @@ model Unit {
 }
 
 model TaxConfiguration {
-  id          String @id @default(uuid())
-  code        Int    @unique // CODIGO
-  name        String // NOME
+  id   String @id @default(uuid())
+  code Int    @unique // CODIGO
+  name String // NOME
 
   cfop   Cfop   @relation(fields: [cfopId], references: [id])
   cfopId String @map("cfop_id")
@@ -253,16 +256,16 @@ model TaxConfiguration {
   taxSituation   TaxSituation @relation(fields: [taxSituationId], references: [id])
   taxSituationId String       @map("tax_situation_id")
 
-  icmsRate           Decimal? @map("icms_rate") @db.Decimal(16, 4)
-  icmsRedBaseRate    Decimal? @map("icms_red_base_rate") @db.Decimal(16, 4)
-  fcpRate            Decimal? @map("fcp_rate") @db.Decimal(16, 4)
-  mvaStRate          Decimal? @map("mva_st_rate") @db.Decimal(16, 4)
-  redBaseIcmsStRate  Decimal? @map("red_base_icms_st_rate") @db.Decimal(16, 4)
-  icmsStRate         Decimal? @map("icms_st_rate") @db.Decimal(16, 4)
-  fcpStRate          Decimal? @map("fcp_st_rate") @db.Decimal(16, 4)
+  icmsRate          Decimal? @map("icms_rate") @db.Decimal(16, 4)
+  icmsRedBaseRate   Decimal? @map("icms_red_base_rate") @db.Decimal(16, 4)
+  fcpRate           Decimal? @map("fcp_rate") @db.Decimal(16, 4)
+  mvaStRate         Decimal? @map("mva_st_rate") @db.Decimal(16, 4)
+  redBaseIcmsStRate Decimal? @map("red_base_icms_st_rate") @db.Decimal(16, 4)
+  icmsStRate        Decimal? @map("icms_st_rate") @db.Decimal(16, 4)
+  fcpStRate         Decimal? @map("fcp_st_rate") @db.Decimal(16, 4)
 
-  pisTaxSituationCode    String? @map("pis_tax_situation_code")
-  cofinsTaxSituationCode String? @map("cofins_tax_situation_code")
+  pisTaxSituationCode    String?  @map("pis_tax_situation_code")
+  cofinsTaxSituationCode String?  @map("cofins_tax_situation_code")
   pisRate                Decimal? @map("pis_rate") @db.Decimal(16, 4)
   cofinsRate             Decimal? @map("cofins_rate") @db.Decimal(16, 4)
 
@@ -275,113 +278,112 @@ model TaxConfiguration {
 }
 
 model ProductPersonalized {
-  id          String   @id @default(uuid())
-  code        Int      @unique // CODIGO
-  description String   // DESCRICAO
-  externalId  String   @unique @map("custom_guid") // CODIGOGUID
+  id          String @id @default(uuid())
+  code        Int    @unique // CODIGO
+  description String // DESCRICAO
+  externalId  String @unique @map("custom_guid") // CODIGOGUID
 
-  versionReg  Int?     @map("version_reg") @db.SmallInt
-  versionSync Int?     @map("version_sync") @db.SmallInt
+  versionReg  Int? @map("version_reg") @db.SmallInt
+  versionSync Int? @map("version_sync") @db.SmallInt
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  deletedAt   DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
-  sizes       ProductSize[]
+  sizes ProductSize[]
 
   @@map("product_personalized")
 }
 
 model ProductSize {
-  id                       String   @id @default(uuid())
-  code                     Int      @unique // CODIGO
-  productPersonalized      ProductPersonalized @relation(fields: [productPersonalizedId], references: [id])
-  productPersonalizedId    String   @map("product_personalized_id")
+  id                    String              @id @default(uuid())
+  code                  Int                 @unique // CODIGO
+  productPersonalized   ProductPersonalized @relation(fields: [productPersonalizedId], references: [id])
+  productPersonalizedId String              @map("product_personalized_id")
 
-  description              String   // DESCRICAO
-  initials                 String   // SIGLA (sigla/abreviação do tamanho)
-  maxParts                 Int      @default(1) @map("max_parts") @db.SmallInt // QTDMAXIMAPARTES
-  externalId               String   @unique @map("custom_guid") // CODIGOGUID
+  description String // DESCRICAO
+  initials    String // SIGLA (sigla/abreviação do tamanho)
+  maxParts    Int    @default(1) @map("max_parts") @db.SmallInt // QTDMAXIMAPARTES
+  externalId  String @unique @map("custom_guid") // CODIGOGUID
 
-  versionReg               Int?     @map("version_reg") @db.SmallInt
-  versionSync              Int?     @map("version_sync") @db.SmallInt
+  versionReg  Int? @map("version_reg") @db.SmallInt
+  versionSync Int? @map("version_sync") @db.SmallInt
 
-  createdAt                DateTime @default(now()) @map("created_at")
-  updatedAt                DateTime @updatedAt @map("updated_at")
-  deletedAt                DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
-  details                  ProductDetail[]
+  details ProductDetail[]
 
   @@map("product_sizes")
 }
 
 model ProductDetail {
-  id                 String   @id @default(uuid())
-  code               Int      @unique // CODIGO
+  id   String @id @default(uuid())
+  code Int    @unique // CODIGO
 
-  product            Product  @relation(fields: [productId], references: [id])
-  productId          String   @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @map("product_id")
 
-  productSize        ProductSize? @relation(fields: [productSizeId], references: [id])
-  productSizeId      String?      @map("product_size_id")
+  productSize   ProductSize? @relation(fields: [productSizeId], references: [id])
+  productSizeId String?      @map("product_size_id")
 
-  salePrice          Decimal  @map("sale_price") @db.Decimal(16, 4)
-  costPrice          Decimal? @map("cost_price") @db.Decimal(16, 4)
+  salePrice Decimal  @map("sale_price") @db.Decimal(16, 4)
+  costPrice Decimal? @map("cost_price") @db.Decimal(16, 4)
 
-  currentStock       Decimal? @default(0) @map("current_stock") @db.Decimal(16, 4)
-  minStock           Decimal? @default(0) @map("min_stock") @db.Decimal(16, 4)
-  isStockControlled  Boolean  @default(false) @map("is_stock_controlled")
+  currentStock      Decimal? @default(0) @map("current_stock") @db.Decimal(16, 4)
+  minStock          Decimal? @default(0) @map("min_stock") @db.Decimal(16, 4)
+  isStockControlled Boolean  @default(false) @map("is_stock_controlled")
 
-  barcode            String?  @map("barcode") @db.VarChar(14)
-  externalId         String   @unique @map("custom_guid") // CODIGOGUID
+  barcode    String? @map("barcode") @db.VarChar(14)
+  externalId String  @unique @map("custom_guid") // CODIGOGUID
 
   // Controladores de exibição
-  showOnDesktop      Boolean  @default(true) @map("show_on_desktop")
-  showOnMobile       Boolean  @default(true) @map("show_on_mobile")
-  showOnDigitalMenu  Boolean  @default(true) @map("show_on_digital_menu")
-  showOnDinoMenu     Boolean  @default(true) @map("show_on_dino_menu")
-  showOnTotem        Boolean  @default(false) @map("show_on_totem")
+  showOnDesktop     Boolean @default(true) @map("show_on_desktop")
+  showOnMobile      Boolean @default(true) @map("show_on_mobile")
+  showOnDigitalMenu Boolean @default(true) @map("show_on_digital_menu")
+  showOnDinoMenu    Boolean @default(true) @map("show_on_dino_menu")
+  showOnTotem       Boolean @default(false) @map("show_on_totem")
 
-  pausedAt           DateTime? @map("paused_at")
-  versionReg         Int?      @map("version_reg") @db.SmallInt
-  versionSync        Int?      @map("version_sync") @db.SmallInt
+  pausedAt    DateTime? @map("paused_at")
+  versionReg  Int?      @map("version_reg") @db.SmallInt
+  versionSync Int?      @map("version_sync") @db.SmallInt
 
-  createdAt          DateTime  @default(now()) @map("created_at")
-  updatedAt          DateTime  @updatedAt @map("updated_at")
-  deletedAt          DateTime? @map("deleted_at")
-
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("product_details")
 }
 
 model Product {
-  id          String  @id @default(uuid())
-  code        Int     @unique @default(autoincrement()) // CODIGO
-  name        String  // NOME
-  description String? @db.VarChar(500)
-  price       Decimal @map("sale_price") @db.Decimal(16, 4)
-  costPrice   Decimal? @map("cost_price") @db.Decimal(16, 4)
-  minStock    Int     @default(0) @map("min_stock")
-  currentStock Int     @default(0) @map("current_stock")
+  id           String   @id @default(uuid())
+  code         Int      @unique @default(autoincrement()) // CODIGO
+  name         String // NOME
+  description  String?  @db.VarChar(500)
+  price        Decimal  @map("sale_price") @db.Decimal(16, 4)
+  costPrice    Decimal? @map("cost_price") @db.Decimal(16, 4)
+  minStock     Int      @default(0) @map("min_stock")
+  currentStock Int      @default(0) @map("current_stock")
 
   methodOfPreparation String? @map("method_of_preparation") @db.VarChar(5000)
 
-  active       Boolean @default(true)
-  discontinued Boolean @default(false)
+  active           Boolean @default(true)
+  discontinued     Boolean @default(false)
   discontinuedChar String? @map("discontinued_char") @db.Char(1) // Para manter compatibilidade com DDL se necessário
 
-  ncm          String? @db.Char(8)
-  cest         String? @db.Char(7)
-  barcode      String? @map("custom_code") @db.VarChar(15)
+  ncm     String? @db.Char(8)
+  cest    String? @db.Char(7)
+  barcode String? @map("custom_code") @db.VarChar(15)
 
   // Relacionamentos Base
-  label   Label? @relation(fields: [labelId], references: [id])
+  label   Label?  @relation(fields: [labelId], references: [id])
   labelId String? @map("label_id")
 
   kitchen   Kitchen? @relation(fields: [kitchenId], references: [id])
   kitchenId String?  @map("kitchen_id")
 
-  unit   Unit  @relation(fields: [unitId], references: [id])
+  unit   Unit   @relation(fields: [unitId], references: [id])
   unitId String @map("unit_id")
 
   productType   ProductType @relation(fields: [productTypeId], references: [id])
@@ -400,13 +402,13 @@ model Product {
   icmsModality   IcmsModality? @relation(fields: [icmsModalityId], references: [id])
   icmsModalityId String?       @map("icms_modality_id")
 
-  details        ProductDetail[]
+  details ProductDetail[]
 
   pisTaxSituation   PisTaxSituation? @relation(fields: [pisTaxSituationId], references: [id])
-  pisTaxSituationId String?           @map("pis_tax_situation_id")
+  pisTaxSituationId String?          @map("pis_tax_situation_id")
 
   cofinsTaxSituation   CofinsTaxSituation? @relation(fields: [cofinsTaxSituationId], references: [id])
-  cofinsTaxSituationId String?              @map("cofins_tax_situation_id")
+  cofinsTaxSituationId String?             @map("cofins_tax_situation_id")
 
   taxConfiguration   TaxConfiguration? @relation(fields: [taxConfigurationId], references: [id])
   taxConfigurationId String?           @unique @map("tax_configuration_id")
@@ -421,8 +423,9 @@ model Product {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  wizards        ProductWizard[]
-  wizardOptions  WizardOption[]
+  wizards       ProductWizard[]
+  wizardOptions WizardOption[]
+  orderItems    OrderItem[]
 
   @@map("products")
 }
@@ -433,14 +436,14 @@ enum WizardContext {
 }
 
 model WizardQuestion {
-  id           String    @id @default(uuid())
-  internalCode Int       @unique @map("codigo") @default(autoincrement())
+  id           String        @id @default(uuid())
+  internalCode Int           @unique @default(autoincrement()) @map("codigo")
   description  String
   context      WizardContext @default(PRODUCT)
-  minResponses Int       @default(0) @map("qtd_respostas_min") @db.SmallInt
-  maxResponses Int       @default(1) @map("qtd_respostas_max") @db.SmallInt
-  minItems     Decimal   @default(0) @map("qtd_itens_min") @db.Decimal(16, 4)
-  maxItems     Decimal   @default(1) @map("qtd_itens_max") @db.Decimal(16, 4)
+  minResponses Int           @default(0) @map("qtd_respostas_min") @db.SmallInt
+  maxResponses Int           @default(1) @map("qtd_respostas_max") @db.SmallInt
+  minItems     Decimal       @default(0) @map("qtd_itens_min") @db.Decimal(16, 4)
+  maxItems     Decimal       @default(1) @map("qtd_itens_max") @db.Decimal(16, 4)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -453,16 +456,16 @@ model WizardQuestion {
 }
 
 model WizardOption {
-  id               String   @id @default(uuid())
+  id               String         @id @default(uuid())
   wizardQuestion   WizardQuestion @relation(fields: [wizardQuestionId], references: [id], onDelete: Cascade)
-  wizardQuestionId String   @map("wizard_question_id")
+  wizardQuestionId String         @map("wizard_question_id")
 
-  product          Product?       @relation(fields: [productId], references: [id])
-  productId        String?        @map("product_id")
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?  @map("product_id")
 
-  description      String?
-  promoPrice       Decimal? @map("promo_price") @db.Decimal(16, 4)
-  maxQty           Decimal  @default(1) @map("max_qty") @db.Decimal(16, 4)
+  description String?
+  promoPrice  Decimal? @map("promo_price") @db.Decimal(16, 4)
+  maxQty      Decimal  @default(1) @map("max_qty") @db.Decimal(16, 4)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -472,14 +475,14 @@ model WizardOption {
 }
 
 model ProductWizard {
-  id               String   @id @default(uuid())
-  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId        String   @map("product_id")
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String  @map("product_id")
 
   wizardQuestion   WizardQuestion @relation(fields: [wizardQuestionId], references: [id], onDelete: Cascade)
-  wizardQuestionId String   @map("wizard_question_id")
+  wizardQuestionId String         @map("wizard_question_id")
 
-  order            Int      @default(0)
+  order Int @default(0)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -488,48 +491,121 @@ model ProductWizard {
 }
 
 model Permission {
-  id          String   @id @default(uuid())
-  code        String   @unique // ex: 'module:financeiro', 'dashboard:view'
-  module      String   // ex: 'financeiro', 'configuracoes'
+  id          String  @id @default(uuid())
+  code        String  @unique // ex: 'module:financeiro', 'dashboard:view'
+  module      String // ex: 'financeiro', 'configuracoes'
   description String?
 
-  users       UserPermission[]
-  roles       RolePermission[]
+  users UserPermission[]
+  roles RolePermission[]
 
   @@map("permissions")
 }
 
 model RolePermission {
-  role         Role       @map("role")
-  permissionId String     @map("permission_id")
+  role         Role   @map("role")
+  permissionId String @map("permission_id")
 
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([role, permissionId])
   @@map("role_permissions")
 }
 
 model UserPermission {
-  userId       String     @map("user_id")
-  permissionId String     @map("permission_id")
+  userId       String @map("user_id")
+  permissionId String @map("permission_id")
 
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([userId, permissionId])
   @@map("user_permissions")
 }
 
 model SystemSetting {
-  id          String   @id @default(uuid())
-  parameter   String   @unique
+  id          String  @id @default(uuid())
+  parameter   String  @unique
   value       String?
   type        String
   group       String
   description String?
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("system_settings")
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  DELIVERED
+  CANCELED
+}
+
+enum OrderType {
+  TABLE
+  COUNTER
+  DELIVERY
+}
+
+model Order {
+  id     String      @id @default(uuid())
+  code   Int         @unique @default(autoincrement())
+  status OrderStatus @default(PENDING)
+  type   OrderType   @default(COUNTER)
+
+  totalAmount Decimal @map("total_amount") @db.Decimal(16, 4)
+  notes       String? @db.VarChar(500)
+
+  // Relação opcional com cliente/usuário
+  customerId String? @map("customer_id")
+  // customer    Contact? @relation(fields: [customerId], references: [id]) // TODO: se houver relação
+
+  items   OrderItem[]
+  details OrderDetail?
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String @map("order_id")
+  productId String @map("product_id")
+
+  quantity   Decimal @db.Decimal(16, 4)
+  unitPrice  Decimal @map("unit_price") @db.Decimal(16, 4)
+  totalPrice Decimal @map("total_price") @db.Decimal(16, 4)
+  notes      String? @db.VarChar(500)
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("order_items")
+}
+
+model OrderDetail {
+  id      String @id @default(uuid())
+  orderId String @unique @map("order_id")
+
+  // Para consumo local
+  tableNumber   String? @map("table_number")
+  comandaNumber String? @map("comanda_number")
+
+  // Para delivery
+  deliveryAddress String?  @map("delivery_address")
+  deliveryFee     Decimal? @map("delivery_fee") @db.Decimal(16, 4)
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_details")
 }

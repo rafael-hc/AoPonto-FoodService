@@ -59,6 +59,8 @@ export class GetProfileController {
       ])
     )
 
+    console.log(`[GetProfileController] User ${user.login} passwordChangeRequired:`, user.passwordChangeRequired)
+
     return {
       user: {
         id: user.id,
@@ -69,6 +71,7 @@ export class GetProfileController {
         email: user.contact.email,
         document: user.contact.document,
         contactId: user.contact.id,
+        passwordChangeRequired: user.passwordChangeRequired,
         permissions,
         contact: {
           id: user.contact.id,

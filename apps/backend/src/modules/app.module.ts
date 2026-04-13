@@ -1,10 +1,15 @@
 import { Logger, Module, OnModuleInit } from '@nestjs/common'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { Role } from '@prisma/client'
 import { AuthModule } from './auth/auth.module'
+import { JwtAuthGuard } from './auth/presentation/guards/jwt-auth.guard'
 import { CatalogModule } from './catalog/catalog.module'
+import { OrdersModule } from './orders/orders.module'
 import { PartiesModule } from './parties/parties.module'
 import { DatabaseModule } from './shared/database/database.module'
 import { PrismaService } from './shared/database/prisma/prisma.service'
+import { RedisModule } from './shared/redis/redis.module'
 import { SystemSettingsModule } from './system-settings/system-settings.module'
 
 @Module({
@@ -13,10 +18,27 @@ import { SystemSettingsModule } from './system-settings/system-settings.module'
     PartiesModule,
     CatalogModule,
     AuthModule,
-    SystemSettingsModule
+    SystemSettingsModule,
+    OrdersModule,
+    RedisModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100
+      }
+    ])
   ],
   controllers: [],
-  providers: []
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ]
 })
 export class AppModule implements OnModuleInit {
   private readonly logger = new Logger(AppModule.name)

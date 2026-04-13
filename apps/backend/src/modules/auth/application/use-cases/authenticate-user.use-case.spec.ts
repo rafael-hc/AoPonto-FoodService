@@ -1,5 +1,6 @@
 import type { Encrypter } from '@/auth/domain/cryptography/encrypter'
 import type { HashGenerator } from '@/auth/domain/cryptography/hash-generator'
+import { AccountBlockedError } from '@/auth/domain/errors/account-blocked-error'
 import { WrongCredentialsError } from '@/auth/domain/errors/wrong-credentials-error'
 import { User, UserRole } from '@/parties/domain/entities/user'
 import { InMemoryUsersRepository } from '@/parties/test/repositories/in-memory-users-repository'
@@ -91,5 +92,39 @@ describe('Authenticate User Use Case', () => {
         password: 'wrong-password'
       })
     ).rejects.toBeInstanceOf(WrongCredentialsError)
+  })
+
+  it('should lock account after 5 failed attempts', async () => {
+    const user = new User({
+      id: 'user-3',
+      name: 'Locked User',
+      email: 'locked@example.com',
+      password: await fakeHasher.hash('correct-password'),
+      role: UserRole.CASHIER,
+      login: 'locked_user',
+      contactId: 'contact-3'
+    })
+
+    await inMemoryUsersRepository.create(user)
+
+    // Simulando 5 tentativas falhas
+    for (let i = 0; i < 5; i++) {
+      try {
+        await sut.execute({
+          login: 'locked_user',
+          password: 'wrong-password'
+        })
+      } catch (err) {
+        // Ignorar erro esperado (WrongCredentialsError)
+      }
+    }
+
+    // A 6ª tentativa deve lançar AccountBlockedError
+    await expect(() =>
+      sut.execute({
+        login: 'locked_user',
+        password: 'correct-password'
+      })
+    ).rejects.toBeInstanceOf(AccountBlockedError)
   })
 })
