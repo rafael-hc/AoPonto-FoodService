@@ -10,8 +10,10 @@ import { JwtService } from '@nestjs/jwt'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { Request, Response } from 'express'
 import { RefreshTokenUseCase } from '../../application/use-cases/refresh-token.use-case'
+import { Public } from '../decorators/public.decorator'
 
 @ApiTags('session')
+@Public()
 @Controller('/session/refresh')
 export class RefreshTokenController {
   constructor(
@@ -39,7 +41,7 @@ export class RefreshTokenController {
 
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken, {
-        secret: 'your-secret-key' // TODO: Use environment variable
+        secret: process.env.JWT_SECRET
       })
 
       const userId = payload.sub

@@ -21,6 +21,6 @@ export interface RegisterUserDto {
   document: string;
   /** @minLength 3 */
   login: string;
-  /** @minLength 6 */
-  password: string;
+  /** @minLength 8 */
+  password: unknown & unknown & unknown & unknown;
 }

@@ -15,7 +15,17 @@ const registerUserSchema = z.object({
     .min(3, { error: 'O login deve ter pelo menos 3 caracteres' }),
   password: z
     .string()
-    .min(6, { error: 'A senha deve ter pelo menos 6 caracteres' }),
+    .min(8, { error: 'A senha deve ter pelo menos 8 caracteres' })
+    .regex(/[A-Z]/, {
+      error: 'A senha deve conter pelo menos uma letra maiúscula'
+    })
+    .regex(/[a-z]/, {
+      error: 'A senha deve conter pelo menos uma letra minúscula'
+    })
+    .regex(/[0-9]/, { error: 'A senha deve conter pelo menos um número' })
+    .regex(/[^A-Za-z0-9]/, {
+      error: 'A senha deve conter pelo menos um caractere especial'
+    }),
   role: userRoleSchema.optional()
 })
 
