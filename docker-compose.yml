@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: aoponto-postgres
+    environment:
+      POSTGRES_USER: aoponto_user
+      POSTGRES_PASSWORD: aoponto_pass
+      POSTGRES_DB: aoponto_db
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    container_name: aoponto-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

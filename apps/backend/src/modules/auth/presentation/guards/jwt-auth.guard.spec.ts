@@ -1,4 +1,5 @@
 import { type ExecutionContext, UnauthorizedException } from '@nestjs/common'
+import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
 import type { Request } from 'express'
@@ -22,9 +23,23 @@ describe('JwtAuthGuard', () => {
           useValue: {
             verifyAsync: jest.fn().mockResolvedValue({ sub: 'user_id' })
           }
+        },
+        {
+          provide: Reflector,
+          useValue: {
+            getAllAndOverride: jest.fn().mockReturnValue(false)
+          }
+        },
+        {
+          provide: 'REDIS_CLIENT',
+          useValue: {
+            get: jest.fn().mockResolvedValue(null)
+          }
         }
       ]
     }).compile()
+
+    process.env.JWT_SECRET = 'any_secret'
 
     sut = module.get<JwtAuthGuard>(JwtAuthGuard)
     jwtService = module.get<JwtService>(JwtService)
@@ -34,7 +49,9 @@ describe('JwtAuthGuard', () => {
     ({
       switchToHttp: () => ({
         getRequest: () => request as MockRequest
-      })
+      }),
+      getHandler: () => jest.fn(),
+      getClass: () => jest.fn()
     }) as unknown as ExecutionContext
 
   it('should be able to extract token from cookies', async () => {
