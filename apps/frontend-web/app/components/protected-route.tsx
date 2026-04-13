@@ -8,16 +8,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation()
 
   useEffect(() => {
-    console.log('[ProtectedRoute] Values:', { 
-      isLoading, 
-      isAuthenticated, 
-      passwordChangeRequired, 
-      path: location.pathname 
-    })
-
     // Redireciona para o login se o carregamento terminar e não estiver autenticado
     if (!isLoading && !isAuthenticated) {
-      console.log('[ProtectedRoute] Not authenticated, redirecting to login')
       navigate('/login')
       return
     }
@@ -28,7 +20,6 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       passwordChangeRequired &&
       location.pathname !== '/alterar-senha'
     ) {
-      console.log('[ProtectedRoute] Password change required, redirecting to /alterar-senha')
       navigate('/alterar-senha')
     }
   }, [

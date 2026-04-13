@@ -28,11 +28,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   signIn: async (login, password) => {
     const responseAuth = await authenticateControllerHandle({ login, password })
     const { passwordChangeRequired } = responseAuth
-    console.log('[AuthStore] Login response:', responseAuth)
     
     // Após o login, buscamos o perfil para preencher o estado
     const response = await getProfileControllerHandle()
-    console.log('[AuthStore] Profile response:', response)
 
     set({
       user: response.user,

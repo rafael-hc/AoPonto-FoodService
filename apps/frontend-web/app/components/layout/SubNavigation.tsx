@@ -27,7 +27,7 @@ export const SubNavigation: React.FC<SubNavigationProps> = ({
                 const isActive = activeAction === actionId
                 return (
                   <ActionTile.Root
-                    key={item.id}
+                    key={actionId}
                     active={isActive}
                     onClick={() => onActionChange(actionId, item.actionType)}
                   >
