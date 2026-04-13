@@ -146,13 +146,13 @@ export default function LabelModal({
             </div>
 
             <div className="space-y-1">
-              <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              <Dialog.Title className="text-3xl font-black text-slate-900 tracking-tight">
                 {isEditMode ? 'Alterar Categoria' : 'Cadastrar Categoria'}
-              </h2>
-              <p className="text-slate-500 font-medium text-base">
+              </Dialog.Title>
+              <Dialog.Description className="text-slate-500 font-medium text-base">
                 Organize seu catálogo dividindo os produtos em categorias
                 específicas.
-              </p>
+              </Dialog.Description>
             </div>
           </div>
 

@@ -164,12 +164,12 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   <Package size={24} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  <Dialog.Title className="text-2xl font-extrabold text-slate-900 tracking-tight">
                     {isEditMode ? 'Editar Item' : 'Novo Registro'}
-                  </h2>
-                  <p className="text-slate-500 text-sm font-medium">
+                  </Dialog.Title>
+                  <Dialog.Description className="text-slate-500 text-sm font-medium">
                     Preencha os dados básicos do item
-                  </p>
+                  </Dialog.Description>
                 </div>
               </div>
               <Badge
