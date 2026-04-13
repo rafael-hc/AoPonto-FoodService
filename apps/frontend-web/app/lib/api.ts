@@ -2,8 +2,11 @@ import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { refreshTokenControllerHandle } from '../api/generated/session/session'
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
-  withCredentials: true
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest'
+  }
 })
 
 // Mutator para o Orval

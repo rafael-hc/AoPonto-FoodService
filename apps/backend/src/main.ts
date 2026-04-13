@@ -19,8 +19,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.useGlobalFilters(new HttpExceptionFilter())
   app.use(helmet())
+  const frontendUrls = process.env.FRONTEND_URL?.split(',') || [
+    'http://localhost:4200'
+  ]
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: frontendUrls,
     credentials: true
   })
   app.use(cookieParser())
