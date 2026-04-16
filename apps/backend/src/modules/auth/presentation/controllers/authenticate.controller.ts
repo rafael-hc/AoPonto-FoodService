@@ -11,7 +11,10 @@ import type { Response } from 'express'
 import { WrongCredentialsError } from '@/auth/domain/errors/wrong-credentials-error'
 import { AuthenticateUserUseCase } from '../../application/use-cases/authenticate-user.use-case'
 import { Public } from '../decorators/public.decorator'
-import { AuthenticateDto, AuthenticateResponseDto } from '../dtos/authenticate.dto'
+import {
+  AuthenticateDto,
+  AuthenticateResponseDto
+} from '../dtos/authenticate.dto'
 
 @ApiTags('session')
 @Public()

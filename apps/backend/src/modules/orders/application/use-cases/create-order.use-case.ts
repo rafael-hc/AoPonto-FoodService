@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { ProductsRepository } from '@/catalog/domain/repositories/products-repository'
+import { ProductsRepository } from '@/catalog/products/domain/repositories/products-repository'
 import { Order, OrderStatus, OrderType } from '@/orders/domain/entities/order'
 import { OrderDetail } from '@/orders/domain/entities/order-detail'
 import { OrderItem } from '@/orders/domain/entities/order-item'
