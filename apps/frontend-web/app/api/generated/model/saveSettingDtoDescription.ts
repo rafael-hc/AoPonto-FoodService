@@ -9,4 +9,4 @@
 /**
  * Descrição amigável em HTML ou texto puro
  */
-export type SaveSettingDtoDescription = { [key: string]: unknown };
+export type SaveSettingDtoDescription = { [key: string]: unknown }

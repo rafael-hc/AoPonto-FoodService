@@ -72,13 +72,10 @@ export const SystemSettingsModal: React.FC<SystemSettingsModalProps> = ({
   }
 
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={handleOpenChange}
-    >
+    <Dialog.Root open={open} onOpenChange={handleOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/60 backdrop-blur-md" />
-        <Dialog.Content 
+        <Dialog.Content
           className="max-w-[1000px] w-[95vw] p-0 overflow-hidden bg-white rounded-[2.5rem] shadow-2xl border-none"
           onPointerDownOutside={(e) => e.preventDefault()}
         >

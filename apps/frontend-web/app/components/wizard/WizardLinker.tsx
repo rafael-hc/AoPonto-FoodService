@@ -10,12 +10,12 @@ import {
   X
 } from 'lucide-react'
 import React, { useMemo, useState } from 'react'
-import { useWizardQuestionsControllerList } from '../../api/generated/wizard-questions-global-bank/wizard-questions-global-bank'
+import { FetchWizardQuestionsResponseDtoWizardQuestionsItem } from '../../api/generated/model/fetchWizardQuestionsResponseDtoWizardQuestionsItem'
 import {
   useProductWizardsControllerFetch,
   useProductWizardsControllerSync
 } from '../../api/generated/product-wizards-linkage/product-wizards-linkage'
-import { FetchWizardQuestionsResponseDtoWizardQuestionsItem } from '../../api/generated/model/fetchWizardQuestionsResponseDtoWizardQuestionsItem'
+import { useWizardQuestionsControllerList } from '../../api/generated/wizard-questions-global-bank/wizard-questions-global-bank'
 
 interface WizardLinkerProps {
   productId: string
@@ -56,8 +56,10 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
       const sorted = [...currentLinks.productWizards]
         .sort((a, b) => a.order - b.order)
         .map((link) => link.wizardQuestion)
-        .filter((q): q is FetchWizardQuestionsResponseDtoWizardQuestionsItem => !!q)
-      
+        .filter(
+          (q): q is FetchWizardQuestionsResponseDtoWizardQuestionsItem => !!q
+        )
+
       setSelectedQuestions(sorted)
     }
   }, [currentLinks])
@@ -74,7 +76,9 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
   }, [globalBank, selectedQuestions, search])
 
   // Ações
-  const addQuestion = (question: FetchWizardQuestionsResponseDtoWizardQuestionsItem) => {
+  const addQuestion = (
+    question: FetchWizardQuestionsResponseDtoWizardQuestionsItem
+  ) => {
     setSelectedQuestions((prev) => [...prev, question])
   }
 
@@ -101,8 +105,11 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
   const handleSave = () => {
     syncLinks({
       data: {
-        productDetailId: productId,
-        wizardQuestionIds: selectedQuestions.map((q) => q.id)
+        productId,
+        wizards: selectedQuestions.map((q, index) => ({
+          wizardQuestionId: q.id,
+          order: index
+        }))
       }
     })
   }
@@ -133,7 +140,10 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+              size={16}
+            />
             <input
               type="text"
               placeholder="Buscar pergunta..."
@@ -147,7 +157,9 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
             {availableQuestions.length === 0 ? (
               <div className="py-12 flex flex-col items-center justify-center text-slate-400 grayscale opacity-50">
                 <Search size={32} strokeWidth={1.5} className="mb-2" />
-                <p className="text-sm font-medium">Nenhuma pergunta encontrada</p>
+                <p className="text-sm font-medium">
+                  Nenhuma pergunta encontrada
+                </p>
               </div>
             ) : (
               availableQuestions.map((q) => (
@@ -161,7 +173,10 @@ export const WizardLinker: React.FC<WizardLinkerProps> = ({ productId }) => {
                         {q.description}
                       </p>
                       <div className="flex gap-2">
-                        <Badge variant="outline" className="text-[9px] h-4 py-0 text-slate-500 lowercase">
+                        <Badge
+                          variant="outline"
+                          className="text-[9px] h-4 py-0 text-slate-500 lowercase"
+                        >
                           min: {q.minResponses} • max: {q.maxResponses}
                         </Badge>
                       </div>

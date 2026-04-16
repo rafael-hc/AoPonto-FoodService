@@ -5,20 +5,20 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { OrderDetailResponseDto } from './orderDetailResponseDto';
-import type { OrderItemResponseDto } from './orderItemResponseDto';
-import type { OrderStatus } from './orderStatus';
-import type { OrderType } from './orderType';
+import type { OrderDetailResponseDto } from './orderDetailResponseDto'
+import type { OrderItemResponseDto } from './orderItemResponseDto'
+import type { OrderStatus } from './orderStatus'
+import type { OrderType } from './orderType'
 
 export interface OrderResponseDto {
-  id: string;
-  code: number;
-  status: OrderStatus;
-  type: OrderType;
-  totalAmount: number;
-  notes?: string;
-  customerId?: string;
-  items: OrderItemResponseDto[];
-  details?: OrderDetailResponseDto;
-  createdAt: string;
+  id: string
+  code: number
+  status: OrderStatus
+  type: OrderType
+  totalAmount: number
+  notes?: string
+  customerId?: string
+  items: OrderItemResponseDto[]
+  details?: OrderDetailResponseDto
+  createdAt: string
 }

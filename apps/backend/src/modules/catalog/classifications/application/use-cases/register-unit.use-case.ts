@@ -1,0 +1,14 @@
+import { Injectable } from '@nestjs/common'
+import { Unit } from '@/catalog/classifications/domain/entities/unit'
+import { UnitsRepository } from '@/catalog/classifications/domain/repositories/units-repository'
+
+@Injectable()
+export class RegisterUnitUseCase {
+  constructor(private unitsRepository: UnitsRepository) {}
+
+  async execute(props: { initials: string; description?: string | null }) {
+    const unit = Unit.create(props)
+    await this.unitsRepository.create(unit)
+    return { unit }
+  }
+}

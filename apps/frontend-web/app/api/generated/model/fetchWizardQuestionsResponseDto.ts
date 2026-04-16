@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchWizardQuestionsResponseDtoWizardQuestionsItem } from './fetchWizardQuestionsResponseDtoWizardQuestionsItem';
+import type { FetchWizardQuestionsResponseDtoWizardQuestionsItem } from './fetchWizardQuestionsResponseDtoWizardQuestionsItem'
 
 export interface FetchWizardQuestionsResponseDto {
-  wizardQuestions: FetchWizardQuestionsResponseDtoWizardQuestionsItem[];
+  wizardQuestions: FetchWizardQuestionsResponseDtoWizardQuestionsItem[]
 }

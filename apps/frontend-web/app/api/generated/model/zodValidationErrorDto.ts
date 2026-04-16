@@ -5,11 +5,11 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { ZodValidationErrorDtoErrorsItem } from './zodValidationErrorDtoErrorsItem';
+import type { ZodValidationErrorDtoErrorsItem } from './zodValidationErrorDtoErrorsItem'
 
 export interface ZodValidationErrorDto {
-  statusCode: 400;
-  message: 'Validation failed';
-  error: 'Bad Request';
-  errors: ZodValidationErrorDtoErrorsItem[];
+  statusCode: 400
+  message: 'Validation failed'
+  error: 'Bad Request'
+  errors: ZodValidationErrorDtoErrorsItem[]
 }

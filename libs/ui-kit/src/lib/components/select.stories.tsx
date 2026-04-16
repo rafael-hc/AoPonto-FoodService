@@ -32,9 +32,15 @@ export const Simple: Story = {
     label: 'Categoria do Produto',
     placeholder: 'Selecione uma categoria...',
     children: [
-      <SelectItem key="1" value="bebidas">Bebidas</SelectItem>,
-      <SelectItem key="2" value="lanches">Lanches</SelectItem>,
-      <SelectItem key="3" value="sobremesas">Sobremesas</SelectItem>
+      <SelectItem key="1" value="bebidas">
+        Bebidas
+      </SelectItem>,
+      <SelectItem key="2" value="lanches">
+        Lanches
+      </SelectItem>,
+      <SelectItem key="3" value="sobremesas">
+        Sobremesas
+      </SelectItem>
     ]
   }
 }
@@ -45,8 +51,12 @@ export const WithError: Story = {
     placeholder: 'Escolha um...',
     error: 'Selecione um entregador válido',
     children: [
-      <SelectItem key="1" value="joao">João da Silva</SelectItem>,
-      <SelectItem key="2" value="maria">Maria Oliveira</SelectItem>
+      <SelectItem key="1" value="joao">
+        João da Silva
+      </SelectItem>,
+      <SelectItem key="2" value="maria">
+        Maria Oliveira
+      </SelectItem>
     ]
   }
 }
@@ -83,7 +93,9 @@ export const Disabled: Story = {
     disabled: true,
     placeholder: 'Não editável...',
     children: [
-      <SelectItem key="1" value="opt1">Opção 1</SelectItem>
+      <SelectItem key="1" value="opt1">
+        Opção 1
+      </SelectItem>
     ]
   }
 }

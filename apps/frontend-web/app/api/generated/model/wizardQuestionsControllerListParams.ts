@@ -7,5 +7,5 @@
  */
 
 export type WizardQuestionsControllerListParams = {
-search: string;
-};
+  search: string
+}

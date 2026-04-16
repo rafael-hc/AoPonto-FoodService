@@ -1,4 +1,10 @@
-import { Button, Checkbox, Input, SelectSimple, SelectItem } from '@aoponto/ui-kit'
+import {
+  Button,
+  Checkbox,
+  Input,
+  SelectItem,
+  SelectSimple
+} from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   ArrowLeft,
@@ -95,31 +101,32 @@ import { cn } from '@aoponto/ui-kit'
 export const MyDefinitionsSettingsView: React.FC<
   MyDefinitionsSettingsViewProps
 > = ({ onBack, onSave }) => {
-  const { register, handleSubmit, control } = useForm<MyDefinitionsSettingsData>({
-    resolver: zodResolver(myDefinitionsSettingsSchema),
-    defaultValues: {
-      enableCustomCodeSearch: true,
-      chargeHighestValueHalfAndHalf: false,
-      autoRemoveEmptyOrders: true,
-      allowPaymentsClosedBox: false,
-      assignLoggedUserAsAttendant: true,
-      assignLoggedUserAsDeliveryman: false,
-      chargeServiceFeeOnCounter: true,
-      linkAddonAnswersToMainProduct: true,
-      useMapsForDelivery: true,
-      binaIgnoreInitialDigits: false,
-      binaIgnoreDigitsCount: 1,
-      defaultDeliverymanId: 'Maycon',
-      autoChangeStatusToInProduction: true,
-      allowNegativeProductStock: true,
-      allowNegativeIngredientStock: true,
-      autoUpdateCostPriceByIngredients: true,
-      enableEAN13Search: false,
-      allowRemoveIngredientsOnOrder: true,
-      requireAddonsOnOrder: false,
-      adminOnlyPermissions: true
-    }
-  })
+  const { register, handleSubmit, control } =
+    useForm<MyDefinitionsSettingsData>({
+      resolver: zodResolver(myDefinitionsSettingsSchema),
+      defaultValues: {
+        enableCustomCodeSearch: true,
+        chargeHighestValueHalfAndHalf: false,
+        autoRemoveEmptyOrders: true,
+        allowPaymentsClosedBox: false,
+        assignLoggedUserAsAttendant: true,
+        assignLoggedUserAsDeliveryman: false,
+        chargeServiceFeeOnCounter: true,
+        linkAddonAnswersToMainProduct: true,
+        useMapsForDelivery: true,
+        binaIgnoreInitialDigits: false,
+        binaIgnoreDigitsCount: 1,
+        defaultDeliverymanId: 'Maycon',
+        autoChangeStatusToInProduction: true,
+        allowNegativeProductStock: true,
+        allowNegativeIngredientStock: true,
+        autoUpdateCostPriceByIngredients: true,
+        enableEAN13Search: false,
+        allowRemoveIngredientsOnOrder: true,
+        requireAddonsOnOrder: false,
+        adminOnlyPermissions: true
+      }
+    })
 
   return (
     <form

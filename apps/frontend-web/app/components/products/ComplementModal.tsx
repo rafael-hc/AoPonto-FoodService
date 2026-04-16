@@ -1,4 +1,13 @@
-import { Badge, Button, Dialog, Input, SelectSimple, SelectItem } from '@aoponto/ui-kit'
+import {
+  Badge,
+  Button,
+  Dialog,
+  Input,
+  ModalActionFooter,
+  RadioGroupSimple,
+  SelectItem,
+  SelectSimple
+} from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PlusCircle } from 'lucide-react'
 import React from 'react'
@@ -32,7 +41,7 @@ interface ComplementModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   product?: Product | null
-  onSave: (data: ComplementFormData) => void
+  onSave: (data: ComplementFormData, shouldClose?: boolean) => void
   isPending?: boolean
 }
 
@@ -114,7 +123,7 @@ export const ComplementModal: React.FC<ComplementModalProps> = ({
 
         // Tentar definir unidade UN como padrão se não houver produto selecionado
         if (units.length > 0) {
-          const unUnit = units.find(u => u.initials === 'UN')
+          const unUnit = units.find((u) => u.initials === 'UN')
           if (unUnit) {
             setValue('unitId', unUnit.id)
           }
@@ -123,15 +132,15 @@ export const ComplementModal: React.FC<ComplementModalProps> = ({
     }
   }, [open, product, reset, units, setValue])
 
-  const onFormSubmit = (data: ComplementFormData) => {
-    onSave(data)
+  const onFormSubmit = (data: ComplementFormData, shouldClose = true) => {
+    onSave(data, shouldClose)
   }
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content 
+        <Dialog.Content
           className="h-[80dvh] w-[70dvw] max-w-none p-0 overflow-hidden bg-slate-50 flex flex-col"
           onPointerDownOutside={(e) => e.preventDefault()}
         >
@@ -162,11 +171,17 @@ export const ComplementModal: React.FC<ComplementModalProps> = ({
 
           {/* Form Content */}
           <div className="px-8 py-8 flex-1">
-            <form id="complement-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
+            <form
+              id="complement-form"
+              onSubmit={handleSubmit((d) => onFormSubmit(d, true))}
+              className="space-y-6"
+            >
               <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-12 md:col-span-8">
                   <Input.Wrapper className="space-y-2">
-                    <Input.Label htmlFor="name">Nome do Complemento</Input.Label>
+                    <Input.Label htmlFor="name">
+                      Nome do Complemento
+                    </Input.Label>
                     <Input.Root error={!!errors.name}>
                       <Input.Control
                         id="name"
@@ -207,24 +222,29 @@ export const ComplementModal: React.FC<ComplementModalProps> = ({
                   </Input.Wrapper>
                 </div>
 
-                <div className="col-span-12 md:col-span-4">
+                <div className="col-span-12">
                   <Controller
                     name="unitId"
                     control={control}
                     render={({ field }) => (
-                      <SelectSimple
-                        label="Unidade"
-                        placeholder="..."
+                      <RadioGroupSimple
+                        label="Unidade de Medida"
                         error={errors.unitId?.message}
                         value={field.value}
                         onValueChange={field.onChange}
-                      >
-                        {units.map((unit) => (
-                          <SelectItem key={unit.id} value={unit.id}>
-                            {unit.initials}
-                          </SelectItem>
-                        ))}
-                      </SelectSimple>
+                        options={units.map((unit) => ({
+                          value: unit.id,
+                          label: unit.initials,
+                          description:
+                            unit.initials === 'UN'
+                              ? 'Unidade'
+                              : unit.initials === 'KG'
+                                ? 'Quilos'
+                                : unit.initials === 'L'
+                                  ? 'Litros'
+                                  : (unit.description ?? undefined)
+                        }))}
+                      />
                     )}
                   />
                 </div>
@@ -266,25 +286,16 @@ export const ComplementModal: React.FC<ComplementModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="bg-slate-100 border-t border-slate-200 px-8 py-4 flex items-center justify-between shrink-0">
-            <Button
-              type="button"
-              variant="outline"
-              className="bg-white"
-              onClick={() => onOpenChange(false)}
-              disabled={isPending}
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              form="complement-form"
-              disabled={isPending}
-              className="px-8 shadow-lg shadow-orange-500/20 text-md font-bold"
-            >
-              {isPending ? 'Salvando...' : 'Salvar Complemento'}
-            </Button>
-          </div>
+          <ModalActionFooter
+            onCancel={() => onOpenChange(false)}
+            onSaveAndClose={handleSubmit((data) => onFormSubmit(data, true))}
+            onSaveOnly={handleSubmit((data) => onFormSubmit(data, false))}
+            isPending={isPending}
+            saveLabel="Apenas Salvar"
+            saveAndCloseLabel={
+              isEditMode ? 'Salvar Alterações' : 'Salvar e Sair'
+            }
+          />
 
           <Dialog.Close />
         </Dialog.Content>

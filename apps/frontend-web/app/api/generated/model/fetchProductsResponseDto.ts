@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchProductsResponseDtoProductsItem } from './fetchProductsResponseDtoProductsItem';
+import type { FetchProductsResponseDtoProductsItem } from './fetchProductsResponseDtoProductsItem'
 
 export interface FetchProductsResponseDto {
-  products: FetchProductsResponseDtoProductsItem[];
+  products: FetchProductsResponseDtoProductsItem[]
 }

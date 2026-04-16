@@ -1,9 +1,9 @@
-import { Button, Input, Badge } from '@aoponto/ui-kit'
+import { Badge, Button, Input } from '@aoponto/ui-kit'
+import { AlertCircle, Lock, ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useAuthStore } from '../store/auth-store'
 import { useUpdateUserControllerHandle } from '../api/generated/users/users'
-import { Lock, ShieldCheck, AlertCircle } from 'lucide-react'
+import { useAuthStore } from '../store/auth-store'
 
 export default function PasswordChangePage() {
   const { user, signOut } = useAuthStore()
@@ -21,7 +21,10 @@ export default function PasswordChangePage() {
         window.location.href = '/' // Refresh total para garantir estado limpo
       },
       onError: (err: any) => {
-        setError(err.response?.data?.message || 'Erro ao atualizar senha. Tente novamente.')
+        setError(
+          err.response?.data?.message ||
+            'Erro ao atualizar senha. Tente novamente.'
+        )
       }
     }
   })
@@ -55,13 +58,15 @@ export default function PasswordChangePage() {
           {/* Decorativo */}
           <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
           <div className="absolute -left-4 -bottom-4 w-32 h-32 bg-orange-400/20 rounded-full blur-3xl" />
-          
+
           <div className="relative z-10 flex flex-col items-center">
             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-md border border-white/30">
               <ShieldCheck size={32} />
             </div>
             <h1 className="text-2xl font-bold">Segurança da Conta</h1>
-            <p className="text-orange-100 text-sm mt-1 opacity-90">Troca de senha obrigatória no primeiro acesso</p>
+            <p className="text-orange-100 text-sm mt-1 opacity-90">
+              Troca de senha obrigatória no primeiro acesso
+            </p>
           </div>
         </div>
 
@@ -69,8 +74,12 @@ export default function PasswordChangePage() {
           <div className="p-4 bg-orange-50 border border-orange-100 rounded-xl flex gap-3">
             <AlertCircle className="text-orange-600 shrink-0" size={20} />
             <p className="text-xs text-orange-800 leading-relaxed">
-              Para sua segurança, pedimos que altere sua senha temporária. 
-              Sua nova senha deve conter <strong>letras (maius/minus), números e caracteres especiais</strong>.
+              Para sua segurança, pedimos que altere sua senha temporária. Sua
+              nova senha deve conter{' '}
+              <strong>
+                letras (maius/minus), números e caracteres especiais
+              </strong>
+              .
             </p>
           </div>
 
@@ -99,7 +108,9 @@ export default function PasswordChangePage() {
             </Input.Wrapper>
 
             <Input.Wrapper className="space-y-1.5">
-              <Input.Label htmlFor="confirmPassword">Confirmar Nova Senha</Input.Label>
+              <Input.Label htmlFor="confirmPassword">
+                Confirmar Nova Senha
+              </Input.Label>
               <Input.Root>
                 <div className="pl-3 py-2 text-slate-400">
                   <Lock size={16} />
@@ -121,9 +132,11 @@ export default function PasswordChangePage() {
                 className="w-full bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/20 py-6"
                 disabled={updateMutation.isPending}
               >
-                {updateMutation.isPending ? 'Salvando...' : 'Atualizar e Acessar'}
+                {updateMutation.isPending
+                  ? 'Salvando...'
+                  : 'Atualizar e Acessar'}
               </Button>
-              
+
               <button
                 type="button"
                 onClick={() => signOut()}
@@ -136,7 +149,10 @@ export default function PasswordChangePage() {
         </div>
 
         <div className="bg-slate-50 px-8 py-4 border-t border-slate-100 flex justify-center">
-          <Badge variant="outline" className="text-[10px] text-slate-400 uppercase tracking-widest border-slate-200">
+          <Badge
+            variant="outline"
+            className="text-[10px] text-slate-400 uppercase tracking-widest border-slate-200"
+          >
             AoPonto FoodService v1.0
           </Badge>
         </div>

@@ -5,10 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -22,328 +19,515 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
-
+} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
 import type {
   FetchWizardQuestionsResponseDto,
   SingleWizardQuestionResponseDto,
   SynchronizeWizardQuestionDto,
   WizardQuestionsControllerListParams,
   ZodValidationErrorDto
-} from '../model';
+} from '../model'
 
-import { api } from '../../../lib/api';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 /**
  * @summary Synchronize (Create/Update) a wizard question with its options
  */
 export const wizardQuestionsControllerSync = (
-    synchronizeWizardQuestionDto: SynchronizeWizardQuestionDto,
- signal?: AbortSignal
+  synchronizeWizardQuestionDto: SynchronizeWizardQuestionDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleWizardQuestionResponseDto>(
-      {url: `/api/wizard-questions`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: synchronizeWizardQuestionDto, signal
-    },
-      );
-    }
-  
+  return api<SingleWizardQuestionResponseDto>({
+    url: `/api/wizard-questions`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: synchronizeWizardQuestionDto,
+    signal
+  })
+}
 
+export const getWizardQuestionsControllerSyncMutationOptions = <
+  TError = ZodValidationErrorDto,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
+    TError,
+    { data: SynchronizeWizardQuestionDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
+  TError,
+  { data: SynchronizeWizardQuestionDto },
+  TContext
+> => {
+  const mutationKey = ['wizardQuestionsControllerSync']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getWizardQuestionsControllerSyncMutationOptions = <TError = ZodValidationErrorDto,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerSync>>, TError,{data: SynchronizeWizardQuestionDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerSync>>, TError,{data: SynchronizeWizardQuestionDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
+    { data: SynchronizeWizardQuestionDto }
+  > = (props) => {
+    const { data } = props ?? {}
 
-const mutationKey = ['wizardQuestionsControllerSync'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return wizardQuestionsControllerSync(data)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type WizardQuestionsControllerSyncMutationResult = NonNullable<
+  Awaited<ReturnType<typeof wizardQuestionsControllerSync>>
+>
+export type WizardQuestionsControllerSyncMutationBody =
+  SynchronizeWizardQuestionDto
+export type WizardQuestionsControllerSyncMutationError = ZodValidationErrorDto
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof wizardQuestionsControllerSync>>, {data: SynchronizeWizardQuestionDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  wizardQuestionsControllerSync(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WizardQuestionsControllerSyncMutationResult = NonNullable<Awaited<ReturnType<typeof wizardQuestionsControllerSync>>>
-    export type WizardQuestionsControllerSyncMutationBody = SynchronizeWizardQuestionDto
-    export type WizardQuestionsControllerSyncMutationError = ZodValidationErrorDto
-
-    /**
+/**
  * @summary Synchronize (Create/Update) a wizard question with its options
  */
-export const useWizardQuestionsControllerSync = <TError = ZodValidationErrorDto,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerSync>>, TError,{data: SynchronizeWizardQuestionDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
-        TError,
-        {data: SynchronizeWizardQuestionDto},
-        TContext
-      > => {
-      return useMutation(getWizardQuestionsControllerSyncMutationOptions(options), queryClient);
-    }
-    /**
+export const useWizardQuestionsControllerSync = <
+  TError = ZodValidationErrorDto,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
+      TError,
+      { data: SynchronizeWizardQuestionDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof wizardQuestionsControllerSync>>,
+  TError,
+  { data: SynchronizeWizardQuestionDto },
+  TContext
+> => {
+  return useMutation(
+    getWizardQuestionsControllerSyncMutationOptions(options),
+    queryClient
+  )
+}
+/**
  * @summary List all available wizard questions
  */
 export const wizardQuestionsControllerList = (
-    params: WizardQuestionsControllerListParams,
- signal?: AbortSignal
+  params: WizardQuestionsControllerListParams,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<FetchWizardQuestionsResponseDto>(
-      {url: `/api/wizard-questions`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-  
-
-
-
-export const getWizardQuestionsControllerListQueryKey = (params?: WizardQuestionsControllerListParams,) => {
-    return [
-    `/api/wizard-questions`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-    
-export const getWizardQuestionsControllerListQueryOptions = <TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError = unknown>(params: WizardQuestionsControllerListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getWizardQuestionsControllerListQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof wizardQuestionsControllerList>>> = ({ signal }) => wizardQuestionsControllerList(params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<FetchWizardQuestionsResponseDto>({
+    url: `/api/wizard-questions`,
+    method: 'GET',
+    params,
+    signal
+  })
 }
 
-export type WizardQuestionsControllerListQueryResult = NonNullable<Awaited<ReturnType<typeof wizardQuestionsControllerList>>>
+export const getWizardQuestionsControllerListQueryKey = (
+  params?: WizardQuestionsControllerListParams
+) => {
+  return [`/api/wizard-questions`, ...(params ? [params] : [])] as const
+}
+
+export const getWizardQuestionsControllerListQueryOptions = <
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+  TError = unknown
+>(
+  params: WizardQuestionsControllerListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getWizardQuestionsControllerListQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof wizardQuestionsControllerList>>
+  > = ({ signal }) => wizardQuestionsControllerList(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type WizardQuestionsControllerListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof wizardQuestionsControllerList>>
+>
 export type WizardQuestionsControllerListQueryError = unknown
 
-
-export function useWizardQuestionsControllerList<TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError = unknown>(
- params: WizardQuestionsControllerListParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData>> & Pick<
+export function useWizardQuestionsControllerList<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+  TError = unknown
+>(
+  params: WizardQuestionsControllerListParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
           TError,
           Awaited<ReturnType<typeof wizardQuestionsControllerList>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWizardQuestionsControllerList<TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError = unknown>(
- params: WizardQuestionsControllerListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useWizardQuestionsControllerList<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+  TError = unknown
+>(
+  params: WizardQuestionsControllerListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
           TError,
           Awaited<ReturnType<typeof wizardQuestionsControllerList>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWizardQuestionsControllerList<TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError = unknown>(
- params: WizardQuestionsControllerListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useWizardQuestionsControllerList<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+  TError = unknown
+>(
+  params: WizardQuestionsControllerListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary List all available wizard questions
  */
 
-export function useWizardQuestionsControllerList<TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError = unknown>(
- params: WizardQuestionsControllerListParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerList>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWizardQuestionsControllerList<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+  TError = unknown
+>(
+  params: WizardQuestionsControllerListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerList>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getWizardQuestionsControllerListQueryOptions(
+    params,
+    options
+  )
 
-  const queryOptions = getWizardQuestionsControllerListQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey }
 }
-
-
-
 
 /**
  * @summary Get a wizard question by ID
  */
 export const wizardQuestionsControllerGetOne = (
-    id: string,
- signal?: AbortSignal
+  id: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<SingleWizardQuestionResponseDto>(
-      {url: `/api/wizard-questions/${id}`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getWizardQuestionsControllerGetOneQueryKey = (id: string,) => {
-    return [
-    `/api/wizard-questions/${id}`
-    ] as const;
-    }
-
-    
-export const getWizardQuestionsControllerGetOneQueryOptions = <TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getWizardQuestionsControllerGetOneQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>> = ({ signal }) => wizardQuestionsControllerGetOne(id, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<SingleWizardQuestionResponseDto>({
+    url: `/api/wizard-questions/${id}`,
+    method: 'GET',
+    signal
+  })
 }
 
-export type WizardQuestionsControllerGetOneQueryResult = NonNullable<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>>
+export const getWizardQuestionsControllerGetOneQueryKey = (id: string) => {
+  return [`/api/wizard-questions/${id}`] as const
+}
+
+export const getWizardQuestionsControllerGetOneQueryOptions = <
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+  TError = void
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getWizardQuestionsControllerGetOneQueryKey(id)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>
+  > = ({ signal }) => wizardQuestionsControllerGetOne(id, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type WizardQuestionsControllerGetOneQueryResult = NonNullable<
+  Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>
+>
 export type WizardQuestionsControllerGetOneQueryError = void
 
-
-export function useWizardQuestionsControllerGetOne<TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError = void>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData>> & Pick<
+export function useWizardQuestionsControllerGetOne<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+  TError = void
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
           TError,
           Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWizardQuestionsControllerGetOne<TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError = void>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useWizardQuestionsControllerGetOne<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+  TError = void
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
           TError,
           Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useWizardQuestionsControllerGetOne<TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError = void>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useWizardQuestionsControllerGetOne<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+  TError = void
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get a wizard question by ID
  */
 
-export function useWizardQuestionsControllerGetOne<TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError = void>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useWizardQuestionsControllerGetOne<
+  TData = Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+  TError = void
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof wizardQuestionsControllerGetOne>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getWizardQuestionsControllerGetOneQueryOptions(
+    id,
+    options
+  )
 
-  const queryOptions = getWizardQuestionsControllerGetOneQueryOptions(id,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey }
 }
-
-
-
 
 /**
  * @summary Delete a wizard question by ID
  */
 export const wizardQuestionsControllerDeleteOne = (
-    id: string,
- signal?: AbortSignal
+  id: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<void>(
-      {url: `/api/wizard-questions/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-  
+  return api<void>({
+    url: `/api/wizard-questions/${id}`,
+    method: 'DELETE',
+    signal
+  })
+}
 
+export const getWizardQuestionsControllerDeleteOneMutationOptions = <
+  TError = void,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
+    TError,
+    { id: string },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  const mutationKey = ['wizardQuestionsControllerDeleteOne']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getWizardQuestionsControllerDeleteOneMutationOptions = <TError = void,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>, TError,{id: string}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>, TError,{id: string}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
+    { id: string }
+  > = (props) => {
+    const { id } = props ?? {}
 
-const mutationKey = ['wizardQuestionsControllerDeleteOne'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return wizardQuestionsControllerDeleteOne(id)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type WizardQuestionsControllerDeleteOneMutationResult = NonNullable<
+  Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>
+>
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+export type WizardQuestionsControllerDeleteOneMutationError = void
 
-          return  wizardQuestionsControllerDeleteOne(id,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WizardQuestionsControllerDeleteOneMutationResult = NonNullable<Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>>
-    
-    export type WizardQuestionsControllerDeleteOneMutationError = void
-
-    /**
+/**
  * @summary Delete a wizard question by ID
  */
-export const useWizardQuestionsControllerDeleteOne = <TError = void,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>, TError,{id: string}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-      return useMutation(getWizardQuestionsControllerDeleteOneMutationOptions(options), queryClient);
-    }
-    
+export const useWizardQuestionsControllerDeleteOne = <
+  TError = void,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
+      TError,
+      { id: string },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof wizardQuestionsControllerDeleteOne>>,
+  TError,
+  { id: string },
+  TContext
+> => {
+  return useMutation(
+    getWizardQuestionsControllerDeleteOneMutationOptions(options),
+    queryClient
+  )
+}

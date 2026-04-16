@@ -5,10 +5,7 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -22,172 +19,265 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
-} from '@tanstack/react-query';
-
+} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { api } from '../../../lib/api'
 import type {
   FetchProductWizardsResponseDto,
   SyncProductWizardsDto
-} from '../model';
+} from '../model'
 
-import { api } from '../../../lib/api';
+type AwaitedInput<T> = PromiseLike<T> | T
 
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-      type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
-
-
-
+type Awaited<O> = O extends AwaitedInput<infer T> ? T : never
 
 /**
  * @summary Sync wizard questions linked to a product detail
  */
 export const productWizardsControllerSync = (
-    syncProductWizardsDto: SyncProductWizardsDto,
- signal?: AbortSignal
+  syncProductWizardsDto: SyncProductWizardsDto,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<void>(
-      {url: `/api/product-wizards/sync`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: syncProductWizardsDto, signal
-    },
-      );
-    }
-  
+  return api<void>({
+    url: `/api/product-wizards/sync`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: syncProductWizardsDto,
+    signal
+  })
+}
 
+export const getProductWizardsControllerSyncMutationOptions = <
+  TError = void,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof productWizardsControllerSync>>,
+    TError,
+    { data: SyncProductWizardsDto },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof productWizardsControllerSync>>,
+  TError,
+  { data: SyncProductWizardsDto },
+  TContext
+> => {
+  const mutationKey = ['productWizardsControllerSync']
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } }
 
-export const getProductWizardsControllerSyncMutationOptions = <TError = void,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productWizardsControllerSync>>, TError,{data: SyncProductWizardsDto}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof productWizardsControllerSync>>, TError,{data: SyncProductWizardsDto}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof productWizardsControllerSync>>,
+    { data: SyncProductWizardsDto }
+  > = (props) => {
+    const { data } = props ?? {}
 
-const mutationKey = ['productWizardsControllerSync'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+    return productWizardsControllerSync(data)
+  }
 
-      
+  return { mutationFn, ...mutationOptions }
+}
 
+export type ProductWizardsControllerSyncMutationResult = NonNullable<
+  Awaited<ReturnType<typeof productWizardsControllerSync>>
+>
+export type ProductWizardsControllerSyncMutationBody = SyncProductWizardsDto
+export type ProductWizardsControllerSyncMutationError = void
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof productWizardsControllerSync>>, {data: SyncProductWizardsDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  productWizardsControllerSync(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type ProductWizardsControllerSyncMutationResult = NonNullable<Awaited<ReturnType<typeof productWizardsControllerSync>>>
-    export type ProductWizardsControllerSyncMutationBody = SyncProductWizardsDto
-    export type ProductWizardsControllerSyncMutationError = void
-
-    /**
+/**
  * @summary Sync wizard questions linked to a product detail
  */
-export const useProductWizardsControllerSync = <TError = void,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof productWizardsControllerSync>>, TError,{data: SyncProductWizardsDto}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof productWizardsControllerSync>>,
-        TError,
-        {data: SyncProductWizardsDto},
-        TContext
-      > => {
-      return useMutation(getProductWizardsControllerSyncMutationOptions(options), queryClient);
-    }
-    /**
+export const useProductWizardsControllerSync = <
+  TError = void,
+  TContext = unknown
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof productWizardsControllerSync>>,
+      TError,
+      { data: SyncProductWizardsDto },
+      TContext
+    >
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof productWizardsControllerSync>>,
+  TError,
+  { data: SyncProductWizardsDto },
+  TContext
+> => {
+  return useMutation(
+    getProductWizardsControllerSyncMutationOptions(options),
+    queryClient
+  )
+}
+/**
  * @summary Fetch wizard questions linked to a product detail
  */
 export const productWizardsControllerFetch = (
-    productId: string,
- signal?: AbortSignal
+  productId: string,
+  signal?: AbortSignal
 ) => {
-      
-      
-      return api<FetchProductWizardsResponseDto>(
-      {url: `/api/product-wizards/${productId}`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
-
-export const getProductWizardsControllerFetchQueryKey = (productId: string,) => {
-    return [
-    `/api/product-wizards/${productId}`
-    ] as const;
-    }
-
-    
-export const getProductWizardsControllerFetchQueryOptions = <TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError = unknown>(productId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getProductWizardsControllerFetchQueryKey(productId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof productWizardsControllerFetch>>> = ({ signal }) => productWizardsControllerFetch(productId, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(productId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+  return api<FetchProductWizardsResponseDto>({
+    url: `/api/product-wizards/${productId}`,
+    method: 'GET',
+    signal
+  })
 }
 
-export type ProductWizardsControllerFetchQueryResult = NonNullable<Awaited<ReturnType<typeof productWizardsControllerFetch>>>
+export const getProductWizardsControllerFetchQueryKey = (productId: string) => {
+  return [`/api/product-wizards/${productId}`] as const
+}
+
+export const getProductWizardsControllerFetchQueryOptions = <
+  TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+  TError = unknown
+>(
+  productId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+        TError,
+        TData
+      >
+    >
+  }
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getProductWizardsControllerFetchQueryKey(productId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof productWizardsControllerFetch>>
+  > = ({ signal }) => productWizardsControllerFetch(productId, signal)
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!productId,
+    ...queryOptions
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ProductWizardsControllerFetchQueryResult = NonNullable<
+  Awaited<ReturnType<typeof productWizardsControllerFetch>>
+>
 export type ProductWizardsControllerFetchQueryError = unknown
 
-
-export function useProductWizardsControllerFetch<TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError = unknown>(
- productId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData>> & Pick<
+export function useProductWizardsControllerFetch<
+  TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+  TError = unknown
+>(
+  productId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof productWizardsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof productWizardsControllerFetch>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useProductWizardsControllerFetch<TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError = unknown>(
- productId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useProductWizardsControllerFetch<
+  TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+  TError = unknown
+>(
+  productId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof productWizardsControllerFetch>>,
           TError,
           Awaited<ReturnType<typeof productWizardsControllerFetch>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useProductWizardsControllerFetch<TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError = unknown>(
- productId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useProductWizardsControllerFetch<
+  TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+  TError = unknown
+>(
+  productId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Fetch wizard questions linked to a product detail
  */
 
-export function useProductWizardsControllerFetch<TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError = unknown>(
- productId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof productWizardsControllerFetch>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useProductWizardsControllerFetch<
+  TData = Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+  TError = unknown
+>(
+  productId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof productWizardsControllerFetch>>,
+        TError,
+        TData
+      >
+    >
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getProductWizardsControllerFetchQueryOptions(
+    productId,
+    options
+  )
 
-  const queryOptions = getProductWizardsControllerFetchQueryOptions(productId,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey }
 }
-
-
-
-

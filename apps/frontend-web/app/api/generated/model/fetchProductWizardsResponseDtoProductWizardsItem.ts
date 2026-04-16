@@ -5,15 +5,15 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { FetchProductWizardsResponseDtoProductWizardsItemWizardQuestion } from './fetchProductWizardsResponseDtoProductWizardsItemWizardQuestion';
+import type { FetchProductWizardsResponseDtoProductWizardsItemWizardQuestion } from './fetchProductWizardsResponseDtoProductWizardsItemWizardQuestion'
 
 export type FetchProductWizardsResponseDtoProductWizardsItem = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  id: string;
+  id: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  productId: string;
+  productId: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  wizardQuestionId: string;
-  order: number;
-  wizardQuestion?: FetchProductWizardsResponseDtoProductWizardsItemWizardQuestion;
-};
+  wizardQuestionId: string
+  order: number
+  wizardQuestion?: FetchProductWizardsResponseDtoProductWizardsItemWizardQuestion
+}

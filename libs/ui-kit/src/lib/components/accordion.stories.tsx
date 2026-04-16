@@ -31,19 +31,22 @@ export const Default: Story = {
         <AccordionItem value="item-1">
           <AccordionTrigger>Como funciona o Delivery?</AccordionTrigger>
           <AccordionContent>
-            Nosso delivery funciona das 11h às 23h, cobrindo um raio de 10km da nossa sede.
+            Nosso delivery funciona das 11h às 23h, cobrindo um raio de 10km da
+            nossa sede.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger>Quais as formas de pagamento?</AccordionTrigger>
           <AccordionContent>
-            Aceitamos todos os cartões de crédito, débito, PIX e vales-refeição principais.
+            Aceitamos todos os cartões de crédito, débito, PIX e vales-refeição
+            principais.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
           <AccordionTrigger>Posso cancelar um pedido?</AccordionTrigger>
           <AccordionContent>
-            Sim, desde que o pedido ainda não tenha entrado em produção na nossa cozinha.
+            Sim, desde que o pedido ainda não tenha entrado em produção na nossa
+            cozinha.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

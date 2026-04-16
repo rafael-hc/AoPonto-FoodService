@@ -7,6 +7,6 @@
  */
 
 export interface AuthenticateResponseDto {
-  message: string;
-  passwordChangeRequired: boolean;
+  message: string
+  passwordChangeRequired: boolean
 }

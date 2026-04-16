@@ -11,25 +11,25 @@ export interface RegisterProductDto {
    * @minimum -9007199254740991
    * @maximum 9007199254740991
    */
-  code?: number;
-  barcode?: string;
+  code?: number
+  barcode?: string
   /** @minLength 1 */
-  name: string;
+  name: string
   /** @minimum 0 */
-  price: number;
-  description?: string;
-  methodOfPreparation?: string;
-  costPrice?: number;
-  minStock?: number;
-  active?: boolean;
+  price: number
+  description?: string
+  methodOfPreparation?: string
+  costPrice?: number
+  minStock?: number
+  active?: boolean
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  unitId: string;
-  kitchenId?: string | null;
+  unitId: string
+  kitchenId?: string | null
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  labelId?: string;
+  labelId?: string
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  productTypeId?: string;
-  isKitchenItem?: boolean;
-  useMobileComanda?: boolean;
-  useDigitalMenu?: boolean;
+  productTypeId?: string
+  isKitchenItem?: boolean
+  useMobileComanda?: boolean
+  useDigitalMenu?: boolean
 }

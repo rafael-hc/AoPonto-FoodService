@@ -5,8 +5,8 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { GetProfileResponseDtoUser } from './getProfileResponseDtoUser';
+import type { GetProfileResponseDtoUser } from './getProfileResponseDtoUser'
 
 export interface GetProfileResponseDto {
-  user: GetProfileResponseDtoUser;
+  user: GetProfileResponseDtoUser
 }

@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SynchronizeWizardQuestionDtoContext = typeof SynchronizeWizardQuestionDtoContext[keyof typeof SynchronizeWizardQuestionDtoContext];
-
+export type SynchronizeWizardQuestionDtoContext =
+  (typeof SynchronizeWizardQuestionDtoContext)[keyof typeof SynchronizeWizardQuestionDtoContext]
 
 export const SynchronizeWizardQuestionDtoContext = {
   PRODUCT: 'PRODUCT',
-  COMBO: 'COMBO',
-} as const;
+  COMBO: 'COMBO'
+} as const

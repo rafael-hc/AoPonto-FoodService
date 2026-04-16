@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type OrderType = typeof OrderType[keyof typeof OrderType];
-
+export type OrderType = (typeof OrderType)[keyof typeof OrderType]
 
 export const OrderType = {
   TABLE: 'TABLE',
   COUNTER: 'COUNTER',
-  DELIVERY: 'DELIVERY',
-} as const;
+  DELIVERY: 'DELIVERY'
+} as const

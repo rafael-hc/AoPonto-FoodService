@@ -1,4 +1,10 @@
-import { Badge, Button, Dialog, Input } from '@aoponto/ui-kit'
+import {
+  Badge,
+  Button,
+  Dialog,
+  Input,
+  ModalActionFooter
+} from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { AxiosError } from 'axios'
 import {
@@ -77,9 +83,11 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
     AxiosError<ZodValidationErrorDto>
   >({
     mutation: {
-      onSuccess: () => {
+      onSuccess: (_, variables) => {
         onSuccess?.()
-        onOpenChange(false)
+        // O meta do orval para mutations geralmente é passado via variables se customizado,
+        // mas aqui vamos usar um estado simples ou verificar o contexto.
+        // Como o ModalActionFooter controla o clique, vamos gerenciar o fechamento aqui.
       },
       onError: (error) => {
         const message =
@@ -159,24 +167,33 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
     }
   }, [open, question, reset])
 
-  const onFormSubmit = (data: WizardQuestionFormData) => {
-    syncQuestion({
-      data: {
-        id: data.id,
-        description: data.description,
-        context: data.context,
-        minResponses: data.minResponses,
-        maxResponses: data.maxResponses,
-        minItems: data.minItems,
-        maxItems: data.maxItems,
-        options: data.options.map((opt) => ({
-          productId: opt.productId,
-          description: opt.productName,
-          promoPrice: opt.promoPrice,
-          maxQty: opt.maxQuantity || 0
-        }))
+  const onFormSubmit = (data: WizardQuestionFormData, shouldClose = true) => {
+    syncQuestion(
+      {
+        data: {
+          id: data.id,
+          description: data.description,
+          context: data.context,
+          minResponses: data.minResponses,
+          maxResponses: data.maxResponses,
+          minItems: data.minItems,
+          maxItems: data.maxItems,
+          options: data.options.map((opt) => ({
+            productId: opt.productId,
+            description: opt.productName,
+            promoPrice: opt.promoPrice,
+            maxQty: opt.maxQuantity || 0
+          }))
+        }
+      },
+      {
+        onSuccess: () => {
+          if (shouldClose) {
+            onOpenChange(false)
+          }
+        }
       }
-    })
+    )
   }
 
   const handleAddProduct = (product: Product) => {
@@ -281,7 +298,7 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
           <div className="flex-1 overflow-y-auto px-8 py-8 space-y-8">
             <form
               id="wizard-question-form"
-              onSubmit={handleSubmit(onFormSubmit)}
+              onSubmit={handleSubmit((data) => onFormSubmit(data, true))}
               className="space-y-8"
             >
               {/* Definições Báscias */}
@@ -582,28 +599,19 @@ export const WizardQuestionModal: React.FC<WizardQuestionModalProps> = ({
           </div>
 
           {/* Footer fixo Estático */}
-          <div className="bg-white border-t border-slate-200 px-8 py-4 flex items-center justify-between shrink-0">
-            <Button
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isPending}
-              className="font-bold text-slate-600 border-slate-200 hover:bg-slate-50"
-            >
-              Descartar Alterações
-            </Button>
-            <Button
-              type="submit"
-              form="wizard-question-form"
-              disabled={isPending}
-              className="px-8 shadow-xl shadow-orange-500/20 active:scale-95 transition-all font-black text-sm"
-            >
-              {isPending
-                ? 'Sincronizando...'
-                : isEditMode
-                  ? 'Salvar Mudanças'
-                  : 'Criar Pergunta Global'}
-            </Button>
-          </div>
+          {/* Footer Padronizado com Duplo Salvamento */}
+          <ModalActionFooter
+            onCancel={() => onOpenChange(false)}
+            onSaveOnly={() =>
+              handleSubmit((data) => onFormSubmit(data, false))()
+            }
+            onSaveAndClose={() =>
+              handleSubmit((data) => onFormSubmit(data, true))()
+            }
+            isPending={isPending}
+            saveLabel="Apenas Salvar"
+            saveAndCloseLabel={isEditMode ? 'Salvar e Sair' : 'Criar e Sair'}
+          />
 
           <Dialog.Close />
         </Dialog.Content>

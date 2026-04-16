@@ -1,4 +1,13 @@
-import { Badge, Button, Dialog, Input, SelectSimple, SelectItem } from '@aoponto/ui-kit'
+import {
+  Badge,
+  Button,
+  Dialog,
+  Input,
+  ModalActionFooter,
+  RadioGroupSimple,
+  SelectItem,
+  SelectSimple
+} from '@aoponto/ui-kit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Package, Plus } from 'lucide-react'
 import React, { useState } from 'react'
@@ -11,8 +20,8 @@ import { FetchLabelsResponseDtoLabelsItem as Label } from '../../api/generated/m
 import { FetchProductsResponseDtoProductsItem as Product } from '../../api/generated/model/fetchProductsResponseDtoProductsItem'
 import { FetchUnitsResponseDtoUnitsItem as Unit } from '../../api/generated/model/fetchUnitsResponseDtoUnitsItem'
 import { useUnitsControllerFetch } from '../../api/generated/units/units'
-import LabelModal from './LabelModal'
 import { WizardLinker } from '../wizard/WizardLinker'
+import LabelModal from './LabelModal'
 
 // Removido o productTypeId já que agora é tratado pelo backend em rotas separadas
 const productSchema = z.object({
@@ -39,7 +48,7 @@ interface ProductModalProps {
   onOpenChange: (open: boolean) => void
   product?: Product | null
   onSuccess?: () => void
-  onSave: (data: ProductFormData) => void // Função de salvamento injetada pela página
+  onSave: (data: ProductFormData, shouldClose?: boolean) => void // Função de salvamento injetada pela página
   isPending?: boolean // Estado de carregamento injetado
 }
 
@@ -51,7 +60,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   isPending = false
 }) => {
   const isEditMode = !!product
-  const [activeTab, setActiveTab] = useState<'more' | 'config' | 'wizard'>('more')
+  const [activeTab, setActiveTab] = useState<'more' | 'config' | 'wizard'>(
+    'more'
+  )
   const [isLabelModalOpen, setIsLabelModalOpen] = useState(false)
 
   // Fetches para selects
@@ -135,24 +146,20 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     }
   }, [open, product, reset])
 
-  const onFormSubmit = (data: ProductFormData) => {
+  const onFormSubmit = (data: ProductFormData, shouldClose = true) => {
     // Garante que kitchenId é nulo se isKitchenItem for false
     const finalData = {
       ...data,
       kitchenId: data.isKitchenItem ? data.kitchenId : null
     }
-    onSave(finalData)
+    onSave(finalData, shouldClose)
   }
 
-
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={onOpenChange}
-    >
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content 
+        <Dialog.Content
           className="h-[80dvh] w-[70dvw] max-w-none p-0 overflow-hidden bg-slate-50 flex flex-col"
           onPointerDownOutside={(e) => e.preventDefault()}
         >
@@ -183,7 +190,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
           {/* Form Content scrollable */}
           <div className="overflow-y-auto flex-1 px-8 py-6">
-            <form id="product-form" onSubmit={handleSubmit(onFormSubmit)}>
+            <form
+              id="product-form"
+              onSubmit={handleSubmit((d) => onFormSubmit(d, true))}
+            >
               <div className="grid grid-cols-12 gap-6 mb-8">
                 <div className="col-span-12 md:col-span-8">
                   <Input.Wrapper className="space-y-2">
@@ -264,24 +274,29 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   </div>
                 </div>
 
-                <div className="col-span-12 md:col-span-2">
+                <div className="col-span-12">
                   <Controller
                     name="unitId"
                     control={control}
                     render={({ field }) => (
-                      <SelectSimple
+                      <RadioGroupSimple
                         label="Medida/UN"
-                        placeholder="..."
                         error={errors.unitId?.message}
                         value={field.value}
                         onValueChange={field.onChange}
-                      >
-                        {units.map((unit) => (
-                          <SelectItem key={unit.id} value={unit.id}>
-                            {unit.initials}
-                          </SelectItem>
-                        ))}
-                      </SelectSimple>
+                        options={units.map((unit) => ({
+                          value: unit.id,
+                          label: unit.initials,
+                          description:
+                            unit.initials === 'UN'
+                              ? 'Unidade'
+                              : unit.initials === 'KG'
+                                ? 'Quilos'
+                                : unit.initials === 'L'
+                                  ? 'Litros'
+                                  : (unit.description ?? undefined)
+                        }))}
+                      />
                     )}
                   />
                 </div>
@@ -494,9 +509,12 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                           <div className="p-4 bg-white rounded-full shadow-sm mb-4">
                             <Plus size={32} className="text-slate-300" />
                           </div>
-                          <h4 className="text-lg font-bold text-slate-800 mb-2">Configure o Wizard após salvar</h4>
+                          <h4 className="text-lg font-bold text-slate-800 mb-2">
+                            Configure o Wizard após salvar
+                          </h4>
                           <p className="text-sm text-slate-500 max-w-[300px]">
-                            Para vincular perguntas de personalização, salve este item primeiro para gerar um código de registro.
+                            Para vincular perguntas de personalização, salve
+                            este item primeiro para gerar um código de registro.
                           </p>
                         </div>
                       )}
@@ -507,25 +525,16 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             </form>
           </div>
 
-          <div className="bg-slate-100 border-t border-slate-200 px-8 py-4 flex items-center justify-between shrink-0">
-            <Button
-              type="button"
-              variant="outline"
-              className="bg-white"
-              onClick={() => onOpenChange(false)}
-              disabled={isPending}
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              form="product-form"
-              disabled={isPending}
-              className="px-8 shadow-lg shadow-orange-500/20 text-md"
-            >
-              {isPending ? 'Processando...' : 'Salvar Alterações'}
-            </Button>
-          </div>
+          <ModalActionFooter
+            onCancel={() => onOpenChange(false)}
+            onSaveAndClose={handleSubmit((data) => onFormSubmit(data, true))}
+            onSaveOnly={handleSubmit((data) => onFormSubmit(data, false))}
+            isPending={isPending}
+            saveLabel="Apenas Salvar"
+            saveAndCloseLabel={
+              isEditMode ? 'Salvar Alterações' : 'Salvar e Sair'
+            }
+          />
 
           <Dialog.Close />
         </Dialog.Content>

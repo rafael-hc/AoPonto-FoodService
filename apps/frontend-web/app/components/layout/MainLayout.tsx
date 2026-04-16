@@ -107,7 +107,7 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
           onActionChange={handleActionClick}
         />
 
-        <div className="flex-1 overflow-y-auto p-8 relative">
+        <div className="flex-1 flex flex-col overflow-hidden p-8 relative">
           {children || <Outlet />}
         </div>
 

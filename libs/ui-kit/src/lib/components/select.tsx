@@ -176,7 +176,7 @@ const SelectSimple = React.forwardRef<
     return (
       <div className="flex flex-col gap-2 w-full">
         {label && (
-          <label 
+          <label
             htmlFor={props.id}
             className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-0.5"
           >
@@ -190,7 +190,10 @@ const SelectSimple = React.forwardRef<
         >
           <SelectTrigger
             ref={ref}
-            className={cn(error && 'border-red-500 hover:border-red-600', className)}
+            className={cn(
+              error && 'border-red-500 hover:border-red-600',
+              className
+            )}
             {...props}
           >
             <SelectValue placeholder={placeholder} />
@@ -205,7 +208,11 @@ const SelectSimple = React.forwardRef<
               : children}
           </SelectContent>
         </Select>
-        {error && <span className="text-[10px] font-medium text-red-500 ml-1">{error}</span>}
+        {error && (
+          <span className="text-[10px] font-medium text-red-500 ml-1">
+            {error}
+          </span>
+        )}
       </div>
     )
   }

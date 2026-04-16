@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 import { cn } from '../utils/cn'
 
 // --- Context ---
@@ -28,7 +28,8 @@ const actionTileRootVariants = cva(
     variants: {
       active: {
         true: 'bg-orange-50 border-orange-200 shadow-sm text-orange-700',
-        false: 'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-600'
+        false:
+          'bg-transparent border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-600'
       }
     },
     defaultVariants: {
@@ -37,20 +38,18 @@ const actionTileRootVariants = cva(
   }
 )
 
-const actionTileIconVariants = cva(
-  'p-2 rounded-lg transition-colors',
-  {
-    variants: {
-      active: {
-        true: 'bg-orange-500 text-white shadow-md shadow-orange-500/20',
-        false: 'bg-slate-100 text-slate-500 group-hover/btn:bg-white group-hover/btn:shadow-sm'
-      }
-    },
-    defaultVariants: {
-      active: false
+const actionTileIconVariants = cva('p-2 rounded-lg transition-colors', {
+  variants: {
+    active: {
+      true: 'bg-orange-500 text-white shadow-md shadow-orange-500/20',
+      false:
+        'bg-slate-100 text-slate-500 group-hover/btn:bg-white group-hover/btn:shadow-sm'
     }
+  },
+  defaultVariants: {
+    active: false
   }
-)
+})
 
 // --- Components ---
 export interface ActionTileRootProps
@@ -122,7 +121,7 @@ ActionTileLabel.displayName = 'ActionTile.Label'
 const ActionTileShortcut = React.forwardRef<
   HTMLSpanElement,
   React.HTMLAttributes<HTMLSpanElement>
-> (({ className, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const { active } = useActionTile()
   return (
     <span

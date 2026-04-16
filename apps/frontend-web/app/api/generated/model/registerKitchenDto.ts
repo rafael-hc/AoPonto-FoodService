@@ -8,11 +8,11 @@
 
 export interface RegisterKitchenDto {
   /** @minLength 1 */
-  description: string;
+  description: string
   /** @pattern ^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$ */
-  ip: string;
-  port: string;
-  printer: string;
-  versionReg?: number;
-  versionSync?: number;
+  ip: string
+  port: string
+  printer: string
+  versionReg?: number
+  versionSync?: number
 }

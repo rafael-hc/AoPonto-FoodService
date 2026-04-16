@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SingleWizardQuestionResponseDtoWizardQuestionContext = typeof SingleWizardQuestionResponseDtoWizardQuestionContext[keyof typeof SingleWizardQuestionResponseDtoWizardQuestionContext];
-
+export type SingleWizardQuestionResponseDtoWizardQuestionContext =
+  (typeof SingleWizardQuestionResponseDtoWizardQuestionContext)[keyof typeof SingleWizardQuestionResponseDtoWizardQuestionContext]
 
 export const SingleWizardQuestionResponseDtoWizardQuestionContext = {
   PRODUCT: 'PRODUCT',
-  COMBO: 'COMBO',
-} as const;
+  COMBO: 'COMBO'
+} as const

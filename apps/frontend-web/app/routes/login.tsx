@@ -13,7 +13,7 @@ export default function Login() {
 
   const { signIn } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
- 
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')

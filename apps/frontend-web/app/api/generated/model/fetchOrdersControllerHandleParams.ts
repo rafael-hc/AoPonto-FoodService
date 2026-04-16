@@ -7,7 +7,7 @@
  */
 
 export type FetchOrdersControllerHandleParams = {
-customerId: string;
-page: string;
-limit: string;
-};
+  customerId: string
+  page: string
+  limit: string
+}

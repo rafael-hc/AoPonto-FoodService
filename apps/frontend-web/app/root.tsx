@@ -47,7 +47,9 @@ export function HydrateFallback() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <div className="w-12 h-12 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
-        <p className="text-sm font-medium text-slate-500 animate-pulse">Carregando AoPonto...</p>
+        <p className="text-sm font-medium text-slate-500 animate-pulse">
+          Carregando AoPonto...
+        </p>
       </div>
     </div>
   )

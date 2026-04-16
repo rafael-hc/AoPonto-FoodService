@@ -30,6 +30,7 @@ export function AppNav() {
             Meu Perfil
           </NavLink>
           <button
+            type="button"
             onClick={handleLogout}
             className="px-3 py-1 bg-gray-100 rounded text-sm hover:bg-gray-200 transition-colors"
           >

@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { getProfileControllerHandle } from '../api/generated/get-profile/get-profile'
 import type {
-  GetProfileResponseDtoUser as User,
-  AuthenticateResponseDto
+  AuthenticateResponseDto,
+  GetProfileResponseDtoUser as User
 } from '../api/generated/model'
 import {
   authenticateControllerHandle,
@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   signIn: async (login, password) => {
     const responseAuth = await authenticateControllerHandle({ login, password })
     const { passwordChangeRequired } = responseAuth
-    
+
     // Após o login, buscamos o perfil para preencher o estado
     const response = await getProfileControllerHandle()
 

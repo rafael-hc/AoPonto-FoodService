@@ -7,9 +7,9 @@
  */
 
 export interface OrderDetailResponseDto {
-  id: string;
-  tableNumber?: string;
-  comandaNumber?: string;
-  deliveryAddress?: string;
-  deliveryFee?: number;
+  id: string
+  tableNumber?: string
+  comandaNumber?: string
+  deliveryAddress?: string
+  deliveryFee?: number
 }

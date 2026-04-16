@@ -8,6 +8,6 @@
 
 export interface EditUnitDto {
   /** @minLength 1 */
-  initials?: string;
-  description?: string | null;
+  initials?: string
+  description?: string | null
 }

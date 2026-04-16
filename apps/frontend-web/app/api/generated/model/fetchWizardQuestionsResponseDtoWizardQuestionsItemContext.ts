@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type FetchWizardQuestionsResponseDtoWizardQuestionsItemContext = typeof FetchWizardQuestionsResponseDtoWizardQuestionsItemContext[keyof typeof FetchWizardQuestionsResponseDtoWizardQuestionsItemContext];
-
+export type FetchWizardQuestionsResponseDtoWizardQuestionsItemContext =
+  (typeof FetchWizardQuestionsResponseDtoWizardQuestionsItemContext)[keyof typeof FetchWizardQuestionsResponseDtoWizardQuestionsItemContext]
 
 export const FetchWizardQuestionsResponseDtoWizardQuestionsItemContext = {
   PRODUCT: 'PRODUCT',
-  COMBO: 'COMBO',
-} as const;
+  COMBO: 'COMBO'
+} as const

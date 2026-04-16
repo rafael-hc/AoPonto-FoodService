@@ -9,4 +9,4 @@
 /**
  * Valor da configuração no formato texto
  */
-export type SaveSettingDtoValue = { [key: string]: unknown };
+export type SaveSettingDtoValue = { [key: string]: unknown }

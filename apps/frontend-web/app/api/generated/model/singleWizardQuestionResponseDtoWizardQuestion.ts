@@ -5,22 +5,22 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SingleWizardQuestionResponseDtoWizardQuestionContext } from './singleWizardQuestionResponseDtoWizardQuestionContext';
-import type { SingleWizardQuestionResponseDtoWizardQuestionOptionsItem } from './singleWizardQuestionResponseDtoWizardQuestionOptionsItem';
+import type { SingleWizardQuestionResponseDtoWizardQuestionContext } from './singleWizardQuestionResponseDtoWizardQuestionContext'
+import type { SingleWizardQuestionResponseDtoWizardQuestionOptionsItem } from './singleWizardQuestionResponseDtoWizardQuestionOptionsItem'
 
 export type SingleWizardQuestionResponseDtoWizardQuestion = {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  id: string;
-  internalCode?: number | null;
-  description: string;
-  context: SingleWizardQuestionResponseDtoWizardQuestionContext;
-  minResponses: number;
-  maxResponses: number;
-  minItems: number;
-  maxItems: number;
-  options?: SingleWizardQuestionResponseDtoWizardQuestionOptionsItem[];
+  id: string
+  internalCode?: number | null
+  description: string
+  context: SingleWizardQuestionResponseDtoWizardQuestionContext
+  minResponses: number
+  maxResponses: number
+  minItems: number
+  maxItems: number
+  options?: SingleWizardQuestionResponseDtoWizardQuestionOptionsItem[]
   /** @pattern ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$ */
-  createdAt: string;
+  createdAt: string
   /** @pattern ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$ */
-  updatedAt: string;
-};
+  updatedAt: string
+}

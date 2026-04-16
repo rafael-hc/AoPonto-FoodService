@@ -105,14 +105,13 @@ export const ProductTypeModal: React.FC<ProductTypeModalProps> = ({
   }
 
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={onOpenChange}
-      onPointerDownOutside={(e) => e.preventDefault()}
-    >
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay />
-        <Dialog.Content className="max-w-xl">
+        <Dialog.Content
+          className="max-w-xl"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
           <Dialog.Header className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="p-3 bg-orange-50 text-orange-600 rounded-2xl ring-4 ring-orange-500/5">

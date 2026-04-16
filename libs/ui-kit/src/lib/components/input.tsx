@@ -86,7 +86,10 @@ const InputIcon = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('flex items-center justify-center text-slate-400 mr-2', className)}
+    className={cn(
+      'flex items-center justify-center text-slate-400 mr-2',
+      className
+    )}
     {...props}
   >
     {children}
@@ -113,11 +116,7 @@ const InputWrapper = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('w-full flex flex-col', className)}
-    {...props}
-  />
+  <div ref={ref} className={cn('w-full flex flex-col', className)} {...props} />
 ))
 InputWrapper.displayName = 'Input.Wrapper'
 
@@ -134,7 +133,13 @@ const InputLegacy = React.forwardRef<HTMLInputElement, InputLegacyProps>(
       <InputWrapper>
         {label && <Label htmlFor={id}>{label}</Label>}
         <InputRoot error={!!error} disabled={disabled} className={className}>
-          <InputControl id={id} type={type} disabled={disabled} ref={ref} {...props} />
+          <InputControl
+            id={id}
+            type={type}
+            disabled={disabled}
+            ref={ref}
+            {...props}
+          />
         </InputRoot>
         {error && <InputMessage>{error}</InputMessage>}
       </InputWrapper>

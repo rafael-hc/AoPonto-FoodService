@@ -5,29 +5,29 @@
  * Documentação da API do sistema AoPonto
  * OpenAPI spec version: 1.0
  */
-import type { SynchronizeWizardQuestionDtoContext } from './synchronizeWizardQuestionDtoContext';
-import type { SynchronizeWizardQuestionDtoOptionsItem } from './synchronizeWizardQuestionDtoOptionsItem';
+import type { SynchronizeWizardQuestionDtoContext } from './synchronizeWizardQuestionDtoContext'
+import type { SynchronizeWizardQuestionDtoOptionsItem } from './synchronizeWizardQuestionDtoOptionsItem'
 
 export interface SynchronizeWizardQuestionDto {
   /** @pattern ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$ */
-  id?: string;
+  id?: string
   /** @minLength 1 */
-  description: string;
-  context?: SynchronizeWizardQuestionDtoContext;
+  description: string
+  context?: SynchronizeWizardQuestionDtoContext
   /**
    * @minimum 0
    * @maximum 9007199254740991
    */
-  minResponses: number;
+  minResponses: number
   /**
    * @minimum 0
    * @maximum 9007199254740991
    */
-  maxResponses: number;
+  maxResponses: number
   /** @minimum 0 */
-  minItems: number;
+  minItems: number
   /** @minimum 0 */
-  maxItems: number;
+  maxItems: number
   /** @minItems 1 */
-  options: SynchronizeWizardQuestionDtoOptionsItem[];
+  options: SynchronizeWizardQuestionDtoOptionsItem[]
 }

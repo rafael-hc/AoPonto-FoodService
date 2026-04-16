@@ -60,22 +60,33 @@ export class AppModule implements OnModuleInit {
       }
     ]
 
-    for (const perm of requiredPermissions) {
-      const dbPerm = await this.prisma.permission.upsert({
-        where: { code: perm.code },
-        update: {},
-        create: perm
-      })
+    try {
+      for (const perm of requiredPermissions) {
+        const dbPerm = await this.prisma.permission.upsert({
+          where: { code: perm.code },
+          update: {
+            description: perm.description,
+            module: perm.module
+          },
+          create: {
+            code: perm.code,
+            module: perm.module,
+            description: perm.description
+          }
+        })
 
-      // Garante que o ADMIN default tenha acesso aos módulos base
-      await this.prisma.rolePermission.upsert({
-        where: {
-          role_permissionId: { role: Role.ADMIN, permissionId: dbPerm.id }
-        },
-        update: {},
-        create: { role: Role.ADMIN, permissionId: dbPerm.id }
-      })
+        // Garante que o ADMIN default tenha acesso aos módulos base
+        await this.prisma.rolePermission.upsert({
+          where: {
+            role_permissionId: { role: Role.ADMIN, permissionId: dbPerm.id }
+          },
+          update: {},
+          create: { role: Role.ADMIN, permissionId: dbPerm.id }
+        })
+      }
+      this.logger.log('Seed de permissões finalizado.')
+    } catch (error) {
+      this.logger.error('Erro ao inicializar permissões RBAC:', error)
     }
-    this.logger.log('Seed de permissões finalizado.')
   }
 }

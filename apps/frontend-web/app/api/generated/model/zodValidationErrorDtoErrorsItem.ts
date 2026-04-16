@@ -7,9 +7,9 @@
  */
 
 export type ZodValidationErrorDtoErrorsItem = {
-  code: string;
-  expected?: string;
-  received?: string;
-  message: string;
-  path: (string | number)[];
-};
+  code: string
+  expected?: string
+  received?: string
+  message: string
+  path: (string | number)[]
+}

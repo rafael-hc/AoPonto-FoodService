@@ -122,13 +122,10 @@ export default function LabelModal({
   }
 
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={onOpenChange}
-    >
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-slate-900/40 backdrop-blur-sm" />
-        <Dialog.Content 
+        <Dialog.Content
           className="h-[80dvh] w-[70dvw] max-w-none border-none shadow-2xl p-0 overflow-hidden bg-slate-50 flex flex-col"
           onPointerDownOutside={(e) => e.preventDefault()}
         >
@@ -162,101 +159,100 @@ export default function LabelModal({
               onSubmit={handleSubmit(onFormSubmit)}
               className="space-y-6"
             >
-            <div className="space-y-6">
-              <Input.Wrapper className="space-y-2">
-                <Input.Label
-                  htmlFor="description"
-                  className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
-                >
-                  <Tag size={14} className="text-orange-500" /> Descrição da
-                  Categoria
-                </Input.Label>
-                <Input.Root
-                  error={!!errors.description}
-                  className="h-12 bg-slate-50/50 border-2"
-                >
-                  <Input.Control
-                    id="description"
-                    placeholder="Ex: Bebidas, Sobremesas, Pratos Principais..."
-                    className="font-bold text-slate-900 placeholder:text-slate-300 placeholder:font-medium"
-                    {...register('description')}
-                  />
-                </Input.Root>
-                {errors.description && (
-                  <Input.Message className="font-bold text-red-500">
-                    {errors.description.message}
-                  </Input.Message>
-                )}
-              </Input.Wrapper>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-6">
                 <Input.Wrapper className="space-y-2">
                   <Input.Label
-                    htmlFor="type"
+                    htmlFor="description"
                     className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
                   >
-                    <Type size={14} className="text-orange-500" /> Tipo
+                    <Tag size={14} className="text-orange-500" /> Descrição da
+                    Categoria
                   </Input.Label>
                   <Input.Root
-                    error={!!errors.type}
+                    error={!!errors.description}
                     className="h-12 bg-slate-50/50 border-2"
                   >
                     <Input.Control
-                      id="type"
-                      placeholder="Ex: GERAL"
+                      id="description"
+                      placeholder="Ex: Bebidas, Sobremesas, Pratos Principais..."
                       className="font-bold text-slate-900 placeholder:text-slate-300 placeholder:font-medium"
-                      {...register('type')}
+                      {...register('description')}
                     />
                   </Input.Root>
+                  {errors.description && (
+                    <Input.Message className="font-bold text-red-500">
+                      {errors.description.message}
+                    </Input.Message>
+                  )}
                 </Input.Wrapper>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input.Wrapper className="space-y-2">
+                    <Input.Label
+                      htmlFor="type"
+                      className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
+                    >
+                      <Type size={14} className="text-orange-500" /> Tipo
+                    </Input.Label>
+                    <Input.Root
+                      error={!!errors.type}
+                      className="h-12 bg-slate-50/50 border-2"
+                    >
+                      <Input.Control
+                        id="type"
+                        placeholder="Ex: GERAL"
+                        className="font-bold text-slate-900 placeholder:text-slate-300 placeholder:font-medium"
+                        {...register('type')}
+                      />
+                    </Input.Root>
+                  </Input.Wrapper>
+
+                  <Input.Wrapper className="space-y-2">
+                    <Input.Label
+                      htmlFor="order"
+                      className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
+                    >
+                      <ListOrdered size={14} className="text-orange-500" />{' '}
+                      Ordem de Exibição
+                    </Input.Label>
+                    <Input.Root
+                      error={!!errors.order}
+                      className="h-12 bg-slate-50/50 border-2"
+                    >
+                      <Input.Control
+                        id="order"
+                        type="number"
+                        className="font-bold text-slate-900"
+                        {...register('order', { valueAsNumber: true })}
+                      />
+                    </Input.Root>
+                  </Input.Wrapper>
+                </div>
+
                 <Input.Wrapper className="space-y-2">
                   <Input.Label
-                    htmlFor="order"
+                    htmlFor="externalId"
                     className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
                   >
-                    <ListOrdered size={14} className="text-orange-500" /> Ordem
-                    de Exibição
+                    <ExternalLink size={14} className="text-orange-500" /> ID
+                    Externo (GUID)
                   </Input.Label>
                   <Input.Root
-                    error={!!errors.order}
-                    className="h-12 bg-slate-50/50 border-2"
+                    error={!!errors.externalId}
+                    className={`h-12 border-2 ${isEditMode ? 'bg-slate-100/50' : 'bg-slate-50/50'}`}
                   >
                     <Input.Control
-                      id="order"
-                      type="number"
-                      className="font-bold text-slate-900"
-                      {...register('order', { valueAsNumber: true })}
+                      id="externalId"
+                      readOnly={isEditMode}
+                      className={`font-mono text-xs ${isEditMode ? 'cursor-not-allowed opacity-60' : 'font-bold'}`}
+                      {...register('externalId')}
                     />
                   </Input.Root>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                    Identificador único para integração com sistemas externos.
+                  </p>
                 </Input.Wrapper>
               </div>
-
-              <Input.Wrapper className="space-y-2">
-                <Input.Label
-                  htmlFor="externalId"
-                  className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2"
-                >
-                  <ExternalLink size={14} className="text-orange-500" /> ID
-                  Externo (GUID)
-                </Input.Label>
-                <Input.Root
-                  error={!!errors.externalId}
-                  className={`h-12 border-2 ${isEditMode ? 'bg-slate-100/50' : 'bg-slate-50/50'}`}
-                >
-                  <Input.Control
-                    id="externalId"
-                    readOnly={isEditMode}
-                    className={`font-mono text-xs ${isEditMode ? 'cursor-not-allowed opacity-60' : 'font-bold'}`}
-                    {...register('externalId')}
-                  />
-                </Input.Root>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
-                  Identificador único para integração com sistemas externos.
-                </p>
-              </Input.Wrapper>
-            </div>
-
             </form>
           </div>
 
